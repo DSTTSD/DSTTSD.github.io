@@ -20,23 +20,45 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta property="og:type" content="website">
-<meta property="og:title" content="DSTの杂货铺">
-<meta property="og:url" content="https://dsttsd.github.io/index.html">
+<meta name="description" content="内容：  mlapp进度：第一章、第二章的65% BPR: Bayesian Personalized Ranking from Implicit Feedback  (精读) Jure leskovec cs224w 课程进度50%  1 简介1.1 是什么以及为什么数据的泛滥要求有对数据进行自动分析的方法，这便是机器学习所能解决的问题。我们定义机器学习（Machine Learning）为一系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2021/10/24/week%201/index.html">
 <meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="内容：  mlapp进度：第一章、第二章的65% BPR: Bayesian Personalized Ranking from Implicit Feedback  (精读) Jure leskovec cs224w 课程进度50%  1 简介1.1 是什么以及为什么数据的泛滥要求有对数据进行自动分析的方法，这便是机器学习所能解决的问题。我们定义机器学习（Machine Learning）为一系">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28x%29+%3D+%5Cdfrac%7B1%7D%7B%5Csigma%5Csqrt%7B2%5Cpi%7D%7D+exp%28-%5Cfrac%7B%28x-%5Cmu%29%5E2%7D%7B2%5Csigma%5E2%7D%29+%5Ctag%7B3%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28%5Ctextbf%7Bv%7D%29+%3D+%5Cfrac%7B1%7D%7B%282%5Cpi%29%5E%7Bn%2F2%7D+%7C%5CSigma%7C%5E%7B1%2F2%7D%7D+exp%28-%5Cfrac%7B1%7D%7B2%7D%28%5Ctextbf%7Bx%7D-%5Cmu%29%5ET+%5CSigma%5E%7B-1%7D+%28%5Ctextbf%7Bx%7D-%5Cmu%29%29+%5C%5C+%5Ctextbf%7Bv%7D+%5Cin+%5Cmathbb%7BR%7D%5En+%5Ctag%7B9%7D+">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/RxcE9dSCweP2hrq.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/t4MYvKdoPnZVxsf.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/93xZ1VeATiSnRK2.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/sWPdSw24yDfNBZ7.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/V7v3ZFnQOoEyRA1.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/PE9vbrFj1VO3l4a.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/4UraMKjloQF6bS9.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/ja1suDdom6r5PM9.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/GylDqE3hiC1aLS9.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/4ofJgiPLahOwFpd.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/hbUq4kFBErZDLt1.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/3SkqcXDU8fdrlib.png">
+<meta property="og:image" content="https://s2.loli.net/2021/12/25/Qay7klbJnVrOt6o.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200103104441558.png">
+<meta property="article:published_time" content="2021-10-24T10:34:57.000Z">
+<meta property="article:modified_time" content="2021-12-25T07:40:13.104Z">
 <meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.zhihu.com/equation?tex=p%28x%29+%3D+%5Cdfrac%7B1%7D%7B%5Csigma%5Csqrt%7B2%5Cpi%7D%7D+exp%28-%5Cfrac%7B%28x-%5Cmu%29%5E2%7D%7B2%5Csigma%5E2%7D%29+%5Ctag%7B3%7D+">
 
 
-<link rel="canonical" href="https://dsttsd.github.io/">
+<link rel="canonical" href="https://dsttsd.github.io/2021/10/24/week%201/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2021/10/24/week%201/","path":"2021/10/24/week 1/","title":"第一次周报"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>DSTの杂货铺</title>
+<title>第一次周报 | DSTの杂货铺</title>
   
 
 
@@ -65,7 +87,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">DSTの杂货铺</h1>
+      <p class="site-title">DSTの杂货铺</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">学习笔记</p>
@@ -130,7 +152,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -143,6 +165,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">1 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%98%AF%E4%BB%80%E4%B9%88%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.1 是什么以及为什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%EF%BC%88Supervised-learning%EF%BC%89"><span class="nav-number">1.0.2.</span> <span class="nav-text">1.2 监督学习（Supervised learning）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E5%88%86%E7%B1%BB"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">1.2.1 分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-1-%E5%9B%9E%E5%BD%92"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">1.2.1 回归</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.0.3.</span> <span class="nav-text">1.3无监督学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-1-%E5%8F%91%E7%8E%B0%E8%81%9A%E7%B1%BB"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">1.3.1 发现聚类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-2-%E5%8F%91%E7%8E%B0%E6%BD%9C%E5%9C%A8%E5%9B%A0%E5%AD%90-Discovering-latent-factors"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">1.3.2 发现潜在因子(Discovering latent factors)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-3-%E5%8F%91%E7%8E%B0%E5%9B%BE%E7%BB%93%E6%9E%84-Discovering-graph-structure"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">1.3.3 发现图结构(Discovering graph structure)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-4%E7%9F%A9%E9%98%B5%E8%A1%A5%E5%85%A8-Matrix-completion"><span class="nav-number">1.0.3.4.</span> <span class="nav-text">1.3.4矩阵补全(Matrix completion)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.0.4.</span> <span class="nav-text">1.4  机器学习中的一些基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1%E5%8F%82%E6%95%B0%E6%A8%A1%E5%9E%8B%E5%92%8C%E9%9D%9E%E5%8F%82%E6%95%B0%E6%A8%A1%E5%9E%8B%EF%BC%88%E5%8F%82%E6%95%B0%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%89"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1.4.1参数模型和非参数模型（参数量的区别）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%B4%E5%BA%A6%E7%81%BE%E9%9A%BE%EF%BC%88curse-of-dimensionality%EF%BC%89"><span class="nav-number">1.0.4.1.1.</span> <span class="nav-text">维度灾难（curse of dimensionality）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-%E5%88%86%E7%B1%BB%E5%92%8C%E5%9B%9E%E5%BD%92%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">1.4.2 分类和回归中的参数模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-3-%E8%BF%87%E6%8B%9F%E5%90%88-Overfitting"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">1.4.3 过拟合(Overfitting)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-4-%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">1.4.4 模型选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-5-%E6%B2%A1%E6%9C%89%E5%85%8D%E8%B4%B9%E7%9A%84%E5%8D%88%E9%A4%90%E7%90%86%E8%AE%BA-No-free-lunch-theorem"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">1.4.5 没有免费的午餐理论(No free lunch theorem)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E6%A6%82%E7%8E%87"><span class="nav-number">2.</span> <span class="nav-text">2 概率</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-%E5%9F%BA%E6%9C%AC%E5%AE%9A%E7%90%86"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">2.2.2 基本定理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E7%94%9F%E6%88%90%E5%BC%8F%E5%88%86%E7%B1%BB%E5%99%A8"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2.2.3 生成式分类器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-%E7%8B%AC%E7%AB%8B%E6%80%A7%E5%92%8C%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%80%A7"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">2.2.4 独立性和条件独立性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-5-%E8%BF%9E%E7%BB%AD%E9%9A%8F%E6%9C%BA%E5%8F%98%E9%87%8F"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">2.2.5 连续随机变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-6-%E5%88%86%E4%BD%8D%E6%95%B0"><span class="nav-number">2.0.0.5.</span> <span class="nav-text">2.2.6 分位数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-7-%E6%9C%9F%E6%9C%9B%E5%92%8C%E6%96%B9%E5%B7%AE"><span class="nav-number">2.0.0.6.</span> <span class="nav-text">2.2.7 期望和方差</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%B8%B8%E8%A7%81%E7%9A%84%E7%A6%BB%E6%95%A3%E5%88%86%E5%B8%83"><span class="nav-number">2.0.1.</span> <span class="nav-text">2.3 常见的离散分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BPR-Bayesian-Personalized-Ranking-from-Implicit-Feedback"><span class="nav-number">2.1.</span> <span class="nav-text">BPR: Bayesian Personalized Ranking from Implicit Feedback</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Uncertainty-in-Artificial-Intelligence-UAI-2009-%E2%80%94%E2%80%94%E7%9B%AE%E5%89%8DCCF-B"><span class="nav-number">2.1.1.</span> <span class="nav-text">Uncertainty in Artificial Intelligence (UAI) 2009 ——目前CCF B</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%EF%BC%9A-Steffen-Rendle-%EF%BC%88google-%E6%8E%A8%E8%8D%90%E5%A4%A7%E4%BD%AC%EF%BC%89"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">作者： Steffen Rendle  （google 推荐大佬）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%A1%E7%8C%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text">贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E9%80%9F%E6%88%90"><span class="nav-number">2.1.4.</span> <span class="nav-text">算法速成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1%E6%95%B0%E6%8D%AEpair%E5%8C%96%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%9A"><span class="nav-number">2.1.4.1.</span> <span class="nav-text">1数据pair化预处理：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2%E5%81%87%E8%AE%BE"><span class="nav-number">2.1.4.2.</span> <span class="nav-text">2假设</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-BPR%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87%E6%8E%A8%E5%AF%BC"><span class="nav-number">2.1.4.3.</span> <span class="nav-text">3 BPR优化目标推导*</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BA%BF%E4%BA%9B%E7%BB%86%E8%8A%82"><span class="nav-number">2.1.5.</span> <span class="nav-text">4 亿些细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#BPRLoss"><span class="nav-number">2.1.5.1.</span> <span class="nav-text">BPRLoss</span></a></li></ol></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -201,98 +224,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2021/12/18/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
-      <meta itemprop="name" content="DST">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DSTの杂货铺">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/18/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2021-12-18 12:12:57 / 修改时间：12:25:30" itemprop="dateCreated datePublished" datetime="2021-12-18T12:12:57+08:00">2021-12-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/test/" itemprop="url" rel="index"><span itemprop="name">test</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2021/10/24/week%201/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -305,9 +247,9 @@
       <meta itemprop="name" content="DSTの杂货铺">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/10/24/week%201/" class="post-title-link" itemprop="url">第一次周报</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          第一次周报
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -346,7 +288,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>内容：</p>
+        <p>内容：</p>
 <ol>
 <li>mlapp进度：第一章、第二章的65%</li>
 <li>BPR: Bayesian Personalized Ranking from Implicit Feedback  (精读)</li>
@@ -609,7 +551,6 @@ P(\theta) \sim N(0, \lambda_{\theta}I)</script><p>高斯分布：<br><img src="h
 <h4 id="BPRLoss"><a href="#BPRLoss" class="headerlink" title="BPRLoss"></a>BPRLoss</h4><p>BPR Loss 的思想很简单，就是让正样本和负样本的得分之差尽可能达到最大.</p>
 <p><img src="https://img-blog.csdnimg.cn/20200103104441558.png" alt="BPRLoss"></p>
 
-      
     </div>
 
     
@@ -617,11 +558,25 @@ P(\theta) \sim N(0, \lambda_{\theta}I)</script><p>高斯分布：<br><img src="h
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/12/18/hello-world/" rel="next" title="Hello World">
+                  Hello World <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
     </footer>
   </article>
 </div>
+
 
 
 
