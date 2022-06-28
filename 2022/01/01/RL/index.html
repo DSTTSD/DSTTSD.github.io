@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="绪论  image-20220502141142624.png  基本问题  强化学习的基本结构是什么？ ​ 智能体与环境的交互。（当智能体在环境中得到当前时刻的状态后，其会基于此状态 输出一个动作，这个动作会在环境中被执行并输出下一个状态和当前的这个动作得到的奖励。智能体在环 境里存在的目标是最大化期望累积奖励。） 强化学习相对于监督学习为什么训练过程会更加困难？（与监督学习的不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蘑菇书笔记">
+<meta property="og:url" content="https://dsttsd.github.io/2022/01/01/RL/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="绪论  image-20220502141142624.png  基本问题  强化学习的基本结构是什么？ ​ 智能体与环境的交互。（当智能体在环境中得到当前时刻的状态后，其会基于此状态 输出一个动作，这个动作会在环境中被执行并输出下一个状态和当前的这个动作得到的奖励。智能体在环 境里存在的目标是最大化期望累积奖励。） 强化学习相对于监督学习为什么训练过程会更加困难？（与监督学习的不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/06/28/vwkt1XV8lnHK6dL.png">
+<meta property="article:published_time" content="2022-01-01T04:15:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T07:05:50.805Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="RL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/06/28/vwkt1XV8lnHK6dL.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/01/01/RL/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/01/01/RL/","path":"2022/01/01/RL/","title":"蘑菇书笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>蘑菇书笔记 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">3</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%AA%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">绪论</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">基本问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">面试问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8B%E5%96%84%E7%9A%84%E9%9D%A2%E8%AF%95%E5%AE%98-%E7%9C%8B%E6%9D%A5%E4%BD%A0%E5%AF%B9%E4%BA%8E%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E8%BF%98%E6%98%AF%E6%9C%89%E4%B8%80%E5%AE%9A%E4%BA%86%E8%A7%A3%E7%9A%84%E5%91%80%E9%82%A3%E4%B9%88%E5%8F%AF%E4%BB%A5%E7%94%A8%E4%B8%80%E5%8F%A5%E8%AF%9D%E8%B0%88%E4%B8%80%E4%B8%8B%E4%BD%A0%E5%AF%B9%E4%BA%8E%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E8%AE%A4%E8%AF%86%E5%90%97"><span class="nav-number">1.0.0.2.1.</span> <span class="nav-text">友善的面试官: 看来你对于强化学习还是有一定了解的呀，那么可以用一句话谈一下你对于强化学习的认识吗？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8B%E5%96%84%E7%9A%84%E9%9D%A2%E8%AF%95%E5%AE%98-%E8%AF%B7%E9%97%AE%E4%BD%A0%E8%AE%A4%E4%B8%BA%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E4%B8%89%E8%80%85%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E5%91%A2"><span class="nav-number">1.0.0.2.2.</span> <span class="nav-text">友善的面试官: 请问，你认为强化学习、监督学习和无监督学习三者有什么区别呢？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8B%E5%96%84%E7%9A%84%E9%9D%A2%E8%AF%95%E5%AE%98-%E6%A0%B9%E6%8D%AE%E4%BD%A0%E7%9A%84%E7%90%86%E8%A7%A3%E4%BD%A0%E8%AE%A4%E4%B8%BA%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF%E6%9C%89%E5%93%AA%E4%BA%9B%E5%91%A2"><span class="nav-number">1.0.0.2.3.</span> <span class="nav-text">友善的面试官: 根据你的理解，你认为强化学习的使用场景有哪些呢？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8B%E5%96%84%E7%9A%84%E9%9D%A2%E8%AF%95%E5%AE%98-%E8%AF%B7%E9%97%AE%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E6%89%80%E8%B0%93%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E4%B8%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E5%91%A2"><span class="nav-number">1.0.0.2.4.</span> <span class="nav-text">友善的面试官: 请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8B%E5%96%84%E7%9A%84%E9%9D%A2%E8%AF%95%E5%AE%98-%E4%BD%A0%E4%BA%86%E8%A7%A3%E6%9C%89%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%85%8D%E6%A8%A1%E5%9E%8B%E5%90%97%E4%B8%A4%E8%80%85%E5%85%B7%E4%BD%93%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%E5%91%A2"><span class="nav-number">1.0.0.2.5.</span> <span class="nav-text">友善的面试官: 你了解有模型和免模型吗？两者具体有什么区别呢？</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/01/01/RL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          蘑菇书笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-01 12:15:55" itemprop="dateCreated datePublished" datetime="2022-01-01T12:15:55+08:00">2022-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 15:05:50" itemprop="dateModified" datetime="2022-06-28T15:05:50+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="绪论">绪论</h1>
+<figure>
+<img src="https://s2.loli.net/2022/06/28/vwkt1XV8lnHK6dL.png" alt="" /><figcaption>image-20220502141142624.png</figcaption>
+</figure>
+<h4 id="基本问题">基本问题</h4>
+<ol type="1">
+<li><p>强化学习的基本结构是什么？</p>
+<p>​ 智能体与环境的交互。（当智能体在环境中得到当前时刻的状态后，其会基于此状态 输出一个动作，这个动作会在环境中被执行并输出下一个状态和当前的这个动作得到的奖励。智能体在环 境里存在的目标是最大化期望累积奖励。）</p></li>
+<li><p>强化学习相对于监督学习为什么训练过程会更加困难？（与监督学习的不同）</p>
+<ol type="1">
+<li>强化学习处理的大多是序列数据，其很难像监督学习的样本一样满足独立同分布条件。</li>
+<li>强化学习有奖励的延迟，即智能体的动作作用在环境中时，环境对于智能体状态的奖励存在延迟， 使得反馈不实时</li>
+<li>监督学习有正确的标签，模型可以通过标签修正自己的预测来更新模型，而强化学习相当于一个 “试错”的过程，其完全根据环境的“反馈”更新对自己最有利的动作。</li>
+</ol></li>
+<li><p>强化学习的基本特征有哪些？</p>
+<ol type="1">
+<li>有试错探索过程</li>
+<li>会从环境中获得延迟奖励</li>
+<li>数据都是时间关联的</li>
+<li>智能体的动作会影响它从环境中得到的反馈</li>
+</ol></li>
+<li><p>近几年强化学习发展迅速的原因有哪些？</p>
+<p>算力的提升、深度强化学习端到端训练</p></li>
+<li><p>状态和观测有什么关系？</p>
+<p>状态是对环境的完整描述，不会隐藏环境信息。观测是对状态的部分描述，可能会遗漏一些信息。</p></li>
+<li><p>一个强化学习智能体由什么组成？</p>
+<p>策略函数、价值函数、模型（智能体对当前环境状态的理解）</p></li>
+<li><p>根据强化学习智能体的不同，我们可以将其分为哪几类？</p>
+<p>基于价值的智能体、基于策略的智能体、演员-评论员</p></li>
+<li><p>基于策略迭代和基于价值迭代的强化学习方法有什么区别？</p>
+<p>基于策略迭代的强化学习方法，智能体会制定一套动作策略，即确定在给定状态下需要采取何种 动作，并根据该策略进行操作。强化学习算法直接对策略进行优化，使得制定的策略能够获得最大的奖励； 基于价值迭代的强化学习方法，智能体不需要制定显式的策略，它维护一个价值表格或价值函数，并通过 这个价值表格或价值函数来选取价值最大的动作。</p>
+<p>基于价值迭代的方法只能应用在离散的环境下，例如围棋或某些游戏领域，对于行为集合规模庞 大或是动作连续的场景，如机器人控制领域，其很难学习到较好的结果（此时基于策略迭代的方法能够根 据设定的策略来选择连续的动作)。</p></li>
+</ol>
+<h4 id="面试问题">面试问题</h4>
+<h5 id="友善的面试官-看来你对于强化学习还是有一定了解的呀那么可以用一句话谈一下你对于强化学习的认识吗">友善的面试官: 看来你对于强化学习还是有一定了解的呀，那么可以用一句话谈一下你对于强化学习的认识吗？</h5>
+<p>​ 强化学习包含环境、动作和奖励 3 部分，其本质是智能体通过与环境的交互，使其做出的动作对应的决策得到的总奖励最大，或者说是期望最大。</p>
+<h5 id="友善的面试官-请问你认为强化学习监督学习和无监督学习三者有什么区别呢">友善的面试官: 请问，你认为强化学习、监督学习和无监督学习三者有什么区别呢？</h5>
+<pre><code>    1. 强化学习和无监督学习是不需要有标签样本的，而监督学习需要许多有标签样本来进行模型的构建和训练。
+    2. 对于强化学习与无监督学习，无监督学习直接基于给定的数据进行建模，寻找数据或特征中隐藏的结构，一般对应聚类问题；强化学习需要通过延迟奖励学习策略来得到模型与目标的距离，这个 距离可以通过奖励函数进行定量判断，这里我们可以将奖励函数视为正确目标的一个稀疏、延迟形式。
+    3. 强化学习处理的多是序列数据，样本之间通常具有强相关性，但其很难像监督学习的样本一样满足独 立同分布条件。</code></pre>
+<h5 id="友善的面试官-根据你的理解你认为强化学习的使用场景有哪些呢">友善的面试官: 根据你的理解，你认为强化学习的使用场景有哪些呢？</h5>
+<p>“多序列决策问题”，或者说是对应的模型未知，需要通过学习逐渐逼近真实模型的 问题。并且当前的动作会影响环境的状态，即具有马尔可夫性的问题。同时应满足所有状态是可重复到达 的条件，即满足可学习条件。</p>
+<h5 id="友善的面试官-请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢">友善的面试官: 请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢？</h5>
+<p>深度学习中的损失函数的目的是使预测值和真实值之间的差距尽可能小，而强化学习中的损失函数的目的是使总奖励的期望尽可能大。</p>
+<h5 id="友善的面试官-你了解有模型和免模型吗两者具体有什么区别呢">友善的面试官: 你了解有模型和免模型吗？两者具体有什么区别呢？</h5>
+<p>是否需要对真实的环境进行建模，免模型方法不需要对环境进行建模，直 接与真实环境进行交互即可，所以其通常需要较多的数据或者采样工作来优化策略，这也使其对于真实环 境具有更好的泛化性能；而有模型方法需要对环境进行建模，同时在真实环境与虚拟环境中进行学习，如 果建模的环境与真实环境的差异较大，那么会限制其泛化性能。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RL/" rel="tag"># RL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/01/leetcode/" rel="prev" title="leetcode每日一题">
+                  <i class="fa fa-chevron-left"></i> leetcode每日一题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/09/week%206/" rel="next" title="第六次周报">
+                  第六次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

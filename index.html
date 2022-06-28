@@ -84,9 +84,9 @@
   <ul class="main-menu menu">
         <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
         <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
-        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
-        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
-        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">3</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">3</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">11</span></a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -157,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -2262,6 +2262,131 @@ p_{\theta}(w \mid c) &amp;=\frac{\exp \left(s_{\theta}(w, c)\right)}{\sum_{w^{\p
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/01/01/RL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/01/01/RL/" class="post-title-link" itemprop="url">蘑菇书笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-01 12:15:55" itemprop="dateCreated datePublished" datetime="2022-01-01T12:15:55+08:00">2022-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 15:05:50" itemprop="dateModified" datetime="2022-06-28T15:05:50+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="绪论">绪论</h1>
+<figure>
+<img src="https://s2.loli.net/2022/06/28/vwkt1XV8lnHK6dL.png" alt="" /><figcaption>image-20220502141142624.png</figcaption>
+</figure>
+<h4 id="基本问题">基本问题</h4>
+<ol type="1">
+<li><p>强化学习的基本结构是什么？</p>
+<p>​ 智能体与环境的交互。（当智能体在环境中得到当前时刻的状态后，其会基于此状态 输出一个动作，这个动作会在环境中被执行并输出下一个状态和当前的这个动作得到的奖励。智能体在环 境里存在的目标是最大化期望累积奖励。）</p></li>
+<li><p>强化学习相对于监督学习为什么训练过程会更加困难？（与监督学习的不同）</p>
+<ol type="1">
+<li>强化学习处理的大多是序列数据，其很难像监督学习的样本一样满足独立同分布条件。</li>
+<li>强化学习有奖励的延迟，即智能体的动作作用在环境中时，环境对于智能体状态的奖励存在延迟， 使得反馈不实时</li>
+<li>监督学习有正确的标签，模型可以通过标签修正自己的预测来更新模型，而强化学习相当于一个 “试错”的过程，其完全根据环境的“反馈”更新对自己最有利的动作。</li>
+</ol></li>
+<li><p>强化学习的基本特征有哪些？</p>
+<ol type="1">
+<li>有试错探索过程</li>
+<li>会从环境中获得延迟奖励</li>
+<li>数据都是时间关联的</li>
+<li>智能体的动作会影响它从环境中得到的反馈</li>
+</ol></li>
+<li><p>近几年强化学习发展迅速的原因有哪些？</p>
+<p>算力的提升、深度强化学习端到端训练</p></li>
+<li><p>状态和观测有什么关系？</p>
+<p>状态是对环境的完整描述，不会隐藏环境信息。观测是对状态的部分描述，可能会遗漏一些信息。</p></li>
+<li><p>一个强化学习智能体由什么组成？</p>
+<p>策略函数、价值函数、模型（智能体对当前环境状态的理解）</p></li>
+<li><p>根据强化学习智能体的不同，我们可以将其分为哪几类？</p>
+<p>基于价值的智能体、基于策略的智能体、演员-评论员</p></li>
+<li><p>基于策略迭代和基于价值迭代的强化学习方法有什么区别？</p>
+<p>基于策略迭代的强化学习方法，智能体会制定一套动作策略，即确定在给定状态下需要采取何种 动作，并根据该策略进行操作。强化学习算法直接对策略进行优化，使得制定的策略能够获得最大的奖励； 基于价值迭代的强化学习方法，智能体不需要制定显式的策略，它维护一个价值表格或价值函数，并通过 这个价值表格或价值函数来选取价值最大的动作。</p>
+<p>基于价值迭代的方法只能应用在离散的环境下，例如围棋或某些游戏领域，对于行为集合规模庞 大或是动作连续的场景，如机器人控制领域，其很难学习到较好的结果（此时基于策略迭代的方法能够根 据设定的策略来选择连续的动作)。</p></li>
+</ol>
+<h4 id="面试问题">面试问题</h4>
+<h5 id="友善的面试官-看来你对于强化学习还是有一定了解的呀那么可以用一句话谈一下你对于强化学习的认识吗">友善的面试官: 看来你对于强化学习还是有一定了解的呀，那么可以用一句话谈一下你对于强化学习的认识吗？</h5>
+<p>​ 强化学习包含环境、动作和奖励 3 部分，其本质是智能体通过与环境的交互，使其做出的动作对应的决策得到的总奖励最大，或者说是期望最大。</p>
+<h5 id="友善的面试官-请问你认为强化学习监督学习和无监督学习三者有什么区别呢">友善的面试官: 请问，你认为强化学习、监督学习和无监督学习三者有什么区别呢？</h5>
+<pre><code>    1. 强化学习和无监督学习是不需要有标签样本的，而监督学习需要许多有标签样本来进行模型的构建和训练。
+    2. 对于强化学习与无监督学习，无监督学习直接基于给定的数据进行建模，寻找数据或特征中隐藏的结构，一般对应聚类问题；强化学习需要通过延迟奖励学习策略来得到模型与目标的距离，这个 距离可以通过奖励函数进行定量判断，这里我们可以将奖励函数视为正确目标的一个稀疏、延迟形式。
+    3. 强化学习处理的多是序列数据，样本之间通常具有强相关性，但其很难像监督学习的样本一样满足独 立同分布条件。</code></pre>
+<h5 id="友善的面试官-根据你的理解你认为强化学习的使用场景有哪些呢">友善的面试官: 根据你的理解，你认为强化学习的使用场景有哪些呢？</h5>
+<p>“多序列决策问题”，或者说是对应的模型未知，需要通过学习逐渐逼近真实模型的 问题。并且当前的动作会影响环境的状态，即具有马尔可夫性的问题。同时应满足所有状态是可重复到达 的条件，即满足可学习条件。</p>
+<h5 id="友善的面试官-请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢">友善的面试官: 请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢？</h5>
+<p>深度学习中的损失函数的目的是使预测值和真实值之间的差距尽可能小，而强化学习中的损失函数的目的是使总奖励的期望尽可能大。</p>
+<h5 id="友善的面试官-你了解有模型和免模型吗两者具体有什么区别呢">友善的面试官: 你了解有模型和免模型吗？两者具体有什么区别呢？</h5>
+<p>是否需要对真实的环境进行建模，免模型方法不需要对环境进行建模，直 接与真实环境进行交互即可，所以其通常需要较多的数据或者采样工作来优化策略，这也使其对于真实环 境具有更好的泛化性能；而有模型方法需要对环境进行建模，同时在真实环境与虚拟环境中进行学习，如 果建模的环境与真实环境的差异较大，那么会限制其泛化性能。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/01/01/leetcode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2293,7 +2418,7 @@ p_{\theta}(w \mid c) &amp;=\frac{\exp \left(s_{\theta}(w, c)\right)}{\sum_{w^{\p
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-28 14:42:05" itemprop="dateModified" datetime="2022-06-28T14:42:05+08:00">2022-06-28</time>
+      <time title="修改时间：2022-06-28 15:01:06" itemprop="dateModified" datetime="2022-06-28T15:01:06+08:00">2022-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -2318,15 +2443,15 @@ p_{\theta}(w \mid c) &amp;=\frac{\exp \left(s_{\theta}(w, c)\right)}{\sum_{w^{\p
           <h1 id="连续整数求和">2022/6/3 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/consecutive-numbers-sum/">829. 连续整数求和</a></h1>
 <p>type：数学</p>
 <figure>
-<img src="leetcode.assets/image-20220628142602227.png" alt="" /><figcaption>image-20220628142602227</figcaption>
+<img src="https://s2.loli.net/2022/06/28/nvNXxetwJCQq9L8.png" alt="" /><figcaption>image-20220628142602227.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628142629543.png" alt="" /><figcaption>image-20220628142629543</figcaption>
+<img src="https://s2.loli.net/2022/06/28/95LK3mn2XIYrQiU.png" alt="" /><figcaption>image-20220628142629543.png</figcaption>
 </figure>
 <h1 id="独特的电子邮件地址">2022/6/4 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/unique-email-addresses/">929. 独特的电子邮件地址</a></h1>
 <p>type:模拟、字符串</p>
 <figure>
-<img src="leetcode.assets/image-20220628142802950.png" alt="" /><figcaption>image-20220628142802950</figcaption>
+<img src="https://s2.loli.net/2022/06/28/oekSq91PAO43C25.png" alt="" /><figcaption>image-20220628142802950.png</figcaption>
 </figure>
 <p>https://www.runoob.com/java/java-string.html</p>
 <h1 id="在圆内随机生成点">2022/6/5 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/generate-random-point-in-a-circle/">478. 在圆内随机生成点</a></h1>
@@ -2336,19 +2461,19 @@ p_{\theta}(w \mid c) &amp;=\frac{\exp \left(s_{\theta}(w, c)\right)}{\sum_{w^{\p
 <li>从pdf到cdf推导</li>
 </ol>
 <figure>
-<img src="leetcode.assets/image-20220628143039943.png" alt="" /><figcaption>image-20220628143039943</figcaption>
+<img src="https://s2.loli.net/2022/06/28/C6jnNoJUGiIxa9E.png" alt="" /><figcaption>image-20220628143039943.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628143102635.png" alt="" /><figcaption>image-20220628143102635</figcaption>
+<img src="https://s2.loli.net/2022/06/28/imQXR3xqg1NDvbH.png" alt="" /><figcaption>image-20220628143102635.png</figcaption>
 </figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Random random;</span><br><span class="line">    <span class="keyword">double</span> xc, yc, r;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">double</span> radius, <span class="keyword">double</span> x_center, <span class="keyword">double</span> y_center)</span> </span>&#123;</span><br><span class="line">        random = <span class="keyword">new</span> Random();</span><br><span class="line">        xc = x_center;</span><br><span class="line">        yc = y_center;</span><br><span class="line">        r = radius;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span>[] randPoint() &#123;</span><br><span class="line">        <span class="keyword">double</span> u = random.nextDouble();</span><br><span class="line">        <span class="keyword">double</span> theta = random.nextDouble() * <span class="number">2</span> * Math.PI;</span><br><span class="line">        <span class="keyword">double</span> r = Math.sqrt(u);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">double</span>[]&#123;xc + r * Math.cos(theta) * <span class="keyword">this</span>.r, yc + r * Math.sin(theta) * <span class="keyword">this</span>.r&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="我的日程安排表-iii">2022/6/6 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/my-calendar-iii/">732. 我的日程安排表 III</a></h1>
 <p>type: 差分数组、线段树</p>
 <figure>
-<img src="leetcode.assets/image-20220628143224257.png" alt="" /><figcaption>image-20220628143224257</figcaption>
+<img src="https://s2.loli.net/2022/06/28/WUcSTKIdF4Ylotq.png" alt="" /><figcaption>image-20220628143224257.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628143241743.png" alt="" /><figcaption>image-20220628143241743</figcaption>
+<img src="https://s2.loli.net/2022/06/28/eKlFa52RYWMZb8q.png" alt="" /><figcaption>image-20220628143241743.png</figcaption>
 </figure>
 <h1 id="爱吃香蕉的珂珂">2022/6/7 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h1>
 <p>type: 二分查找</p>
@@ -2575,414 +2700,9 @@ p_{\theta}(w \mid c) &amp;=\frac{\exp \left(s_{\theta}(w, c)\right)}{\sum_{w^{\p
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2021/10/24/week%201/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
-      <meta itemprop="name" content="DST">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DSTの杂货铺">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/10/24/week%201/" class="post-title-link" itemprop="url">第一次周报</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-10-24 18:34:57" itemprop="dateCreated datePublished" datetime="2021-10-24T18:34:57+08:00">2021-10-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-06-28 10:32:16" itemprop="dateModified" datetime="2022-06-28T10:32:16+08:00">2022-06-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>内容：</p>
-<ol type="1">
-<li>mlapp进度：第一章、第二章的65%</li>
-<li>BPR: Bayesian Personalized Ranking from Implicit Feedback (精读)</li>
-<li>Jure leskovec cs224w 课程进度50%</li>
-</ol>
-<h1 id="简介">1 简介</h1>
-<h3 id="是什么以及为什么">1.1 是什么以及为什么</h3>
-<p><strong>数据的泛滥要求有对数据进行自动分析的方法</strong>，<strong>这便是机器学习所能解决的问题。</strong>我们定义<strong>机器学习（</strong>Machine Learning<strong>）为一系列可以自动挖掘数据中潜在模式的方法</strong>，并且利用发现的模式去预测未来的数据，或者在不确定的情况下执行其他的决策</p>
-<p>在很多领域中，数据都呈现出一种<strong>长尾</strong>（long tail）效应，意味着经常发生的那些事件往往是很少的，大部分事件是很少发生的。比如说，我们经常遇到的那些单词往往也就是那么一小部分（比如“the”和“and”），但是大部分单词（比如“pareidolia”）却很少使用。类似的，有些电影和书很有名，但大部分并非如此。章节2.4.7将进一步介绍长尾效应。长尾效应所导致的一个结果是：<strong>我们只需要较少的数据就可以预测或者理解大部分行为</strong>。</p>
-<p>分类：监督方法——分类和回归任务</p>
-<p>​ 无监督方法：模型的目标是在数据中找到“感兴趣的模式”。有时也称这种方法为<strong>知识发掘</strong>（knowledge discovery）</p>
-<p>​ 强化学习：在随机的奖励或者惩罚信号的情况下，模型可以更好地学习采取什么的行为。</p>
-<h3 id="监督学习supervised-learning">1.2 监督学习（Supervised learning）</h3>
-<h4 id="分类">1.2.1 分类</h4>
-<ol type="1">
-<li><p>二分类</p></li>
-<li><p>多分类</p></li>
-<li><p>多标签分类：类别的标签彼此之间互不排斥（比如某人可以被归类为高的和强壮的），更好的方式是将它理解为预测多个相关二元类标签的问题（即所谓的<strong>多变量输出模型</strong>)</p>
-<p>MAP： <span class="math display">\[
-\hat{y}=\hat{f}(\mathbf{x})=\arg \max_{c=1}^C\ p(y=c|\mathbf{x},\mathcal{D}) \tag{1.1}
-\]</span> 当P远小于1的情况下，这种情况下，我们对这个选择并不是很确定，所以相较于给出这个不信任的答案，直接指出“我不知道”可能会更好，<strong>这在医疗或者金融等需要规避风险的领域尤其重要。</strong></p></li>
-</ol>
-<h4 id="回归">1.2.1 回归</h4>
-<p>回归所输出的变量是连续的。</p>
-<p>在现实世界中的一些回归问题。</p>
-<ul>
-<li><p>基于当前市场的情况和一些其他的辅助信息预测明天的股票价格；</p></li>
-<li><p>预测一个观看YouTube上特定视频的观众的年龄；</p></li>
-<li><p>给定机器人各电机的控制信号(扭矩)，预测机器人手臂末端执行器在三维空间中的位置；</p></li>
-<li><p>根据多种不同临床测量数据预测前列腺特异性抗原(PSA)在体内的数量；</p></li>
-<li><p>使用天气数据，时间等信息预测某建筑内任意位置的温度。</p></li>
-</ul>
-<h3 id="无监督学习">1.3无监督学习</h3>
-<ol type="1">
-<li><p>非监督学习是一个无条件概率估计</p></li>
-<li><p>往往需要针对特征向量建立一个多变量概率模型</p></li>
-</ol>
-<h4 id="发现聚类">1.3.1 发现聚类</h4>
-<ol type="1">
-<li>在监督学习中，我们会被告知预测值有多少个类别，但在非监督学习中，我们可以自由选择簇（类）的数目。P(K|D)</li>
-<li>估计每个数据点属于哪一个簇——P(zi=k|xi, D)</li>
-</ol>
-<h4 id="发现潜在因子discovering-latent-factors">1.3.2 发现潜在因子(Discovering latent factors)</h4>
-<p>降维背后的动力在于尽管实际的数据可能是高维的，但其可能只有少量的主导因素，这些潜在的主导因素被称为<strong>潜在因子</strong>（latent factors）。</p>
-<h4 id="发现图结构discovering-graph-structure">1.3.3 发现图结构(Discovering graph structure)</h4>
-<p>其中图节点表示变量，边表示变量之间的直接依赖关系。稀疏图的学习主要有两种应用:发现新知识和获得更好的联合概率密度估计器。</p>
-<h4 id="矩阵补全matrix-completion">1.3.4矩阵补全(Matrix completion)</h4>
-<ol type="1">
-<li><p>图像修复(Image inpainting)</p></li>
-<li><p>协同过滤(Collaborative filtering)——共现矩阵的补全</p></li>
-<li><p>购物篮分析(Market basket analysis)——<strong>频繁项集挖掘</strong>（frequent itemset mining）</p>
-<p>基于概率的方法不好解释</p>
-<p>这是数据挖掘和机器学习的典型区别:在数据挖掘中，更强调可解释模型，而在机器学习中，更强调准确的模型。</p></li>
-</ol>
-<h3 id="机器学习中的一些基本概念">1.4 机器学习中的一些基本概念</h3>
-<p>#### 1.4.1参数模型和非参数模型（参数量的区别）</p>
-<p>模型是否具备固定的参数数量，或者说参数数量是否随训练样本的增加而增加。前者被称为<strong>参数模型</strong>（parametric model），后者被称为<strong>非参数模型</strong>（non-parametric model）。</p>
-<ol type="1">
-<li><p>非参数分类器：K近邻（K-nearest neighbors）</p>
-<p>参考距离该点最近的K个训练集中的样本（投票选出class）</p></li>
-</ol>
-<p><span class="math display">\[
-xp(y=c|\mathbf{x},\mathcal{D},K)=\frac{1}{K}\sum_{i\in N_K(\mathbf{x},\mathcal{D})}\mathbb{I}(y_i=c) \tag{1.2}
-\]</span></p>
-<p><span class="math display">\[
- \mathbb{I}(e)=\begin{cases}1, &amp; \mbox{if }e\mbox{ is true} \\0, &amp; \mbox{if }e\mbox{ is false}\end{cases} \tag{1.3}
-\]</span></p>
-<p>被称为<strong>基于存储的学习</strong>（memory-based learning）或者<strong>基于样例的学习</strong>（instance-based learning）。在这个方法中，最常用的距离测度为欧氏距离（该距离将这个技术限制在了实数领域），尽管其他的测度也可以使用。当K=1时，KNN分类器将得到关于所有点的<strong>泰森多边形图</strong>.</p>
-<p>推荐系统中item-KNN 用到了基于社交的相似度计算法 。计算A与B的相似度，则是找到所有买过A的又买过B的用户，考虑评价偏差，计算完成后我们得到k个最相似的item。</p>
-<h5 id="维度灾难curse-of-dimensionality">维度灾难（curse of dimensionality）</h5>
-<p>KNN分类器十分简单且效果很好，其前提是需要一个好的距离测度以及足够多的标记数据。然而，KNN的劣势在于它不适用于高维输入。造成这个问题的原因是<strong>维度灾难</strong>（curse of dimensionality）。当维度上升是，数据分布会相对稀疏，丧失“局部性”</p>
-<h4 id="分类和回归中的参数模型">1.4.2 分类和回归中的参数模型</h4>
-<ol type="1">
-<li>线性回归</li>
-</ol>
-<p><span class="math display">\[
-y(\mathbf{x})=\mathbf{w}^T\mathbf{x}+\epsilon =\sum_{j=1}^Dw_jx_j+\epsilon \tag{1.4}
-\]</span></p>
-<p>epsilon 服从高斯分布$ N(mu, sigma^2)$ , 重写为： <span class="math display">\[
- p(y|\mathbf{x},\mathbf{\theta})=\mathcal{N}(y|\mu(\mathbf{x}),\sigma^2(\mathbf{x})) \tag{1.5}
-\]</span> 噪声固定的情况下： <span class="math display">\[
-x\mu(\mathbf{x})=w_0+w_1x=\mathbf{w}^T\mathbf{x} \tag{1.6}
-\]</span> 线性回归模型同样可以对非线性关系进行建模（基函数拓展）： <span class="math display">\[
- p(y|\mathbf{x},\mathbf{\theta})=\mathcal{N}(y|\mathbf{w}^T\phi(\mathbf{x}),\sigma^2) \tag{1.7}
-\]</span></p>
-<ol start="2" type="1">
-<li>逻辑回归</li>
-</ol>
-<p>将y分布转换为伯努利分布： <span class="math display">\[
-p(y|\mathbf{x},\mathbf{w})={\rm{Ber}}(y|\mu(\mathbf{x}))\tag{1.8}
-\]</span></p>
-<p><span class="math display">\[
-\mu(x) = {\rm{sigm}}(\eta)
-\]</span> <span class="math display">\[
-{\rm{sigm}}(\eta)\triangleq\frac{1}{1+\exp(-\eta)}=\frac{e^\eta}{e^\eta+1} \tag{1.10}
-\]</span> 术语"sigmoid"表示<strong>S型</strong>：如图1.19(a)所示。它又被称为<strong>压缩函数</strong>，因为它将整个实轴映射到了区间[0,1] <span class="math display">\[
-p(y|\mathbf{x},\mathbf{w})={\rm{Ber}}(y|{\rm{sigm}}(\mathbf{w}^T\mathbf{x})) \tag{1.11}
-\]</span></p>
-<h4 id="过拟合overfitting">1.4.3 过拟合(Overfitting)</h4>
-<p>应该避免对输入中的任何微小的变化进行建模，因为那些微小的变化很有可能是噪音而非真实的信号。</p>
-<h4 id="模型选择">1.4.4 模型选择</h4>
-<h4 id="没有免费的午餐理论no-free-lunch-theorem">1.4.5 没有免费的午餐理论(No free lunch theorem)</h4>
-<blockquote>
-<p>All models are wrong, but some models are useful.—George Box</p>
-</blockquote>
-<p>对于每个模型，可能有很多不同算法去训练它们，且不同算法都在速度—精度—复杂度之间权衡</p>
-<h1 id="概率">2 概率</h1>
-<p>概率的两种解释：</p>
-<ol type="1">
-<li><p>频率派：概率代表事件在长时间实验的情况下出现的频率。</p></li>
-<li><p>贝叶斯派：概率是用来量化我们对于某些事件的<strong>不确定度</strong>（uncertainty） 贝叶斯解释的一个重要优势在于，它可以用来衡量那些无法进行重复试验的事件的不确定度。</p></li>
-</ol>
-<h4 id="基本定理">2.2.2 基本定理</h4>
-<ol type="1">
-<li><p>并集发生概率 <span class="math display">\[
-\begin{align}p(A\or B) &amp;= p(A)+p(B)-p(A\or B)  \tag{2.1} \\&amp;=p(A)+p(B)  \ 如果A和B互斥         \tag{2.2} \\\end{align}
-\]</span></p></li>
-<li><p>联合概率 <span class="math display">\[
- p(A,B)=p(A\and B)=p(A|B)p(B) \tag{2.3}
-\]</span> 边缘概率（离散求和，连续积分）： （<strong>求和法则</strong>（sum rule）或者叫<strong>全概率法则</strong>（rule of total probability） <span class="math display">\[
-p(A)=\sum_b p(A,B)=\sum_b p(A|B=b)p(B=b) \tag{2.4}
-\]</span> <strong>链式法则</strong>（chain rule） <span class="math display">\[
- p(X_{1:D})=p(X_1)p(X_2|X_1)p(X_3|X_2,X_1)...p(X_D|X_{1:D-1}) \tag{2.5}
- \]</span> 1:D代表集合{1,2,3,...D}</p></li>
-<li><p>条件概率</p></li>
-</ol>
-<p><span class="math display">\[
-p(A|B)=\frac{p(A,B)}{p(B)} \ {\rm{if}} \ p(B)\gt 0 \tag{2.6}
-\]</span> 4. 贝叶斯定理 <span class="math display">\[
-p(X=x|Y=y)=\frac{p(X=x,Y=y)}{p(Y=y)}=\frac{p(X=x)p(Y=y|X=x)}{\sum_{x^\prime}p(X=x^\prime)p(Y=y|X=x^\prime)} \tag{2.7}
-\]</span></p>
-<h4 id="生成式分类器">2.2.3 生成式分类器</h4>
-<p><span class="math display">\[
-p(y=c|\mathbf{x})=\frac{p(y=c)p(\mathbf{x}|y=c)}{\sum_{c^\prime}p(y=c^\prime|\mathbf{\theta})p(\mathbf{x}|y=c^\prime)} \tag{2.13}
-\]</span></p>
-<p><strong>生成式分类器</strong>(generative classifier)，因为它通过使用<strong>类条件概率密度</strong><span class="math inline">\(p(\mathbf{x}|y=c)\)</span>和类先验分布<span class="math inline">\(p(y=c)\)</span>来指定如何生成样本。</p>
-<h4 id="独立性和条件独立性">2.2.4 独立性和条件独立性</h4>
-<ol type="1">
-<li><p>独立：</p>
-<p>如果两个随机变量x和Y的联合概率分布可以表示为边缘分布的乘积，则称X和Y是<strong>无条件独立</strong>(unconditionally independent)或者<strong>边缘独立</strong>(marginally independent)的</p></li>
-<li><p>条件独立：联合分布等于条件边缘分布的乘积,已知z情况下：x,y是独立的 <span class="math display">\[
-p(X,Y|Z)=p(X|Z)p(Y|Z) \tag{2.15}
-\]</span> X Y| Z 则意味着存在着函数 g 和 h ，对全部的x,y,z，在p(z)&gt;0的情况下满足下列关系： <span class="math display">\[
-p(x,y|z) = g(x,z)h(y,z) \tag{2.16}
-\]</span> 条件独立性假设允许我们通过一些局部信息去构建大规模的概率模型。</p></li>
-</ol>
-<h4 id="连续随机变量">2.2.5 连续随机变量</h4>
-<p>X是个连续随机变量，有： <span class="math display">\[
-\begin{aligned}A &amp; =(X\le a)\\B &amp; =(X\le B)\\W &amp; =(a\le X\le b)\end{aligned}
-\]</span> 有: <span class="math display">\[
-B=A\bigvee W
-\]</span> <span class="math display">\[
-p(B)=p(A)+p(W)
-\]</span> <span class="math display">\[
-p(w)=p(B)-p(A)
-\]</span> X 的连续分布函数（cumulative distribution function，缩写为 cdf）: <span class="math display">\[
-F(q) \overset\triangle{=} p(X\le q)
-\]</span> 这个 cdf 是一个单调递增函数（monotonically increasing function）</p>
-<h4 id="分位数">2.2.6 分位数</h4>
-<p>cdf反函数，F^{-1}(0.5)为分布中位数：一半的概率质量分布在左边，另一半分布在右边。</p>
-<h4 id="期望和方差">2.2.7 期望和方差</h4>
-<p><span class="math display">\[
-\mathrm{E}[X] \overset\triangle{=} \sum_{x\in X}x p(x)
-\]</span></p>
-<p><span class="math display">\[
-\begin{aligned}var[X]  &amp; =E[(X-\mu)^2]=\int(x-\mu)^2p(x)dx      &amp;\text{           (2.24)}\\&amp; =  \int x^2p(x)dx  +\mu^2 \int p(x)dx-2\mu\int xp(x)dx=E[X^2]-\mu^2         &amp;    \text{           (2.25)}\\\end{aligned}
-\]</span></p>
-<p><span class="math display">\[
-E[X^2]= \mu^2+\sigma^2
-\]</span></p>
-<p><span class="math display">\[
-std[X]\overset\triangle{=} \sqrt {var[X]}
-\]</span></p>
-<h3 id="常见的离散分布">2.3 常见的离散分布</h3>
-<ol type="1">
-<li><p>二项分布</p>
-<p>pmf: <span class="math display">\[ {X\sim Bin(n,\theta)}
-Bin(k|n,\theta)\overset\triangle{=} \binom{n}{k} \theta ^k  (1- \theta)^{n-k}
-\]</span> 均值方差： <span class="math display">\[
-mean=\theta, var =n\theta(1-\theta)
-\]</span></p></li>
-<li><p>伯努利分布</p>
-<p>伯努利分布只是二项分布中 n=1 的特例 <span class="math display">\[
-Ber(x|\theta)=\begin{cases} \theta &amp;\text{ if x =1} \\
-1-\theta &amp;\text{ if x =0} \end{cases}
-\]</span></p></li>
-<li><p>多项式分布:对有 K 个可能结果的事件进行建模，就要用到多项分布（multinomial distribution） <span class="math display">\[
- Mu(x|n,\theta) = \binom {n}{x_1,..,x_K}\prod^K_{j=1}\theta^{x_j}_j
- \]</span></p></li>
-<li><p>多重伯努利分布</p></li>
-<li><p>泊松分布</p></li>
-<li><p>...</p></li>
-</ol>
-<h2 id="bpr-bayesian-personalized-ranking-from-implicit-feedback">BPR: <strong>Bayesian</strong> <strong>Personalized Ranking</strong> from <strong>Implicit Feedback</strong></h2>
-<h3 id="uncertainty-in-artificial-intelligence-uai-2009-目前ccf-b">Uncertainty in Artificial Intelligence (UAI) 2009 ——目前CCF B</h3>
-<h4 id="作者-steffen-rendle-google-推荐大佬">作者： Steffen Rendle （google 推荐大佬）</h4>
-<h3 id="背景">背景</h3>
-<ol type="1">
-<li><p>senario： implicit feedback</p></li>
-<li><p>当时的item-recommendation方法没有针对排序（ranking）进行排序</p></li>
-</ol>
-<p><strong>BPR本身并不优化用户对物品的评分，而只借由评分来优化用户对物品的排序 即：it is a real ranking algorithm.</strong></p>
-<h3 id="贡献">贡献</h3>
-<ol type="1">
-<li>后验概率推出BPR优化目标； 探讨和AUC的关系</li>
-<li>优化算法learnBPR - SGD</li>
-<li>展示如何应用到item-Knn以及MF；对比了WR-MF、MMMF</li>
-<li>实验证明比其他方法好（包括比non-personalized 理论值）</li>
-</ol>
-<h3 id="算法速成">算法速成</h3>
-<h4 id="数据pair化预处理">1数据pair化预处理：</h4>
-<p>BPR算法将用户对物品的评分（显示反馈“1”，隐式反馈“0”）处理为一个pair对的集合&lt;i,j&gt;，其中i为评分为1的物品，j为评分为0的物品。假设某用户有M个“1”的评分，N个“0”的评分，则该用户共有M*N个pair对。这样数据集就由三元组 &lt;u,i,j&gt;表示，该三元组的物理含义为：相对于物品“j”，用户“u”更喜欢物品“i”。</p>
-<h4 id="假设">2假设</h4>
-<ol type="1">
-<li><p>一是每个用户之间的偏好行为相互独立，即用户u在商品i和j之间的偏好和其他用户无关</p></li>
-<li><p>是同一用户对不同物品的偏序相互独立，也就是用户u在商品i和j之间的偏好和其他的商品无关。</p></li>
-<li><p><em>P(θ) 服从高斯分布</em>（？）</p></li>
-</ol>
-<p><strong>问题：假设是否合理？</strong></p>
-<p>我觉得现在来看前两个假设太强了</p>
-<h4 id="bpr优化目标推导">3 BPR优化目标推导*</h4>
-<p>排序关系符号$ &gt;u $:</p>
-<p>完整性：<span class="math inline">\(∀i,j∈I:i≠j⇒i&gt;uj∪j&gt;ui ∀i,j∈I:i≠j⇒i&gt;uj∪j&gt;ui\)</span> (i,j 不等，i &gt;u j 或j&gt;u i至少有一个)</p>
-<p>反对称性：<span class="math inline">\(∀i,j∈I:i&gt;uj∩j&gt;ui⇒i=j ∀i,j∈I:i&gt;uj∩j&gt;ui⇒i=j\)</span> （如果既有i&gt;u j 又有 j&gt;ui, 说明i,j是同一个）</p>
-<p>传递性：<span class="math inline">\(∀i,j,k∈I:i&gt;u j∩j&gt;uk⇒i&gt;uk\)</span></p>
-<p>BPR 基于最大后验估计P(W,H|&gt;u)来求解模型参数W,H,用θ来表示参数,&gt;u代表用户u对应的所有商品的全序关系,则优化目标是P(θ|&gt;u)。根据贝叶斯公式，我们有： <span class="math display">\[
-P(\theta|&gt;_u) = \frac{P(&gt;_u|\theta)P(\theta)}{P(&gt;_u)}
-\]</span></p>
-<p><span class="math display">\[
-P(\theta|&gt;_u) \propto P(&gt;_u|\theta)P(\theta)
-\]</span></p>
-<ul>
-<li><p>第一部分：优化目标转化为两部分。第一部分和样本数据集D有关，第二部分和样本数据集D无关。 <span class="math display">\[
-\prod_{u \in U}P(&gt;_u|\theta) = \prod_{(u,i,j) \in (U \times I \times I)}P(i &gt;_u j|\theta)^{\delta((u,i,j) \in D)}(1-P(i &gt;_u j|\theta))^{\delta((u,j,i) \not\in D) }
-\]</span></p>
-<p><span class="math display">\[
-\delta(b)= \begin{cases} 1&amp; {if\; b\; is \;true}\\ 0&amp; {else} \end{cases}
-\]</span></p></li>
-</ul>
-<p>根据<strong>完整性和反对称性</strong>，优化目标的第一部分可以简化为： <span class="math display">\[
-\prod_{u \in U}P(&gt;_u|\theta) = \prod_{(u,i,j) \in D}P(i &gt;_u j|\theta)
-\]</span></p>
-<p>尝试用<span class="math inline">\(sigmoid\)</span>表示<span class="math inline">\(P(i&gt;uj|θ)\)</span>这个概率: <span class="math display">\[
-P(i &gt;_u j|\theta) = \sigma(\overline{x}_{uij}(\theta))
-\]</span></p>
-<p><span class="math display">\[
-\begin{align*} \sigma(x)&amp;=\frac{1}{1+e^{-x}} \end{align*}
-\]</span></p>
-<ul>
-<li>第二部分：作者大胆使用了贝叶斯假设，即这个概率分布符合正太分布，且对应的均值是0，协方差矩阵是<span class="math inline">\(\lambda_{\theta}I\)</span></li>
-</ul>
-<p><span class="math display">\[
-P(\theta) \sim N(0, \lambda_{\theta}I)
-\]</span></p>
-<p>高斯分布： <img src="https://www.zhihu.com/equation?tex=p%28x%29+%3D+%5Cdfrac%7B1%7D%7B%5Csigma%5Csqrt%7B2%5Cpi%7D%7D+exp%28-%5Cfrac%7B%28x-%5Cmu%29%5E2%7D%7B2%5Csigma%5E2%7D%29+%5Ctag%7B3%7D+" alt="[公式]" /></p>
-<figure>
-<img src="https://www.zhihu.com/equation?tex=p%28%5Ctextbf%7Bv%7D%29+%3D+%5Cfrac%7B1%7D%7B%282%5Cpi%29%5E%7Bn%2F2%7D+%7C%5CSigma%7C%5E%7B1%2F2%7D%7D+exp%28-%5Cfrac%7B1%7D%7B2%7D%28%5Ctextbf%7Bx%7D-%5Cmu%29%5ET+%5CSigma%5E%7B-1%7D+%28%5Ctextbf%7Bx%7D-%5Cmu%29%29+%5C%5C+%5Ctextbf%7Bv%7D+%5Cin+%5Cmathbb%7BR%7D%5En+%5Ctag%7B9%7D+" alt="" /><figcaption>[公式]</figcaption>
-</figure>
-<p><strong>为什么使用0均值正态分布假设？</strong></p>
-<p>1.简化计算？ <span class="math inline">\(lnP(\theta) = \lambda||\theta||^2\)</span></p>
-<p>2.引出正则项？</p>
-<p><strong>前两项结合，优化目标推导：</strong></p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/RxcE9dSCweP2hrq.png" alt="" /><figcaption>image-20211021194242238</figcaption>
-</figure>
-<p>对参数求导：</p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/t4MYvKdoPnZVxsf.png" alt="" /><figcaption>image-20211021200205448</figcaption>
-</figure>
-<p>注：<em>f</em>′(<em>x</em>)=<em>f</em>(<em>x</em>)∗(1−<em>f</em>(<em>x</em>)) <span class="math display">\[
-\begin{align*} sigmoid^{&#39;}(x)&amp;=(\frac{1}{1+e^{-x}})^{&#39;} \\ &amp;=\frac{1}{1+e^{-x}}e^{-x}(-1)\\ &amp;=\frac{e^{-x}}{(1+e^{-x})^2}\\ &amp;=\frac{1}{1+e^{-x}}(1-\frac{1}{1+e^{-x}})\\ &amp;=sigmoid(x)(1-sigmoid(x)) \end{align*}
-\]</span></p>
-<p>使用SGD进行优化 <img src="https://s2.loli.net/2021/12/25/93xZ1VeATiSnRK2.png" alt="image-20211021200345228" /></p>
-<h3 id="亿些细节">4 亿些细节</h3>
-<ol type="1">
-<li><p>与AUC的关系</p>
-<p>AUC：</p>
-<p><img src="https://s2.loli.net/2021/12/25/sWPdSw24yDfNBZ7.png" /></p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/V7v3ZFnQOoEyRA1.png" alt="" /><figcaption>image-20211021230825086</figcaption>
-</figure>
-<p>使用论文notation：</p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/PE9vbrFj1VO3l4a.png" alt="" /><figcaption>image-20211021230915429</figcaption>
-</figure>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/4UraMKjloQF6bS9.png" alt="" /><figcaption>image-20211021231013168</figcaption>
-</figure>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/ja1suDdom6r5PM9.png" alt="" /><figcaption>image-20211021232005411</figcaption>
-</figure></li>
-<li><p>应用于knn和MF</p>
-<p>MF：</p>
-<p>用了和funkSVD类似的矩阵分解模型，这里BPR对于用户集U和物品集I的对应的<span class="math inline">\(U×I\)</span>的预测排序矩阵<span class="math inline">\(\overline{X}，\)</span>我们期望得到两个分解后的用户矩阵<span class="math inline">\(W(|U|×k)\)</span>和物品矩阵<span class="math inline">\(H(|I|×k)\)</span>，满足 <span class="math display">\[
-\overline{X}=WHT
-\]</span></p>
-<p><span class="math display">\[
-\overline{x}_{ui} = w_u \bullet h_i = \sum\limits_{f=1}^kw_{uf}h_{if}
-\]</span></p>
-<p><span class="math display">\[
-\frac{\partial (\overline{x}_{ui})}{\partial \theta} = \begin{cases} (h_{if}-h_{jf})&amp; {if\; \theta = w_{uf}}\\ w_{uf}&amp; {if\;\theta = h_{if}} \\ -w_{uf}&amp; {if\;\theta = h_{jf}}\end{cases}
-\]</span></p>
-<p>itemKNN：</p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/GylDqE3hiC1aLS9.png" alt="" /><figcaption>image-20211022182610996</figcaption>
-</figure>
-<p>相似度矩阵C : I × I</p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/4ofJgiPLahOwFpd.png" alt="" /><figcaption>image-20211021232313915</figcaption>
-</figure></li>
-<li><p>实验结果</p>
-<p>使用了Rossann和Netflix数据集进行实验。使用AUC测评：</p>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/hbUq4kFBErZDLt1.png" alt="" /><figcaption>image-20211021225104841</figcaption>
-</figure>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/3SkqcXDU8fdrlib.png" alt="" /><figcaption>image-20211021204544627</figcaption>
-</figure></li>
-</ol>
-<figure>
-<img src="https://s2.loli.net/2021/12/25/Qay7klbJnVrOt6o.png" alt="" /><figcaption>image-20211021205021673</figcaption>
-</figure>
-<p>问题：bootstrap应该会有没采到的吧？会有影响吗？</p>
-<h4 id="bprloss">BPRLoss</h4>
-<p>BPR Loss 的思想很简单，就是让正样本和负样本的得分之差尽可能达到最大.</p>
-<figure>
-<img src="https://img-blog.csdnimg.cn/20200103104441558.png" alt="" /><figcaption>BPRLoss</figcaption>
-</figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 </div>
   </main>

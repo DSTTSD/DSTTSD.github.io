@@ -1,20 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>蘑菇书笔记</title>
+    <url>/2022/01/01/RL/</url>
+    <content><![CDATA[<h1 id="绪论">绪论</h1>
+<figure>
+<img src="https://s2.loli.net/2022/06/28/vwkt1XV8lnHK6dL.png" alt="" /><figcaption>image-20220502141142624.png</figcaption>
+</figure>
+<h4 id="基本问题">基本问题</h4>
+<ol type="1">
+<li><p>强化学习的基本结构是什么？</p>
+<p>​ 智能体与环境的交互。（当智能体在环境中得到当前时刻的状态后，其会基于此状态 输出一个动作，这个动作会在环境中被执行并输出下一个状态和当前的这个动作得到的奖励。智能体在环 境里存在的目标是最大化期望累积奖励。）</p></li>
+<li><p>强化学习相对于监督学习为什么训练过程会更加困难？（与监督学习的不同）</p>
+<ol type="1">
+<li>强化学习处理的大多是序列数据，其很难像监督学习的样本一样满足独立同分布条件。</li>
+<li>强化学习有奖励的延迟，即智能体的动作作用在环境中时，环境对于智能体状态的奖励存在延迟， 使得反馈不实时</li>
+<li>监督学习有正确的标签，模型可以通过标签修正自己的预测来更新模型，而强化学习相当于一个 “试错”的过程，其完全根据环境的“反馈”更新对自己最有利的动作。</li>
+</ol></li>
+<li><p>强化学习的基本特征有哪些？</p>
+<ol type="1">
+<li>有试错探索过程</li>
+<li>会从环境中获得延迟奖励</li>
+<li>数据都是时间关联的</li>
+<li>智能体的动作会影响它从环境中得到的反馈</li>
+</ol></li>
+<li><p>近几年强化学习发展迅速的原因有哪些？</p>
+<p>算力的提升、深度强化学习端到端训练</p></li>
+<li><p>状态和观测有什么关系？</p>
+<p>状态是对环境的完整描述，不会隐藏环境信息。观测是对状态的部分描述，可能会遗漏一些信息。</p></li>
+<li><p>一个强化学习智能体由什么组成？</p>
+<p>策略函数、价值函数、模型（智能体对当前环境状态的理解）</p></li>
+<li><p>根据强化学习智能体的不同，我们可以将其分为哪几类？</p>
+<p>基于价值的智能体、基于策略的智能体、演员-评论员</p></li>
+<li><p>基于策略迭代和基于价值迭代的强化学习方法有什么区别？</p>
+<p>基于策略迭代的强化学习方法，智能体会制定一套动作策略，即确定在给定状态下需要采取何种 动作，并根据该策略进行操作。强化学习算法直接对策略进行优化，使得制定的策略能够获得最大的奖励； 基于价值迭代的强化学习方法，智能体不需要制定显式的策略，它维护一个价值表格或价值函数，并通过 这个价值表格或价值函数来选取价值最大的动作。</p>
+<p>基于价值迭代的方法只能应用在离散的环境下，例如围棋或某些游戏领域，对于行为集合规模庞 大或是动作连续的场景，如机器人控制领域，其很难学习到较好的结果（此时基于策略迭代的方法能够根 据设定的策略来选择连续的动作)。</p></li>
+</ol>
+<h4 id="面试问题">面试问题</h4>
+<h5 id="友善的面试官-看来你对于强化学习还是有一定了解的呀那么可以用一句话谈一下你对于强化学习的认识吗">友善的面试官: 看来你对于强化学习还是有一定了解的呀，那么可以用一句话谈一下你对于强化学习的认识吗？</h5>
+<p>​ 强化学习包含环境、动作和奖励 3 部分，其本质是智能体通过与环境的交互，使其做出的动作对应的决策得到的总奖励最大，或者说是期望最大。</p>
+<h5 id="友善的面试官-请问你认为强化学习监督学习和无监督学习三者有什么区别呢">友善的面试官: 请问，你认为强化学习、监督学习和无监督学习三者有什么区别呢？</h5>
+<pre><code>    1. 强化学习和无监督学习是不需要有标签样本的，而监督学习需要许多有标签样本来进行模型的构建和训练。
+    2. 对于强化学习与无监督学习，无监督学习直接基于给定的数据进行建模，寻找数据或特征中隐藏的结构，一般对应聚类问题；强化学习需要通过延迟奖励学习策略来得到模型与目标的距离，这个 距离可以通过奖励函数进行定量判断，这里我们可以将奖励函数视为正确目标的一个稀疏、延迟形式。
+    3. 强化学习处理的多是序列数据，样本之间通常具有强相关性，但其很难像监督学习的样本一样满足独 立同分布条件。</code></pre>
+<h5 id="友善的面试官-根据你的理解你认为强化学习的使用场景有哪些呢">友善的面试官: 根据你的理解，你认为强化学习的使用场景有哪些呢？</h5>
+<p>“多序列决策问题”，或者说是对应的模型未知，需要通过学习逐渐逼近真实模型的 问题。并且当前的动作会影响环境的状态，即具有马尔可夫性的问题。同时应满足所有状态是可重复到达 的条件，即满足可学习条件。</p>
+<h5 id="友善的面试官-请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢">友善的面试官: 请问强化学习中所谓的损失函数与深度学习中的损失函数有什么区别呢？</h5>
+<p>深度学习中的损失函数的目的是使预测值和真实值之间的差距尽可能小，而强化学习中的损失函数的目的是使总奖励的期望尽可能大。</p>
+<h5 id="友善的面试官-你了解有模型和免模型吗两者具体有什么区别呢">友善的面试官: 你了解有模型和免模型吗？两者具体有什么区别呢？</h5>
+<p>是否需要对真实的环境进行建模，免模型方法不需要对环境进行建模，直 接与真实环境进行交互即可，所以其通常需要较多的数据或者采样工作来优化策略，这也使其对于真实环 境具有更好的泛化性能；而有模型方法需要对环境进行建模，同时在真实环境与虚拟环境中进行学习，如 果建模的环境与真实环境的差异较大，那么会限制其泛化性能。</p>
+]]></content>
+      <categories>
+        <category>强化学习</category>
+      </categories>
+      <tags>
+        <tag>RL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>leetcode每日一题</title>
     <url>/2022/01/01/leetcode/</url>
     <content><![CDATA[<h1 id="连续整数求和">2022/6/3 <a href="https://leetcode.cn/problems/consecutive-numbers-sum/">829. 连续整数求和</a></h1>
 <p>type：数学</p>
 <figure>
-<img src="leetcode.assets/image-20220628142602227.png" alt="" /><figcaption>image-20220628142602227</figcaption>
+<img src="https://s2.loli.net/2022/06/28/nvNXxetwJCQq9L8.png" alt="" /><figcaption>image-20220628142602227.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628142629543.png" alt="" /><figcaption>image-20220628142629543</figcaption>
+<img src="https://s2.loli.net/2022/06/28/95LK3mn2XIYrQiU.png" alt="" /><figcaption>image-20220628142629543.png</figcaption>
 </figure>
 <h1 id="独特的电子邮件地址">2022/6/4 <a href="https://leetcode.cn/problems/unique-email-addresses/">929. 独特的电子邮件地址</a></h1>
 <p>type:模拟、字符串</p>
 <figure>
-<img src="leetcode.assets/image-20220628142802950.png" alt="" /><figcaption>image-20220628142802950</figcaption>
+<img src="https://s2.loli.net/2022/06/28/oekSq91PAO43C25.png" alt="" /><figcaption>image-20220628142802950.png</figcaption>
 </figure>
 <p>https://www.runoob.com/java/java-string.html</p>
 <h1 id="在圆内随机生成点">2022/6/5 <a href="https://leetcode.cn/problems/generate-random-point-in-a-circle/">478. 在圆内随机生成点</a></h1>
@@ -24,19 +81,19 @@
 <li>从pdf到cdf推导</li>
 </ol>
 <figure>
-<img src="leetcode.assets/image-20220628143039943.png" alt="" /><figcaption>image-20220628143039943</figcaption>
+<img src="https://s2.loli.net/2022/06/28/C6jnNoJUGiIxa9E.png" alt="" /><figcaption>image-20220628143039943.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628143102635.png" alt="" /><figcaption>image-20220628143102635</figcaption>
+<img src="https://s2.loli.net/2022/06/28/imQXR3xqg1NDvbH.png" alt="" /><figcaption>image-20220628143102635.png</figcaption>
 </figure>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Random random;</span><br><span class="line">    <span class="keyword">double</span> xc, yc, r;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">double</span> radius, <span class="keyword">double</span> x_center, <span class="keyword">double</span> y_center)</span> </span>&#123;</span><br><span class="line">        random = <span class="keyword">new</span> Random();</span><br><span class="line">        xc = x_center;</span><br><span class="line">        yc = y_center;</span><br><span class="line">        r = radius;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span>[] randPoint() &#123;</span><br><span class="line">        <span class="keyword">double</span> u = random.nextDouble();</span><br><span class="line">        <span class="keyword">double</span> theta = random.nextDouble() * <span class="number">2</span> * Math.PI;</span><br><span class="line">        <span class="keyword">double</span> r = Math.sqrt(u);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">double</span>[]&#123;xc + r * Math.cos(theta) * <span class="keyword">this</span>.r, yc + r * Math.sin(theta) * <span class="keyword">this</span>.r&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h1 id="我的日程安排表-iii">2022/6/6 <a href="https://leetcode.cn/problems/my-calendar-iii/">732. 我的日程安排表 III</a></h1>
 <p>type: 差分数组、线段树</p>
 <figure>
-<img src="leetcode.assets/image-20220628143224257.png" alt="" /><figcaption>image-20220628143224257</figcaption>
+<img src="https://s2.loli.net/2022/06/28/WUcSTKIdF4Ylotq.png" alt="" /><figcaption>image-20220628143224257.png</figcaption>
 </figure>
 <figure>
-<img src="leetcode.assets/image-20220628143241743.png" alt="" /><figcaption>image-20220628143241743</figcaption>
+<img src="https://s2.loli.net/2022/06/28/eKlFa52RYWMZb8q.png" alt="" /><figcaption>image-20220628143241743.png</figcaption>
 </figure>
 <h1 id="爱吃香蕉的珂珂">2022/6/7 <a href="https://leetcode.cn/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h1>
 <p>type: 二分查找</p>
