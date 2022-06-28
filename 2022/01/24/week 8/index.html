@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="week 8 内容：  louis philippe morency 《多模态机器学习》 70% 论文阅读：  Variational Autoencoders for Collaborative Filtering A Survey on Curriculum Learning（TPAMI 2021） sampling VI、EM算法、GMM   Variational A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2022/01/24/week%208/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="week 8 内容：  louis philippe morency 《多模态机器学习》 70% 论文阅读：  Variational Autoencoders for Collaborative Filtering A Survey on Curriculum Learning（TPAMI 2021） sampling VI、EM算法、GMM   Variational A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/01/15/YlUGjvMeOuE2aZT.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z_%7Bu%7D+%5Csim+%5Cmathcal%7BN%7D%280%2CI_%7BK%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_%7B%5Ctheta%7D%28%5Ccdot%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=u">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cpi%EF%BC%88z_%7Bu%7D%EF%BC%89%5Cpropto+exp%28f_%7B%5Ctheta%7D%28z_%7Bu%7D%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_%7Bu%7D+%5Csim+Mult%28N_%7Bu%7D%2C%5Cpi%28z_%7Bu%7D%29%29">
+<meta property="og:image" content="https://s2.loli.net/2022/01/15/ySYtBvW6TKdQoZE.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/5PTeLVslwGOk8ca.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathcal%7BC%7D%3D%5Cleft%5Clangle+Q_%7B1%7D%2C+%5Cldots%2C+Q_%7Bt%7D%2C+%5Cldots%2C+Q_%7BT%7D%5Cright%5Crangle">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=Q_t+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P%28z%29">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/xeEOzGwCpJAuyQl.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=Q_t+">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/DLtjmfJROv4UAn5.png">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_%7Btrain%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_%7Btarget%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=P_%7Btarget%28x%29%7D">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/7TeCL5cNJp1bQo4.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/TCrvcODa5G8Ryhf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/FDdxo2cYHOs5jtN.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/WS4jFlfVeUMvKXE.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/uxMX823DslzH6SE.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/jrD6uS4PhdAwpBl.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/upjsFOraNzX2PdT.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/13cWqAkSYNIHblX.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/dZRPtX5EVUijAsW.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/c3SriTuBypC8dqf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/UXe3jE7iuJbkxwl.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/YnPGMiKtEWDzqvy.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/4UCLQi6gDkGNpP9.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/t27kbNWCnFSzEPI.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/3B5RFyArkxzTpn4.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/JnlM7krEuFVONct.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/1MEua9jnlGoke2V.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/yIbS5YH6lwUqoEW.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/23/kQwiGLOM1vcgI7V.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/24/DTG2BoOPxS1Rrgj.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/24/u6qAjd23QIBWUcv.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/24/kPQHun5fj4Ev7WF.png">
+<meta property="og:image" content="https://s2.loli.net/2022/01/24/YErSLHKVwh5Xqng.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127162559502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MDM0NTQ1,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z+%5Crightarrow+x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29+%3D+p%28x%7Cz%3B%5Ctheta%29p%28z%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29+%3D+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7B%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f%28x%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28x%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28x%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=X">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=a%EF%BC%8Cb">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28X%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28X%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28x%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28x%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x%3D%5Cmathbb%7BE%7D%28x%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-e09c6f9ace0555fe656c618eeff469b7_1440w.jpg">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=-%5Clog%28%5Ccdot%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28%5Clog%28x%29%29%5Cleq+%5Clog%28%5Cmathbb%7BE%7D%28x%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28x%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cforall+%5C++q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+%5Clog+p%28x%3B%5Ctheta%29+%3D+%26+%5Clog+%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29+%5C%5C+%3D%26%5Clog+%5Cint+dz%5C+q%28z%29+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C++%3D%26+%5Clog+%5Cmathbb%7BE%7D_%7Bz%5Csim+q%7D%5Cleft%28+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cright%29+%5C%5C+%5Cgeq+%26+%5Cmathbb%7BE%7D_%7Bz%5Csim+q%7D+%5Cleft%28+%5Clog%5Cleft%28+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cright%29+%5Cright%29++%5C%5C++%3D+%26+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C++++%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29+%5Cpropto+q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29+%3D+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7B%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29%7D%3Dp%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=J_%7BKL%7D%28x%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%28x%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=J_%7BKL%7D%28x%3B%5Ctheta%2Cq%29%3D%5Clog+p%28x%3B%5Ctheta%29+-+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cgeq+0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%28x%3B%5Ctheta%2Cq%29+%3D+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+p%28x%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29%3Dp%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Clog+P%28x%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+L%28x%3B%5Ctheta%2Cq%29+%3D%26+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C+%3D%26+%5Cint+dz%5C+q%28z%29+%5Clog+p%28x%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q%28z%29%5Clog+q%28z%29+%5C%5C+%3D%26+%5Cmathbb%7BE%7D_q%5B%5Clog+p%28x%2Cz%3B%5Ctheta%29%5D+%2B+S%28q%28z%29%29+%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=S%28q%28z%29%29+%3D+-+%5Cint+dz%5C+q%28z%29%5Clog+q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=N">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i%5C+%28i%3D1%2C%5Ccdots%2CN%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29+%5Capprox+p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%28x_i%3B%5Ctheta%2Cq_i%29%3D%5Cint+dz%5C+q_i%28z%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q_i%28z%29%5Clog+q_i%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Csum_%7Bi%3D1%7D%5EN+L%28x_i%3B%5Ctheta%2Cq_i%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+L%28x_i%3B%5Ctheta%2Cq_i%29+%3D%26++%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B%5Cint+dz%5C+q_i%28z%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q_i%28z%29%5Clog+q_i%28z%29%5Cright%5D+%5C%5C++%3D%26+%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5C%7B+%5Cmathbb%7BE%7D_%7Bq_i%7D%5B%5Clog+p%28x_i%2Cz%3B%5Ctheta%29%5D+%2B+S%28q_i%28z%29%29+%5Cright%5C%7D+%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=z">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=S%28q_i%28z%29%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bq_i%7D%5B%5Clog+p%28x_i%2Cz%3B%5Ctheta%29%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%2C%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%2C%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%2C%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29+%3D+p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29+%3D+p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=N">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x_i%5C+%28i%3D1%2C%5Ccdots%2CN%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_0">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=t">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%28t%3D0%2C1%2C%5Ccdots%2CT%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%2C%5Ctheta_t%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29++-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta%29%5Clog+p%28z%7Cx_i%3B%5Ctheta%29+%5Cright%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q_i%28z%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=+p%28z%7Cx_i%3B%5Ctheta%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29++-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29%5Clog+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Cright%5D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_t">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_t">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=t">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_t">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=+-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29%5Clog+p%28z%7Cx_i%3B%5Ctheta_t%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29">
+<meta property="article:published_time" content="2022-01-24T03:22:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T06:16:34.140Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/01/15/YlUGjvMeOuE2aZT.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/01/24/week%208/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/01/24/week%208/","path":"2022/01/24/week 8/","title":"第八次周报"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>第八次周报 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#variational-autoencoders-for-collaborative-filteringwww-2018"><span class="nav-number">1.</span> <span class="nav-text">Variational Autoencoders for Collaborative Filtering（WWW 2018）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%B7%A5%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">1.3.</span> <span class="nav-text">代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-survey-on-curriculum-learning-tpami-2021"><span class="nav-number"></span> <span class="nav-text">A Survey on Curriculum Learning （TPAMI 2021）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%B7%A5%E4%BD%9C-1"><span class="nav-number">1.</span> <span class="nav-text">主要工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">问题定义：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E6%95%88%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">有效性分析：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">方法总结：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#automatic-cl%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.1.</span> <span class="nav-text">Automatic CL的分类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AA%E6%9D%A5%E7%A0%94%E7%A9%B6%E6%96%B9%E5%90%91"><span class="nav-number">6.</span> <span class="nav-text">未来研究方向：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sampling"><span class="nav-number"></span> <span class="nav-text">Sampling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em-and-gmm"><span class="nav-number"></span> <span class="nav-text">EM and GMM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">EM 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA"><span class="nav-number">1.2.</span> <span class="nav-text">导出</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">收敛性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gmm%E6%B7%B7%E5%90%88%E9%AB%98%E6%96%AF"><span class="nav-number">3.</span> <span class="nav-text">GMM混合高斯</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="nav-number">3.1.</span> <span class="nav-text">模型定义：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.2.</span> <span class="nav-text">参数学习</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vi%E4%B8%8Eem%E7%AE%97%E6%B3%95%E5%85%B3%E7%B3%BB"><span class="nav-number"></span> <span class="nav-text">VI与EM算法关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jensens-inequality"><span class="nav-number">1.</span> <span class="nav-text">Jensen&#39;s inequality</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kl-divergence-elbo"><span class="nav-number">2.</span> <span class="nav-text">KL divergence &amp; ELBO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#variational-inference"><span class="nav-number">3.</span> <span class="nav-text">Variational Inference</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#expectation-maximization"><span class="nav-number">4.</span> <span class="nav-text">Expectation Maximization</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/01/24/week%208/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第八次周报
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-24 11:22:55" itemprop="dateCreated datePublished" datetime="2022-01-24T11:22:55+08:00">2022-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 14:16:34" itemprop="dateModified" datetime="2022-06-28T14:16:34+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>week 8 内容：</p>
+<ul>
+<li>louis philippe morency 《多模态机器学习》 70%</li>
+<li>论文阅读：
+<ol type="1">
+<li>Variational Autoencoders for Collaborative Filtering</li>
+<li>A Survey on Curriculum Learning（TPAMI 2021）</li>
+<li>sampling</li>
+<li>VI、EM算法、GMM</li>
+</ol></li>
+</ul>
+<h4 id="variational-autoencoders-for-collaborative-filteringwww-2018">Variational Autoencoders for Collaborative Filtering（WWW 2018）</h4>
+<h5 id="主要工作">主要工作</h5>
+<p>该文作者把变分自编码器拓展应用于基于隐式反馈的协同过滤推荐任务，希望通过非线性概率模型克服线性因子模型的局限。该文提出了基于变分自编码器（Variational Autoencoder）的生成模型VAE_CF，并针对变分自编码器的正则参数和概率模型选取做了适当调整（使用了多项式分布），使其在当时推荐任务中取得SOTA结果。</p>
+<h5 id="模型">模型</h5>
+<p><img src="https://s2.loli.net/2022/01/15/YlUGjvMeOuE2aZT.png" /></p>
+<p>如上图所示，虚线代表了采样操作，a是传统AE，b是denoising AE（论文中使用了多项式分布的Mult-dae）， c代表vae（论文中是mult-vae）。</p>
+<p><span class="math inline">\(\mathbf{z}_u \sim \mathcal{N}(0, \mathbf{I}_K), \pi(\mathbf{z}_u) \propto \exp\{f_\theta (\mathbf{z}_u\},\mathbf{x}_u \sim \mathrm{Mult}(N_u, \pi(\mathbf{z}_u))\)</span></p>
+<p>该模型根据标准高斯分布抽取K维隐变量 <img src="https://www.zhihu.com/equation?tex=z_%7Bu%7D+%5Csim+%5Cmathcal%7BN%7D%280%2CI_%7BK%7D%29" alt="[公式]" /> ，然后根据非线性函数 <img src="https://www.zhihu.com/equation?tex=f_%7B%5Ctheta%7D%28%5Ccdot%29" alt="[公式]" /> 生成用户 <img src="https://www.zhihu.com/equation?tex=u" alt="[公式]" /> 点击所有物品的概率分布 <img src="https://www.zhihu.com/equation?tex=%5Cpi%EF%BC%88z_%7Bu%7D%EF%BC%89%5Cpropto+exp%28f_%7B%5Ctheta%7D%28z_%7Bu%7D%29%29" alt="[公式]" /> ，最后根据多项式分布 <img src="https://www.zhihu.com/equation?tex=x_%7Bu%7D+%5Csim+Mult%28N_%7Bu%7D%2C%5Cpi%28z_%7Bu%7D%29%29" alt="[公式]" /> 重构用户点击历史（隐式反馈的用户-物品评价矩阵对应行)。</p>
+<p>Multi-DAE目标函数(对数似然)：</p>
+<p><span class="math inline">\(\mathcal{L}_u(\theta, \phi) = \log p_\theta(\mathbf{x}_u | g_\phi(\mathbf{x}_u))\)</span></p>
+<p>Multi-VAE目标函数（ELBO）：</p>
+<p><span class="math inline">\(\mathcal{L}_u(\theta, \phi) = \mathbb{E}_{q_\phi(z_u | x_u)}[\log p_\theta(x_u | z_u)] - \beta \cdot KL(q_\phi(z_u | x_u) \| p(z_u))\)</span></p>
+<p>VAE_CF模型较标准的变分自编码器做了如下调整：</p>
+<p>1、将正则参数调至0.2（低于常规值1，具体来说使用了annealing来逐步增大beta），称其为部分正则化（partially regularized)，实际上是$-vae $在推荐上的应用。</p>
+<p>2、使用了多项式分布进行重建而非高斯分布。</p>
+<ul>
+<li><strong>多项式似然非常适合于隐式反馈数据的建模，并且更接近 rank loss；</strong></li>
+<li><strong>无论数据的稀缺性如何，采用principled Bayesian方法都更加稳健。</strong></li>
+</ul>
+<p>使用SGD进行优化：</p>
+<p><img src="https://s2.loli.net/2022/01/15/ySYtBvW6TKdQoZE.png" /></p>
+<h5 id="代码">代码</h5>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MultiVAE</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    Container module for Multi-VAE.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Multi-VAE : Variational Autoencoder with Multinomial Likelihood</span></span><br><span class="line"><span class="string">    See Variational Autoencoders for Collaborative Filtering</span></span><br><span class="line"><span class="string">    https://arxiv.org/abs/1802.05814</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, p_dims, q_dims=<span class="literal">None</span>, dropout=<span class="number">0.5</span></span>):</span></span><br><span class="line">    	<span class="comment"># p_dims = [200, 600, n_items]</span></span><br><span class="line">        <span class="built_in">super</span>(MultiVAE, self).__init__()</span><br><span class="line">        <span class="comment"># q -&gt; encoder | p-&gt; decoder</span></span><br><span class="line">        self.p_dims = p_dims</span><br><span class="line">        <span class="comment"># 确定维度</span></span><br><span class="line">        <span class="keyword">if</span> q_dims:</span><br><span class="line">            <span class="keyword">assert</span> q_dims[<span class="number">0</span>] == p_dims[-<span class="number">1</span>], <span class="string">&quot;In and Out dimensions must equal to each other&quot;</span></span><br><span class="line">            <span class="keyword">assert</span> q_dims[-<span class="number">1</span>] == p_dims[<span class="number">0</span>], <span class="string">&quot;Latent dimension for p- and q- network mismatches.&quot;</span></span><br><span class="line">            self.q_dims = q_dims</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.q_dims = p_dims[::-<span class="number">1</span>] <span class="comment"># [n_items, 600, 200]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Last dimension of q- network is for mean and variance</span></span><br><span class="line">        temp_q_dims = self.q_dims[:-<span class="number">1</span>] + [self.q_dims[-<span class="number">1</span>] * <span class="number">2</span>] <span class="comment"># [ n_items, 600, 400] ]</span></span><br><span class="line">        <span class="comment"># encoder</span></span><br><span class="line">        <span class="comment"># in:[ n_items, 600]</span></span><br><span class="line">        <span class="comment"># out:[600, 400]</span></span><br><span class="line">        self.q_layers = nn.ModuleList([nn.Linear(d_in, d_out) <span class="keyword">for</span></span><br><span class="line">            d_in, d_out <span class="keyword">in</span> <span class="built_in">zip</span>(temp_q_dims[:-<span class="number">1</span>], temp_q_dims[<span class="number">1</span>:])])</span><br><span class="line">        <span class="comment"># decoder</span></span><br><span class="line">        <span class="comment"># in:[200, 600,]</span></span><br><span class="line">        <span class="comment"># out:[600, n_items]</span></span><br><span class="line">        self.p_layers = nn.ModuleList([nn.Linear(d_in, d_out) <span class="keyword">for</span></span><br><span class="line">            d_in, d_out <span class="keyword">in</span> <span class="built_in">zip</span>(self.p_dims[:-<span class="number">1</span>], self.p_dims[<span class="number">1</span>:])])</span><br><span class="line">        </span><br><span class="line">        self.drop = nn.Dropout(dropout)</span><br><span class="line">        self.init_weights()</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, <span class="built_in">input</span></span>):</span></span><br><span class="line">        mu, logvar = self.encode(<span class="built_in">input</span>)</span><br><span class="line">        z = self.reparameterize(mu, logvar)</span><br><span class="line">        <span class="keyword">return</span> self.decode(z), mu, logvar</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">encode</span>(<span class="params">self, <span class="built_in">input</span></span>):</span></span><br><span class="line">        h = F.normalize(<span class="built_in">input</span>)</span><br><span class="line">        h = self.drop(h)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> i, layer <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.q_layers):</span><br><span class="line">            h = layer(h)</span><br><span class="line">            <span class="keyword">if</span> i != <span class="built_in">len</span>(self.q_layers) - <span class="number">1</span>:</span><br><span class="line">                h = F.tanh(h)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="comment"># 最后一层分均值和方差</span></span><br><span class="line">                mu = h[:, :self.q_dims[-<span class="number">1</span>]]</span><br><span class="line">                logvar = h[:, self.q_dims[-<span class="number">1</span>]:]</span><br><span class="line">        <span class="keyword">return</span> mu, logvar</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">reparameterize</span>(<span class="params">self, mu, logvar</span>):</span></span><br><span class="line">        <span class="comment"># 重参数化技巧</span></span><br><span class="line">        <span class="keyword">if</span> self.training:</span><br><span class="line">            std = torch.exp(<span class="number">0.5</span> * logvar)</span><br><span class="line">            eps = torch.randn_like(std)</span><br><span class="line">            <span class="keyword">return</span> eps.mul(std).add_(mu)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">return</span> mu</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decode</span>(<span class="params">self, z</span>):</span></span><br><span class="line">        <span class="comment"># 解码</span></span><br><span class="line">        h = z</span><br><span class="line">        <span class="keyword">for</span> i, layer <span class="keyword">in</span> <span class="built_in">enumerate</span>(self.p_layers):</span><br><span class="line">            h = layer(h)</span><br><span class="line">            <span class="keyword">if</span> i != <span class="built_in">len</span>(self.p_layers) - <span class="number">1</span>:</span><br><span class="line">                h = F.tanh(h)</span><br><span class="line">        <span class="keyword">return</span> h</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_weights</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> layer <span class="keyword">in</span> self.q_layers:</span><br><span class="line">            <span class="comment"># Xavier Initialization for weights</span></span><br><span class="line">            size = layer.weight.size()</span><br><span class="line">            fan_out = size[<span class="number">0</span>]</span><br><span class="line">            fan_in = size[<span class="number">1</span>]</span><br><span class="line">            std = np.sqrt(<span class="number">2.0</span>/(fan_in + fan_out))</span><br><span class="line">            layer.weight.data.normal_(<span class="number">0.0</span>, std)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Normal Initialization for Biases</span></span><br><span class="line">            layer.bias.data.normal_(<span class="number">0.0</span>, <span class="number">0.001</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> layer <span class="keyword">in</span> self.p_layers:</span><br><span class="line">            <span class="comment"># Xavier Initialization for weights</span></span><br><span class="line">            size = layer.weight.size()</span><br><span class="line">            fan_out = size[<span class="number">0</span>]</span><br><span class="line">            fan_in = size[<span class="number">1</span>]</span><br><span class="line">            std = np.sqrt(<span class="number">2.0</span>/(fan_in + fan_out))</span><br><span class="line">            layer.weight.data.normal_(<span class="number">0.0</span>, std)</span><br><span class="line"></span><br><span class="line">            <span class="comment"># Normal Initialization for Biases</span></span><br><span class="line">            layer.bias.data.normal_(<span class="number">0.0</span>, <span class="number">0.001</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_function</span>(<span class="params">recon_x, x, mu, logvar, anneal=<span class="number">1.0</span></span>):</span></span><br><span class="line">    <span class="comment"># BCE = F.binary_cross_entropy(recon_x, x)</span></span><br><span class="line">    BCE = -torch.mean(torch.<span class="built_in">sum</span>(F.log_softmax(recon_x, <span class="number">1</span>) * x, -<span class="number">1</span>))</span><br><span class="line">    KLD = -<span class="number">0.5</span> * torch.mean(torch.<span class="built_in">sum</span>(<span class="number">1</span> + logvar - mu.<span class="built_in">pow</span>(<span class="number">2</span>) - logvar.exp(), dim=<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> BCE + anneal * KLD</span><br></pre></td></tr></table></figure>
+<h3 id="a-survey-on-curriculum-learning-tpami-2021"><a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/2010.13166">A Survey on Curriculum Learning</a> （TPAMI 2021）</h3>
+<h4 id="主要工作-1">主要工作</h4>
+<p><strong>课程学习 (Curriculum learning, CL)</strong> 是近几年逐渐热门的一个前沿方向。Bengio 首先提出了课程学习（Curriculum learning，CL）的概念，它是一种训练策略，<strong>模仿人类的学习过程，主张让模型先从容易的样本开始学习，并逐渐进阶到复杂的样本和知识</strong>（从易到难）。CL策略在计算机视觉和自然语言处理等多种场景下，在提高各种模型的泛化能力和收敛率方面表现出了强大的能力。这篇综述一共调研了<strong>147篇</strong>文献，从<strong>问题定义</strong>、<strong>有效性分析</strong>、<strong>方法总结</strong>、<strong>未来研究方向</strong>等几大方面进行了详细的概括和总结。</p>
+<h4 id="问题定义"><strong>问题定义：</strong></h4>
+<p><img src="https://s2.loli.net/2022/01/23/5PTeLVslwGOk8ca.png" /></p>
+<ol type="1">
+<li>原始的课程学习</li>
+</ol>
+<p>课程式学习是在 <img src="https://www.zhihu.com/equation?tex=T" alt="[公式]" /> 个训练步骤上的训练标准序列 <img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BC%7D%3D%5Cleft%5Clangle+Q_%7B1%7D%2C+%5Cldots%2C+Q_%7Bt%7D%2C+%5Cldots%2C+Q_%7BT%7D%5Cright%5Crangle" alt="[公式]" /> ， 每个准则 <img src="https://www.zhihu.com/equation?tex=Q_t+" alt="[公式]" /> 是目标训练分布 <img src="https://www.zhihu.com/equation?tex=P%28z%29" alt="[公式]" /> 的权重。该准则包括数据/任务、模型容量、学习目标等。满足的准则：</p>
+<p><img src="https://s2.loli.net/2022/01/23/xeEOzGwCpJAuyQl.png" /></p>
+<p>熵增（harder）、权重增加、最后的目标训练分布达到<img src="https://www.zhihu.com/equation?tex=P%28z%29" alt="[公式]" /></p>
+<ol start="2" type="1">
+<li><p>从数据层面泛化的课程学习（data level）</p>
+<p>在T步内对于training target分布赋权学习。</p></li>
+<li><p>更加泛化的课程学习（criteria ）</p>
+<p>存在“hard to easy”效果更好的examples，为了让课程学习定义更加泛化。提出课程学习是在每一个<img src="https://www.zhihu.com/equation?tex=Q_t+" alt="[公式]" />利用机器学习的所有元素进行训练的设计，比如data、目标函数等。</p></li>
+</ol>
+<h4 id="有效性分析"><strong>有效性分析：</strong></h4>
+<p><strong>1. 模型优化角度</strong></p>
+<p>CL可以看成是一种特殊的 <strong>continuation 方法</strong>（<em>continuation</em> <em>method</em>是一种思想,就是不能一口吃个胖子,一步一步的解决问题。）。这种方法首先优化比较smooth的问题，然后逐渐优化到不够smooth的问题。如下图所示，continuation 方法提供了一个优化目标序列，从一个比较平滑的目标开始，很容易找到全局最小值，并在整个训练过程中跟踪局部最小值。另外，从更容易的目标中学习到的局部最小值具有更好的泛化能力，更有可能近似于全局最小值。</p>
+<p><img src="https://s2.loli.net/2022/01/23/DLtjmfJROv4UAn5.png" /></p>
+<p><strong>2. 数据分布角度（降噪denoising）</strong></p>
+<p>训练分布和测试分布之间存在着由噪声/错误标注的训练数据引起的偏差。直观地讲，训练分布和目标（测试）分布有一个共同的大密度高置信度标注区域，这对应于CL中比较容易的样本。如下图所示，波峰附近的数据代表高置信度的数据即干净的数据，两边（尾部）代表的是低置信度的数据即噪声数据。左图看出，训练数据 <img src="https://www.zhihu.com/equation?tex=P_%7Btrain%7D" alt="[公式]" /> 比目标数据 <img src="https://www.zhihu.com/equation?tex=P_%7Btarget%7D" alt="[公式]" /> 噪声更多（其分布尾巴更翘）；右图看出，CL通过加权，一开始分配给噪声数据较小的权重，后面慢慢才给这些数据增加权重。通过这种方式，CL就可以减少来自负样本的影响。</p>
+<p>另外，CL本质上是将目标分布下的预期风险上界最小化，这个上界表明，我们可以通过CL的核心思想来处理将 <img src="https://www.zhihu.com/equation?tex=P_%7Btarget%28x%29%7D" alt="[公式]" /> 上的预期风险最小化的任务：根据课程设置逐步抽取相对容易的样本，并将这些样本的经验风险最小化。</p>
+<p><img src="https://s2.loli.net/2022/01/23/7TeCL5cNJp1bQo4.png" /></p>
+<p>左图为数据分布图；右图为加权后的数据分布图</p>
+<h4 id="应用场景"><strong>应用场景</strong></h4>
+<p><img src="https://s2.loli.net/2022/01/23/TCrvcODa5G8Ryhf.png" /></p>
+<p>从动机上看，主要分为的是指导训练和降噪。</p>
+<ol type="1">
+<li><p>指导训练：让训练可行/更好。应用：sparse reward RL, multi-task learning, GAN training, NAS（提高效率）;domain adaption, imbalanced classification（让训练可行）</p></li>
+<li><p>denoise：加速训练、让训练更泛化和鲁棒（针对噪声多的或是异质数据）。应用：weakly-supervised or unsupervised learning, NLP tasks (neural machine translation, natural language understanding, etc.)</p></li>
+</ol>
+<h4 id="方法总结"><strong>方法总结：</strong></h4>
+<p><img src="https://s2.loli.net/2022/01/23/FDdxo2cYHOs5jtN.png" /></p>
+<p>课程学习的核心问题是得到一个ranking function，该函数能够对每条数据/每个任务给出其learning priority (学习优先程度)。这个则由<strong>难度测量器（Difficulty Measurer）</strong>实现。另外，我们什么时候把 Hard data 输入训练 以及 每次放多少呢？ 这个则由<strong>训练调度器 （Training Scheduler）</strong>决定。因此，目前大多数CL都是基于"难度测量器+训练调度器 "的框架设计。根据这两个<strong>是否自动设计</strong>可以将CL分成两个大类即 <strong>Predefined CL</strong> 和 <strong>Automatic CL</strong>。</p>
+<p>Predifined CL 的难度测量器和训练调度器都是利用人类先验先验知识由人类专家去设计；而Automatic CL是以数据驱动的方式设计。</p>
+<p><strong>1. Predefined CL</strong></p>
+<p>1.1 预定义的难度测量器</p>
+<p><img src="https://s2.loli.net/2022/01/23/WS4jFlfVeUMvKXE.png" /></p>
+<p>complexity：structural complexity （如句子的长度等）</p>
+<p>diversity ：分布的多样性（例如用信息熵来衡量）</p>
+<p>noise：噪声角度（如直接从网上爬下的照片噪声就会多）</p>
+<p>domain：domain knowledge</p>
+<p>IR例子：</p>
+<ol type="1">
+<li><p>[18]Continuation Methods and Curriculum Learning for Learning to Rank(CIKM 2018)</p>
+<p>提出了CM和CL两种策略来提升λ-MART的性能。</p>
+<p>CM:先针对MSE训练回归森林，然后进行λ-MART训练</p>
+<p>CL:需要从训练数据采样。第一种策略根据相关性来划分数据、第二种根据难度进行划分。</p></li>
+<li><p>[82]Curriculum Learning Strategies for IR An Empirical Study on Conversation Response Ranking (ecir 2020)</p>
+<p><img src="https://s2.loli.net/2022/01/23/uxMX823DslzH6SE.png" /></p></li>
+</ol>
+<p>1.2 预定义的训练调度器</p>
+<p>训练调度器可以分为<strong>离散调度器</strong>和<strong>连续调度器</strong>。两者的区别在于：离散型调度器是在每一个固定的次数（&gt;1）后调整训练数据子集，或者在当前数据子集上收敛，而连续型调度器则是在每一个epoch调整训练数据子集。</p>
+<p><strong>例子：</strong></p>
+<p>离散调度器：</p>
+<p>Baby step：排序后分buckets，训练过程逐步引入。</p>
+<p><img src="https://s2.loli.net/2022/01/23/jrD6uS4PhdAwpBl.png" /></p>
+<p>One-Pass ：直接使用下一个bucket，不是引入了。</p>
+<p>连续调度器：</p>
+<p>设计function<span class="math inline">\(\lambda(t)\)</span>得到引入的porpotion。</p>
+<p>linear（像linear lr scheduler）：</p>
+<p><img src="https://s2.loli.net/2022/01/23/upjsFOraNzX2PdT.png" /></p>
+<p>root function：</p>
+<p>为了让新加入的samples能够被充分学习，需要让加入的速率降低。</p>
+<p><img src="https://s2.loli.net/2022/01/23/13cWqAkSYNIHblX.png" /></p>
+<p>1.3 predifined CL存在的问题</p>
+<ol type="1">
+<li><p>很难预定义CL的方法找到测量器和调度器两者最优的组合。</p></li>
+<li><p>不够灵活，没有考虑模型自身的反馈在训练过程中。</p></li>
+<li><p>需要专家知识，代价较高。</p></li>
+<li><p>人类认为容易的样本对模型来说就不一定容易。（人和机器模型的决策边界不一定一致）</p></li>
+</ol>
+<p><strong>2. Automatic CL</strong></p>
+<p>与predifined CL对比：</p>
+<p><img src="https://s2.loli.net/2022/01/23/dZRPtX5EVUijAsW.png" /></p>
+<p>自动CL的方法论分为<strong>四类</strong>，即<strong>Self-paced Learning</strong>、<strong>Transfer Teacher</strong>、<strong>RL Teacher</strong> 和 <strong>其他自动CL</strong>。</p>
+<p><img src="https://s2.loli.net/2022/01/23/c3SriTuBypC8dqf.png" /></p>
+<h5 id="automatic-cl的分类">Automatic CL的分类</h5>
+<p>2.1 Self-paced Learning</p>
+<p>Self-paced Learning 让学生自己充当老师，根据其对实例的损失来衡量训练实例的难度。这种策略类似于学生自学：根据自己的现状决定自己的学习进度。主要利用基于loss的difficulty measurer，有很强的泛化能力。</p>
+<p>原始loss，总共N个样本:</p>
+<p><span class="math inline">\(\operatorname*{min}_{w}\mathbb{E}(w;\lambda)\sum_{i=1}^{\mathcal{N}}l_{i}+R(w)\)</span></p>
+<p>SPL引入了spl-regularization，v是一系列的weights：</p>
+<p><span class="math inline">\(\operatorname*{min}_{w;v\in[0,1]^{N}}\mathbb{S}\bigl(w,v;\lambda\bigr)\sum_{i=1}v_{i}l_{i}+g\bigl(v;\lambda\bigr).\)</span></p>
+<p>SPL原始的l1正则项：</p>
+<p><span class="math inline">\(g(v;\lambda)=-\lambda\sum_{i=1}^{N}v_{i}.\)</span></p>
+<p>固定w，我们可以得到最优的v（Eq.9）：</p>
+<p><span class="math inline">\(v_{i}^{\star}=\arg\operatorname*{min}_{v_{i}\in[0,1]}v_{i}l_{i}^{\bigtriangledown}+g(v_{i};\lambda),\quad i=1,2,\cdot\cdot\cdot\cdot,n\)</span></p>
+<p>同样固定v,可以优化w(Eq.10）：</p>
+<p><span class="math inline">\(w^{*}=\arg\operatorname*{min}_{w}\sum_{i=1}^{N}v_{i}^{*}l_{i}.\)</span></p>
+<p><img src="https://s2.loli.net/2022/01/23/UXe3jE7iuJbkxwl.png" /></p>
+<p>常见的regularizer:</p>
+<p><img src="https://s2.loli.net/2022/01/23/YnPGMiKtEWDzqvy.png" /></p>
+<p>2.2 Transfer Teacher</p>
+<p>SPL在学习初期，学生网络可能是不够成熟的，所以会影响到后面的训练</p>
+<p>Transfer Teacher 则通过1个强势的教师模型来充当教师，根据教师对实例的表现来衡量训练实例的难度。教师模型经过预训练，并将其知识转移到测量学生模型训练的例子难度上。</p>
+<p><img src="https://s2.loli.net/2022/01/23/4UCLQi6gDkGNpP9.png" /></p>
+<p>2.3 RL Teacher</p>
+<p><img src="https://s2.loli.net/2022/01/23/t27kbNWCnFSzEPI.png" /></p>
+<p>RL Teacher 采用强化学习（RL）模式，教师根据学生的反馈，实现数据动态选择。这种策略是人类教育中最理想的场景，教师和学生通过良性互动共同提高：学生根据教师选择的量身定做的学习材料取得最大的进步，而教师也有效地调整自己的教学策略，更好地进行教学。</p>
+<p>2.4 其他自动 CL</p>
+<p>除上述方法外，其他自动CL方法包括各种自动CL策略。如采取不同的优化技术来自动寻找模型训练的最佳课程，包括贝叶斯优化、元学习、hypernetworks等。</p>
+<p><img src="https://s2.loli.net/2022/01/23/3B5RFyArkxzTpn4.png" /></p>
+<h4 id="未来研究方向"><strong>未来研究方向：</strong></h4>
+<ol type="1">
+<li><strong>评价数据集和指标</strong></li>
+</ol>
+<p>虽然各种CL方法已经被提出并被证明是有效的，但很少有工作用通用基准来评估它们。在现有的文献中，数据集和指标在不同的应用中是多样化的。</p>
+<p><strong>2. 更完善的理论分析</strong></p>
+<p>现有的理论分析为理解CL提供了不同的角度。尽管如此，我们还需要更多的理论来帮助我们揭示为什么典型的CL是有效的。</p>
+<p><strong>3. 更多的CL算法以及应用</strong></p>
+<p>自动CL为CL在更广泛的研究领域提供了潜在的应用价值，已经成为一个前沿方向。因此，一个很有前途的方向是设计更多的自动CL方法，这些方法可具有<strong>不同的优化方式</strong>(如：bandit 算法、元学习、超参数优化等)和<strong>不同的目标</strong>(如：数据选择/加权、寻找最佳损失函数或假设空间等)。除了方法之外，还应该探索CL在更多领域中的应用。</p>
+<h4 id="总结"><strong>总结：</strong></h4>
+<p>这篇主要做了以下三项工作：</p>
+<ol type="1">
+<li>总结了现有的基于 "难度测量器+训练调度器 "总体框架的CL设计，并进一步将自动CL的方法论分为四类，即<strong>Self-paced Learning</strong>、<strong>Transfer Teacher</strong>、<strong>RL Teacher</strong> 和 <strong>其他自动CL</strong>。</li>
+<li>分析了选择不同CL设计的原则，以利于实际应用。</li>
+<li>对连接CL和其他机器学习概念(包括转移学习、元学习、持续学习和主动学习等)的关系的见解，然后指出CL的挑战以及未来潜在的研究方向，值得进一步研究。</li>
+</ol>
+<h3 id="sampling">Sampling</h3>
+<p>mote carlo integration：求定积分</p>
+<p><img src="https://s2.loli.net/2022/01/23/JnlM7krEuFVONct.png" /></p>
+<p>Inverse Transform Sampling ：</p>
+<p>利用cdf:<span class="math inline">\(F(x) = P(X \le x)\)</span></p>
+<p><img src="https://s2.loli.net/2022/01/23/1MEua9jnlGoke2V.png" /></p>
+<p>算法：</p>
+<p><img src="https://s2.loli.net/2022/01/23/yIbS5YH6lwUqoEW.png" /></p>
+<p>Ancestral sampling（祖先采样）得到联合概率：</p>
+<p><img src="https://s2.loli.net/2022/01/23/kQwiGLOM1vcgI7V.png" /></p>
+<p>拒绝采样（rejection sampling）：</p>
+<p>利用比较容易采样的分布，罩住需要采样分布；</p>
+<p><img src="https://s2.loli.net/2022/01/24/DTG2BoOPxS1Rrgj.png" /></p>
+<p>重要性采样（importance sampling）：</p>
+<p>不是采样方法，而是快速得到函数期望。依然从容易采样的Q入手，通过权重进行调整。</p>
+<p><img src="https://s2.loli.net/2022/01/24/u6qAjd23QIBWUcv.png" /></p>
+<p><img src="https://s2.loli.net/2022/01/24/kPQHun5fj4Ev7WF.png" /></p>
+<p>可以利用重要性采样的w进行重采样：</p>
+<p><img src="https://s2.loli.net/2022/01/24/YErSLHKVwh5Xqng.png" /></p>
+<p>如果使用拒绝采样、重要性采样，尽量保证proposal distribution是heavy tail的，如果Q密度为0时，P还有密度，那么基本上采样效率会很低（找相近的分布采样效率会高）。</p>
+<h3 id="em-and-gmm">EM and GMM</h3>
+<p>https://blog.csdn.net/weixin_43661031/article/details/91358990</p>
+<h4 id="em-算法">EM 算法</h4>
+<p>EM算法是一种迭代算法，1977年Dempster等人总结，用于含有因变量的概率模型极大似然估计，或者最大后验估计。有两步，E步求期望，M步求极大。</p>
+<p>Q函数：完全对数似然在给定观测数据Y以及当前<span class="math inline">\(\theta^{(i)}\)</span>的情况下对Z的期望。</p>
+<p><span class="math inline">\(Q(\theta, \theta^{(i)}) = E_Z [\log P(Y,Z|\theta)|Y,\theta^{(i)}]\)</span></p>
+<p>$_{z(i)}Q<sup>{i}(z</sup>{(i)})=1 $</p>
+<p><span class="math inline">\(Q^{i}(z^{(i)})\geq0\)</span></p>
+<h5 id="步骤">步骤</h5>
+<p>分为E步和M步，即求Q函数，极大化Q函数。</p>
+<p>输入：观测数据Y，隐变量数据Z，联合分布<embed src="https://private.codecogs.com/gif.latex?P%28Y%2CZ%7C%5Ctheta%29" />，条件分布<embed src="https://private.codecogs.com/gif.latex?P%28Z%7CY%2C%5Ctheta%29" />；</p>
+<p>输出：模型参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />。</p>
+<ol type="1">
+<li><p>选取参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的初始值在<span class="math inline">\(\theta^{(0)}\)</span>（可任意选择，但是算法对初始值敏感)；开始迭代；</p></li>
+<li><p>E步：计算<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%20%26%3D%20E_Z%20%5B%5Clog%20P%28Y%2CZ%7C%5Ctheta%29%7CY%2C%5Ctheta%5E%7B%28i%29%7D%5D%5C%5C%20%26%3D%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20%5Clog%20P%28Y%2CZ%7C%5Ctheta%29%20%5Cend%7Balign*%7D" /></p></li>
+<li><p>M步：最大化<span class="math inline">\(Q(\theta, \theta^{(i)})\)</span>,得到<span class="math inline">\(\theta^{(i+1)}\)</span>：</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i+1%29%7D%3D%5Carg%20%5Cmax%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" /><figcaption>^{(i+1)}=Q(, ^{(i)})</figcaption>
+</figure></li>
+<li><p>重复2. 3.，直到收敛</p>
+<p>停止迭代的条件：<embed src="https://private.codecogs.com/gif.latex?%5Cleft%20%5C%7C%20%5Ctheta%5E%7B%28i+1%29%7D-%5Ctheta%5E%7B%28i%29%7D%20%5Cright%20%5C%7C%20%3C%5Cvarepsilon_1" /> 或<embed src="https://private.codecogs.com/gif.latex?%5Cleft%20%5C%7C%20Q%28%5Ctheta%5E%7B%28i+1%29%7D%2C%20%5Ctheta%5E%7B%28i%29%7D%29-Q%28%5Ctheta%5E%7B%28i%29%7D%2C%5Ctheta%5E%7B%28i%29%7D%29%20%5Cright%20%5C%7C%3C%5Cvarepsilon_2" /></p></li>
+</ol>
+<h5 id="导出">导出</h5>
+<p>给定观测数据Y，目标是极大化观测数据（不完全数据）Y关于参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的对数似然函数，即</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3D%5Clog%20P%28Y%7C%5Ctheta%29%3D%5Clog%20%5Csum_%7BZ%7DP%28Y%2CZ%7C%5Ctheta%29%3D%5Clog%20%5Cleft%20%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%5Cright%20%5C%7D" /><figcaption>L()=P(Y|)=_{Z}P(Y,Z|)={ _Z P(Y|Z,) P(Z|)}</figcaption>
+</figure>
+<p>其中表示在模型参数为<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />时，观测数据Y的概率分布。</p>
+<p><span class="math inline">\(\begin{align*} P(Y|\theta)&amp;=\sum_Z P(Y,Z|\theta)=\sum_Z P(Z|\theta)P(Y|Z,\theta)\\ \end{align*}\)</span></p>
+<p>EM算法通过逐步迭代来逐步近似极大化<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />。假设第i次迭代后<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的估计值为<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D" />。下一轮的估计值<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />要使<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3E%20L%28%5Ctheta%5E%7B%28i%29%7D%20%29" />。故</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29-L%28%5Ctheta%5E%7B%28i%29%7D%20%29%3D%5Clog%20%5Cleft%20%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%29P%28Z%7C%5Ctheta%29%20%5Cright%20%5C%7D-%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%20%29" /><figcaption>L()-L(^{(i)} )={ _Z P(Y|Z,)P(Z|) }-P(Y|^{(i)} )</figcaption>
+</figure>
+<p>利用Jensen不等式（这里用的是<span class="math inline">\(log{\bigl(}\sum_{i=1}^{M}\lambda_{i}x_{i}{\bigr)}\leq\sum_{i=1}^{M}\lambda_{i}log{\bigl(}x_{i}{\bigr)}\)</span>）得到下界：</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20L%28%5Ctheta%29-L%28%5Ctheta%5E%7B%28i%29%7D%20%29%20%26%3D%5Clog%20%5Cleft%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Y%7CZ%2C%5Ctheta%5E%7B%28i%29%7D%20%29%7D%20%5Cright%20%5C%7D%20-%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5C%5C%20%26%5Cgeq%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%7D%20-%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%5C%5C%20%26%3D%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%7D%20-%20%5Csum_ZP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%20%5C%5C%20%26%3D%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D%20%5C%5C%20%5Cend%7Balign*%7D" /><figcaption><span class="math display">\[\begin{align*} L(\theta)-L(\theta^{(i)} ) &amp;=\log \left\{ \sum_Z P(Y|Z,\theta^{(i)} ) \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Y|Z,\theta^{(i)} )} \right \} - \log P(Y|\theta^{(i)} ) \\ &amp;\geq \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)})} - \log P(Y|\theta^{(i)})\\ &amp;= \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)})} - \sum_ZP(Z|Y,\theta^{(i)} ) \log P(Y|\theta^{(i)}) \\ &amp;= \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \\ \end{align*}\]</span></figcaption>
+</figure>
+<p>令</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%3DL%28%5Ctheta%5E%7B%28i%29%7D%29+%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D" /><figcaption>B(, <sup>{(i)})=L(</sup>{(i)})+_Z P(Z|Y,^{(i)} )</figcaption>
+</figure>
+<p><embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的一个下界。任何可使<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />增大的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />，都可以使<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />增加。选择能使当前<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />极大的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i+1%29%7D" />作为新的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />值。</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20%5Ctheta%5E%7B%28i+1%29%7D%20%26%3D%5Carg%20%5Cmax%20%28L%28%5Ctheta%5E%7B%28i%29%7D%29+%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D%29%20%5C%5C%20%26%3D%5Carg%20%5Cmax%20%28%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%29%5Clog%20%28P%28Y%7CZ%2C%5Ctheta%29P%28Z%7C%5Ctheta%29%29%5C%5C%20%26%3D%5Carg%20%5Cmax%20%28%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%5Clog%28P%28Y%2CZ%7C%5Ctheta%29%29%29%20%5C%5C%20%26%3D%5Carg%20%5Cmax%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%20%5Cend%7Balign*%7D" /><figcaption><span class="math display">\[\begin{align*} \theta^{(i+1)} &amp;=\arg \max (L(\theta^{(i)})+\sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}) \\ &amp;=\arg \max (\sum_Z P(Z|Y,\theta^{(i)}))\log (P(Y|Z,\theta)P(Z|\theta))\\ &amp;=\arg \max (\sum_Z P(Z|Y,\theta^{(i)})\log(P(Y,Z|\theta))) \\ &amp;=\arg \max Q(\theta, \theta^{(i)}) \end{align*}\]</span></figcaption>
+</figure>
+<p>所以EM算法就是通过迭代不断求Q函数，并将之极大化，直至收敛。下图为EM算法的直观解释，<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的一个下界。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20181127162559502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MDM0NTQ1,size_16,color_FFFFFF,t_70" alt="" /><figcaption>img</figcaption>
+</figure>
+<p><strong>我们首先初始化模型的参数，我们基于这个参数对每一个隐变量进行分类，此时相当于我们观测到了隐变量。有了隐变量的观测值之后，原来含有隐变量的模型变成了不含隐变量的模型(以上是E步)，因此我们可以直接使用极大似然估计来更新模型的参数（M步），再基于新的参数开始新一轮的迭代，直到参数收敛。</strong></p>
+<h4 id="收敛性">收敛性</h4>
+<p>定理一：<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%29" />为观测数据的似然函数，<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />是EM算法得到的参数估计序列，<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />是对应的似然函数序列，则<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />是单调递增的。</p>
+<p>定理二：<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3D%5Clog%20P%28Y%7C%5Ctheta%29" />是观测数据的对数似然函数，<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />是EM算法得到的参数估计序列，<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%5E%7B%28i%29%7D%29" />是对应的对数似然函数序列。如果<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%29" />有上界，则<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%5E%7B%28i%29%7D%29%3D%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />收敛到某一值<embed src="https://private.codecogs.com/gif.latex?L%5E*" />；在函数<embed src="https://private.codecogs.com/gif.latex?Q%28%5Ctheta%2C%20%7B%5Ctheta%7D%27%29" />与<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />满足一定条件下，EM算法得到的参数估计序列<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />的收敛值<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E*" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的稳定点。</p>
+<h4 id="gmm混合高斯">GMM混合高斯</h4>
+<h5 id="模型定义">模型定义：</h5>
+<p><span class="math inline">\(p(x)=\sum_{k=1}^{K}\alpha_{k}\mathcal{N}(x|\mu_{k},\Sigma_{k})\)</span></p>
+<p><span class="math inline">\(\sum_{k=1}^{K}\alpha_{k}=1\)</span></p>
+<ol type="1">
+<li>多个高斯模型的加权平均；（单个表达能力不够）</li>
+<li>混合：隐变量-&gt;属于哪一个高斯分布</li>
+</ol>
+<h5 id="参数学习">参数学习</h5>
+<p><span class="math inline">\(\gamma_{j k}\)</span>代表第j个观测来源于k个分模型（01随机变量）---------这里的隐变量</p>
+<ol type="1">
+<li><p>写出完全对数似然</p>
+<p><span class="math inline">\(\begin{aligned} P(y, \gamma \mid \theta) &amp;=\prod_{j=1}^{N} P\left(y_{j}, \gamma_{j 1}, \gamma_{j 2}, \cdots, \gamma_{j K} \mid \theta\right) \\ &amp;=\prod_{k=1}^{K} \prod_{j=1}^{N}\left[\alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)\right]^{\gamma_{k}} \\ &amp;=\prod_{k=1}^{K} \alpha_{k}^{n_{k}} \prod_{j=1}^{N}\left[\phi\left(y_{j} \mid \theta_{k}\right)\right]^{\gamma_{k}} \\ &amp;=\prod_{k=1}^{K} \alpha_{k}^{n_{k}} \prod_{j=1}^{N}\left[\frac{1}{\sqrt{2 \pi} \sigma_{k}} \exp \left(-\frac{\left(y_{j}-\mu_{k}\right)^{2}}{2 \sigma_{k}^{2}}\right)\right]^{\gamma_{k t}} \end{aligned}\)</span></p>
+<p>对数似然：</p>
+<p><span class="math inline">\(\log P(y,\gamma\vert\theta)=\sum_{k=1}^{K}[n_{k}\log\alpha_{k}+\sum_{j=1}^{N}\gamma_{k}\biggl[\log(\frac{1}{\sqrt{2\pi}})-\log\sigma_{k}-\frac{1}{2\sigma_{k}^{2}}(y_{j}-\mu_{k})^{2}\biggr]]\)</span></p>
+<p>其中：<span class="math inline">\(n_k = \sum_{j=1}^{N}\gamma_{jk}\)</span>, <span class="math inline">\(\sum_{k=1}^{K}n_{k}=N\)</span> （Q函数推导的时候代入）</p></li>
+<li><p>确定Q函数</p>
+<p><span class="math inline">\(\begin{aligned} Q\left(\theta, \theta^{(i)}\right) &amp;=E\left[\log P(y, \gamma \mid \theta) \mid y, \theta^{(i)}\right] \\ &amp;=E\left\{\sum_{k=1}^{K} [n_{k} \log \alpha_{k}+\sum_{j=1}^{N} \gamma_{j k}\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\right\} \\ &amp;=\sum_{k=1}^{K}\left\{\sum_{j=1}^{N}[\left(E \gamma_{j k}\right) \log \alpha_{k}+\sum_{j=1}^{N}\left(E \gamma_{j k}\right)\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\right\} \end{aligned}\)</span></p>
+<p>需要计算期望<span class="math inline">\(E (\gamma_{j k}|y, \theta)\)</span></p>
+<p><span class="math inline">\(\hat{\gamma}_{j k} &amp;=E\left(\gamma_{j k} \mid y, \theta\right)=P\left(\gamma_{j k}=1 \mid y, \theta\right) \\ &amp;=\frac{P\left(\gamma_{j k}=1, y_{j} \mid \theta\right)}{\sum_{k=1}^{K} P\left(\gamma_{j k}=1, y_{j} \mid \theta\right)}&amp;=\frac{P\left(y_{j} \mid \gamma_{j k}=1, \theta\right) P\left(\gamma_{j k}=1 \mid \theta\right)}{\sum_{k=1}^{K} P\left(y_{j} \mid \gamma_{j k}=1, \theta\right) P\left(\gamma_{j k}=1 \mid \theta\right)} &amp;=\frac{\alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)}{\sum_{k=1}^{K} \alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)}, \quad j=1,2, \cdots, N ; \quad k=1,2, \cdots, K\)</span></p>
+<p>Q函数为：</p>
+<p><span class="math inline">\(Q\left(\theta, \theta^{(i)}\right)=\sum_{k=1}^{K} [n_{k} \log \alpha_{k}+\sum_{k=1}^{N} \hat{\gamma}_{j k}\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\)</span></p></li>
+<li><p>确定M步</p>
+<p>这一步求Q函数对<span class="math inline">\(\theta\)</span>的极大值，分别对<span class="math inline">\(\mu \space \sigma \space \alpha\)</span>求偏导等于零（<span class="math inline">\(\alpha\)</span>需要在满足和为1，所以除个N）解得</p>
+<p><span class="math inline">\({\hat{\mu}}_{k}={\frac{\sum_{j=1}^{N}{\hat{\gamma}}_{k}y_{j}}{\sum_{j=1}^{N}{\hat{\gamma}}_{k}}}\)</span></p>
+<p><span class="math inline">\(\hat{\sigma}_{k}^{2}=\frac{\sum_{j=1}^{N} \hat{\gamma}_{j k}\left(y_{j}-\mu_{k}\right)^{2}}{\sum_{j=1}^{N} \hat{\gamma}_{j k}}\)</span></p>
+<p><span class="math inline">\(\hat{\alpha}_{k}=\frac{n_{k}}{N}=\frac{\sum_{j=1}^{N} \hat{\gamma}_{j k}}{N}\)</span></p></li>
+</ol>
+<p>整体算法：</p>
+<h3 id="vi与em算法关系">VI与EM算法关系</h3>
+<p>https://zhuanlan.zhihu.com/p/97284299</p>
+<p>Variational inference （变分推断，以下简称VI）和Expectation maximization（期望极大化，以下简称EM）这两种算法实际上是密切相关的。<strong>实际上我们可以将EM看作VI的特殊形式。</strong></p>
+<p>对于 <img src="https://www.zhihu.com/equation?tex=z+%5Crightarrow+x" alt="[公式]" /> ，我们有 <img src="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29+%3D+p%28x%7Cz%3B%5Ctheta%29p%28z%3B%5Ctheta%29" alt="[公式]" /> 。<strong>如果我们想根据</strong> <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> <strong>推测隐变量 <img src="https://www.zhihu.com/equation?tex=z" alt="[公式]" /> 的概率，我们就需要计算如下的积分： <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29+%3D+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7B%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29%7D" alt="[公式]" /> 。然而 <img src="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29" alt="[公式]" /> 有时难以计算，尤其是对于高维的系统，因为高维系统里面的积分复杂度很高。</strong>因此我们需要发展一种更加方便的方法来近似表达 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> 。VI就是用函数 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 来近似表达 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /></p>
+<h4 id="jensens-inequality">Jensen's inequality</h4>
+<p>对于任何的凸函数（convex function） <img src="https://www.zhihu.com/equation?tex=f%28x%29" alt="[公式]" /> ，我们都有 <img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28x%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28x%29%29" alt="[公式]" /> 。Fig 1是一个直观的特例，当自变量 <img src="https://www.zhihu.com/equation?tex=X" alt="[公式]" /> 的分布是在 <img src="https://www.zhihu.com/equation?tex=a%EF%BC%8Cb" alt="[公式]" /> 两点的均匀分布的时候，从图中可以明显看出 <img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28X%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28X%29%29" alt="[公式]" /> 。Jensen's inequality <img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28f%28x%29%29%5Cgeq+f%28%5Cmathbb%7BE%7D%28x%29%29" alt="[公式]" /> 取等号的条件是 <img src="https://www.zhihu.com/equation?tex=x%3D%5Cmathbb%7BE%7D%28x%29" alt="[公式]" /> ，即 <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> 是一个常数。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-e09c6f9ace0555fe656c618eeff469b7_1440w.jpg" alt="img" />Fig 1. 一个凸函数以及E[(f(X))]和f[E(X)]的取值比较，这里X的分布是在a和b两点的均匀分布 （图片来自于Andrew Ng的讲义，见Reference &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp; Acknowledgement）</p>
+<p><strong>由于 <img src="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29" alt="[公式]" /> 是一个凹函数，即 <img src="https://www.zhihu.com/equation?tex=-%5Clog%28%5Ccdot%29" alt="[公式]" /> 是一个凸函数，所以满足 <img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D%28%5Clog%28x%29%29%5Cleq+%5Clog%28%5Cmathbb%7BE%7D%28x%29%29" alt="[公式]" /> ，取等号的条件是自变量 <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> 是一个常数。</strong>之后我们要用到有关 <img src="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29" alt="[公式]" /> 的这些性质。</p>
+<h4 id="kl-divergence-elbo">KL divergence &amp; ELBO</h4>
+<p>先证明一个数学结论：对于任意的概率 <img src="https://www.zhihu.com/equation?tex=p%28x%3B%5Ctheta%29" alt="[公式]" /> （ <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> 是变量， <img src="https://www.zhihu.com/equation?tex=%5Ctheta" alt="[公式]" /> 是参数）， <img src="https://www.zhihu.com/equation?tex=%5Cforall+%5C++q%28z%29" alt="[公式]" /> （这里 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 是某个关于 <img src="https://www.zhihu.com/equation?tex=z" alt="[公式]" /> 的概率密度函数），我们有</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+%5Clog+p%28x%3B%5Ctheta%29+%3D+%26+%5Clog+%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29+%5C%5C+%3D%26%5Clog+%5Cint+dz%5C+q%28z%29+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C++%3D%26+%5Clog+%5Cmathbb%7BE%7D_%7Bz%5Csim+q%7D%5Cleft%28+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cright%29+%5C%5C+%5Cgeq+%26+%5Cmathbb%7BE%7D_%7Bz%5Csim+q%7D+%5Cleft%28+%5Clog%5Cleft%28+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cright%29+%5Cright%29++%5C%5C++%3D+%26+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C++++%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>其中的不等号来自于Jensen's inequality应用在凹函数 <img src="https://www.zhihu.com/equation?tex=%5Clog%28%5Ccdot%29" alt="[公式]" /> 上的结论。由此我们知道，<strong>对于上面的式子取等号的条件是 <img src="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29+%5Cpropto+q%28z%29" alt="[公式]" /> （也就是说在给定 <img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> 的情况下二者的比例是一个常数，无论 <img src="https://www.zhihu.com/equation?tex=z" alt="[公式]" /> 取什么值），所以取等号的时候 <img src="https://www.zhihu.com/equation?tex=q%28z%29+%3D+%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7B%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29%7D%3Dp%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> （这是由于 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 是概率密度，因此满足归一化条件）。</strong>由此我们可以定义KL divergence（记为 <img src="https://www.zhihu.com/equation?tex=J_%7BKL%7D%28x%3B%5Ctheta%29" alt="[公式]" /> ）和Evidence Lower BOund（简称为ELBO，记为 <img src="https://www.zhihu.com/equation?tex=L%28x%3B%5Ctheta%29" alt="[公式]" /> ）：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=J_%7BKL%7D%28x%3B%5Ctheta%2Cq%29%3D%5Clog+p%28x%3B%5Ctheta%29+-+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5Cgeq+0" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=L%28x%3B%5Ctheta%2Cq%29+%3D+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>由此可见KL divergence一定非负，而ELBO是 <img src="https://www.zhihu.com/equation?tex=%5Clog+p%28x%3B%5Ctheta%29" alt="[公式]" /> 的下界。<strong>KL divergence最小的时候等于0，此时 <img src="https://www.zhihu.com/equation?tex=q%28z%29%3Dp%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> ，这是根据Jensen不等式取等号的条件得出的。并且KL divergence越小， <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 越接近 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> 。减小KL divergence等价于增大ELBO，因为我们要优化的目标函数是 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> ，而 <img src="https://www.zhihu.com/equation?tex=%5Clog+P%28x%3B%5Ctheta%29" alt="[公式]" /> 可以看作给定的量。</strong></p>
+<p><strong>由此我们得到一个重要的结论：优化 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 来增大ELBO等价于优化 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 来逼近 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> 。</strong></p>
+<p><strong>以下我们通过极大化ELBO，从而训练得到一个好的函数 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 来近似表达 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> 。</strong>我们可以将ELBO的形式等价变换一下，得到另一种等价形式：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+L%28x%3B%5Ctheta%2Cq%29+%3D%26+%5Cint+dz+%5C+q%28z%29+%5Clog%5Cfrac%7Bp%28x%2Cz%3B%5Ctheta%29%7D%7Bq%28z%29%7D+%5C%5C+%3D%26+%5Cint+dz%5C+q%28z%29+%5Clog+p%28x%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q%28z%29%5Clog+q%28z%29+%5C%5C+%3D%26+%5Cmathbb%7BE%7D_q%5B%5Clog+p%28x%2Cz%3B%5Ctheta%29%5D+%2B+S%28q%28z%29%29+%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>其中 <img src="https://www.zhihu.com/equation?tex=S%28q%28z%29%29+%3D+-+%5Cint+dz%5C+q%28z%29%5Clog+q%28z%29" alt="[公式]" /> 是著名的Gibbs entropy。</p>
+<h4 id="variational-inference">Variational Inference</h4>
+<p>在实际操作中，首先我们有已经观察到的 <img src="https://www.zhihu.com/equation?tex=N" alt="[公式]" /> 个数据点 <img src="https://www.zhihu.com/equation?tex=x_i%5C+%28i%3D1%2C%5Ccdots%2CN%29" alt="[公式]" /> ，我们需要通过优化 <img src="https://www.zhihu.com/equation?tex=q_i" alt="[公式]" /> 来极大化ELBO，即对于每个数据点 <img src="https://www.zhihu.com/equation?tex=x_i" alt="[公式]" /> ，我们希望得到函数 <img src="https://www.zhihu.com/equation?tex=q_i%28z%29+%5Capprox+p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 。每个 <img src="https://www.zhihu.com/equation?tex=x_i" alt="[公式]" /> 对应的ELBO是</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=L%28x_i%3B%5Ctheta%2Cq_i%29%3D%5Cint+dz%5C+q_i%28z%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q_i%28z%29%5Clog+q_i%28z%29" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>我们的目标是极大化 <img src="https://www.zhihu.com/equation?tex=%5Csum_%7Bi%3D1%7D%5EN+L%28x_i%3B%5Ctheta%2Cq_i%29" alt="[公式]" /> ：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Bequation%7D+%5Cbegin%7Bsplit%7D+%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+L%28x_i%3B%5Ctheta%2Cq_i%29+%3D%26++%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B%5Cint+dz%5C+q_i%28z%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29+-+%5Cint+dz%5C+q_i%28z%29%5Clog+q_i%28z%29%5Cright%5D+%5C%5C++%3D%26+%5Cmax+%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5C%7B+%5Cmathbb%7BE%7D_%7Bq_i%7D%5B%5Clog+p%28x_i%2Cz%3B%5Ctheta%29%5D+%2B+S%28q_i%28z%29%29+%5Cright%5C%7D+%5Cend%7Bsplit%7D+%5Cend%7Bequation%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>注意到对于不同的 <img src="https://www.zhihu.com/equation?tex=x_i" alt="[公式]" /> ，我们选取的函数形式 <img src="https://www.zhihu.com/equation?tex=q_i%28z%29" alt="[公式]" /> 不同，因为 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 在 <img src="https://www.zhihu.com/equation?tex=x_i" alt="[公式]" /> 不同的时候是不同的关于 <img src="https://www.zhihu.com/equation?tex=z" alt="[公式]" /> 的函数。一般来说，通过选取合适的、简单的 <img src="https://www.zhihu.com/equation?tex=q_i%28z%29" alt="[公式]" /> 的形式，例如exponential family，<img src="https://www.zhihu.com/equation?tex=S%28q_i%28z%29%29" alt="[公式]" /> 可以解析地计算出来；对于 <img src="https://www.zhihu.com/equation?tex=%5Cmathbb%7BE%7D_%7Bq_i%7D%5B%5Clog+p%28x_i%2Cz%3B%5Ctheta%29%5D" alt="[公式]" /> 则需要用stochastic optimization进行极大化，从而优化函数 <img src="https://www.zhihu.com/equation?tex=q_i" alt="[公式]" /> （也就是优化函数 <img src="https://www.zhihu.com/equation?tex=q_i" alt="[公式]" /> 的表达式里面包含的参数）。总结一下，<strong>VI就是通过选取一些形式简单的、具有良好性质的函数 <img src="https://www.zhihu.com/equation?tex=q%28z%29" alt="[公式]" /> 来近似表达 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> ，具体的操作方法是极大化ELBO。</strong></p>
+<h4 id="expectation-maximization">Expectation Maximization</h4>
+<p>EM实际上可以看作一个简化的VI（通过一定的适用条件和一个类似于“作弊”的方法来简化计算）。<strong>EM的适用条件是函数 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 的形式不太复杂，我们可以显式地表达出 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 的时候。从适用条件上来看EM就是VI的一个特例。</strong>回忆第1节Motivation中我们说过，有时候 <img src="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29" alt="[公式]" /> 难以计算，所以难以直接写出 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%2C%5Ctheta%29" alt="[公式]" /> 的具体形式。<strong>而EM就是适用于 <img src="https://www.zhihu.com/equation?tex=%5Cint+dz%5C+p%28x%2Cz%3B%5Ctheta%29" alt="[公式]" /> 不难计算的情况，此时我们可以直接写出 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%2C%5Ctheta%29" alt="[公式]" /> 的具体形式。</strong></p>
+<p><strong>当函数 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%2C%5Ctheta%29" alt="[公式]" /> 的形式不太复杂的时候，我们自然会选择 <img src="https://www.zhihu.com/equation?tex=q_i%28z%29+%3D+p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 来训练，因此我们可以说，EM就是选取<img src="https://www.zhihu.com/equation?tex=q_i%28z%29+%3D+p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" />的VI，这和EM的适用条件是自洽的。</strong>以下首先写出EM的算法，然后指出其中关键的“作弊”一步在哪里。</p>
+<p><strong><em>EM Algorithm</em></strong></p>
+<p><strong><em>BEGIN</em></strong></p>
+<p><em>我们有 <img src="https://www.zhihu.com/equation?tex=N" alt="[公式]" /> 个数据点 <img src="https://www.zhihu.com/equation?tex=x_i%5C+%28i%3D1%2C%5Ccdots%2CN%29" alt="[公式]" /> ，并且我们有函数 <img src="https://www.zhihu.com/equation?tex=p%28x%2Cz%3B%5Ctheta%29" alt="[公式]" /> 和 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx%3B%5Ctheta%29" alt="[公式]" /> 的表达式。</em></p>
+<p><em>Step 0，初始化：初始随机猜测参数 <img src="https://www.zhihu.com/equation?tex=%5Ctheta_0" alt="[公式]" /></em></p>
+<p><em>Step 1, E-step：在第 <img src="https://www.zhihu.com/equation?tex=t" alt="[公式]" /> 步的时候 <img src="https://www.zhihu.com/equation?tex=%28t%3D0%2C1%2C%5Ccdots%2CT%29" alt="[公式]" /> ，计算 <img src="https://www.zhihu.com/equation?tex=p%28z%7Cx_i%2C%5Ctheta_t%29" alt="[公式]" /></em></p>
+<p><em>Step2, M-step: 按照如下规则得到新的参数 <img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D" alt="[公式]" /> ：</em></p>
+<p><em><img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29" alt="[公式]" /></em></p>
+<p><em>Step3, 重复 Step 1 &amp; 2（迭代）直到收敛。</em></p>
+<p><strong><em>END</em></strong></p>
+<p>其中关键的“作弊”步骤是Step2，因为*<strong>严格来说我们应该这样计算*</strong> <img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D" alt="[公式]" /> ：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29++-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta%29%5Clog+p%28z%7Cx_i%3B%5Ctheta%29+%5Cright%5D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>也就是将 <img src="https://www.zhihu.com/equation?tex=q_i%28z%29" alt="[公式]" /> 替换成 <img src="https://www.zhihu.com/equation?tex=+p%28z%7Cx_i%3B%5Ctheta%29" alt="[公式]" /> 后maximize ELBO。但是*<strong>实际上这个算法却是这么做的*</strong>：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cleft%5B+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29++-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29%5Clog+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Cright%5D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>也就是<strong>将ELBO表达式中的某几个 <img src="https://www.zhihu.com/equation?tex=%5Ctheta" alt="[公式]" /> 固定在了 <img src="https://www.zhihu.com/equation?tex=%5Ctheta_t" alt="[公式]" /> 的值（其中 <img src="https://www.zhihu.com/equation?tex=%5Ctheta_t" alt="[公式]" /> 是第 <img src="https://www.zhihu.com/equation?tex=t" alt="[公式]" /> 次优化得到的参数），只优化其余位置的 <img src="https://www.zhihu.com/equation?tex=%5Ctheta" alt="[公式]" /> 值，从而使得极大化算法更加简便</strong>。<strong>同时通过迭代方法确保最后能收敛到一个local maximum。</strong>由于 <img src="https://www.zhihu.com/equation?tex=%5Ctheta_t" alt="[公式]" /> 相当于常数，因此 <img src="https://www.zhihu.com/equation?tex=+-+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29%5Clog+p%28z%7Cx_i%3B%5Ctheta_t%29" alt="[公式]" /> 相当于常数项，在极大化的时候可以去掉，由此我们可以得到</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Ctheta_%7Bt%2B1%7D+%3D+%7B%5Crm+argmax%7D_%7B%5Ctheta%7D%5C++%5Csum_%7Bi%3D1%7D%5EN+%5Cint+dz%5C+p%28z%7Cx_i%3B%5Ctheta_t%29+%5Clog+p%28x_i%2Cz%3B%5Ctheta%29" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>并且<strong>通过迭代求解找到 local maximum。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/16/week%207/" rel="prev" title="第七次周报">
+                  <i class="fa fa-chevron-left"></i> 第七次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/03/week%209/" rel="next" title="第九次周报">
+                  第九次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

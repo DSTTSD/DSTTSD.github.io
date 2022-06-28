@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="week 10 内容：  louis philippe morency 《多模态机器学习》 90% kaggle fashion recommendation competition:  完成EDA、数据预处理 用流行度、item相关性、最近购买的item三种方法，进行了提交（baseline）  论文阅读：  BGSP、BKM聚类 fashion recommendatio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2022/02/11/week%2010/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="week 10 内容：  louis philippe morency 《多模态机器学习》 90% kaggle fashion recommendation competition:  完成EDA、数据预处理 用流行度、item相关性、最近购买的item三种方法，进行了提交（baseline）  论文阅读：  BGSP、BKM聚类 fashion recommendatio">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://sklearn.apachecn.org/docs/master/img/4e0d8935ff82f26fc3a46a3202bd1fa3.jpg">
+<meta property="og:image" content="https://sklearn.apachecn.org/docs/master/img/9812effbd6ddac1053fd0b63ebe8c2fb.jpg">
+<meta property="og:image" content="https://s2.loli.net/2022/02/21/J7Y4mU2xIDECZjf.png">
+<meta property="og:image" content="http://www.latex2png.com/pngs/45eedfdea729adcb99813491c1f12488.png">
+<meta property="og:image" content="http://www.latex2png.com/pngs/e1c3ea973a3069699d7951b9bbe22027.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/21/JMNgB9svXOaiLCI.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/25/kjMqRmi4fVXntbg.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/25/linKteMfqwFL2Y1.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/25/Pt839Ig6mC4ZUJr.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/27/6ndGrospmQ7uFWj.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320142851428-1194269689.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320143135391-255494198.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320143545086-323258879.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320144250953-1096584260.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320144912554-276613838.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190325203520134-2063244829.png">
+<meta property="og:image" content="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190321224806131-1788166894.png">
+<meta property="og:image" content="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161204194331365-2142863547.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/967544-b768a350d5383ccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/789/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/967544-37a15b71dc6f6ca3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/657/format/webp">
+<meta property="article:published_time" content="2022-02-11T04:20:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T06:05:15.841Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sklearn.apachecn.org/docs/master/img/4e0d8935ff82f26fc3a46a3202bd1fa3.jpg">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/02/11/week%2010/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/02/11/week%2010/","path":"2022/02/11/week 10/","title":"第十次周报"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>第十次周报 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#co-clustering"><span class="nav-number">1.</span> <span class="nav-text">1 Co-clustering</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bipartite-spectral-graph-partitionbgsp-spectralcoclustering2001"><span class="nav-number">1.1.</span> <span class="nav-text">Bipartite spectral graph partition（BGSP）-SpectralCoclustering（2001）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bilateral-k-means-algorithm-for-fast-co-clusteringijcai-2017"><span class="nav-number">1.1.1.</span> <span class="nav-text">Bilateral k-Means Algorithm for Fast Co-Clustering（IJCAI 2017）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E7%9B%AE%E6%A0%87"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">优化目标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">优化方法</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fasion-recommendation"><span class="nav-number">2.</span> <span class="nav-text">2 Fasion recommendation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#deepstyle-learning-user-preferences-for-visual-recommendationsigir-2017"><span class="nav-number">2.0.1.</span> <span class="nav-text">DeepStyle: Learning User Preferences for Visual Recommendation（SIGIR 2017）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#aesthetic-based-clothing-recommendationwww-2018"><span class="nav-number">2.0.2.</span> <span class="nav-text">Aesthetic-based Clothing Recommendation（www 2018）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#boosting"><span class="nav-number">3.</span> <span class="nav-text">3 Boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E9%A1%BEcart"><span class="nav-number">3.0.1.</span> <span class="nav-text">回顾CART:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E5%BA%A6%E9%87%8F"><span class="nav-number">3.0.1.1.</span> <span class="nav-text">信息度量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E5%A4%84%E7%90%86"><span class="nav-number">3.0.1.2.</span> <span class="nav-text">特征处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">3.0.1.3.</span> <span class="nav-text">流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boosting-1"><span class="nav-number">3.1.</span> <span class="nav-text">boosting</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-number">3.1.1.</span> <span class="nav-text">工作机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#adaboost"><span class="nav-number">3.1.2.</span> <span class="nav-text">Adaboost</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E8%B7%AF"><span class="nav-number">3.1.2.1.</span> <span class="nav-text">基本思路</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0%E4%BB%A5%E5%8F%8A%E5%90%84%E6%9D%83%E9%87%8D%E6%8E%A8%E5%AF%BC"><span class="nav-number">3.1.2.2.</span> <span class="nav-text">损失函数以及各权重推导</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E5%8C%96%E9%A1%B9"><span class="nav-number">3.1.2.3.</span> <span class="nav-text">正则化项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.1.2.4.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gbdt"><span class="nav-number">3.2.</span> <span class="nav-text">GBDT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#xgboostgdbt%E7%9A%84%E6%9B%B4%E5%BF%AB%E5%AE%9E%E7%8E%B01%E5%BE%85%E8%A1%A5%E5%85%85"><span class="nav-number">3.2.1.</span> <span class="nav-text">XGBoost——GDBT的更快实现1（待补充）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lightgbmgdbt%E7%9A%84%E6%9B%B4%E5%BF%AB%E5%AE%9E%E7%8E%B02%E5%BE%85%E8%A1%A5%E5%85%85"><span class="nav-number">3.2.2.</span> <span class="nav-text">LightGBM——GDBT的更快实现2（待补充）</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/02/11/week%2010/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十次周报
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-11 12:20:55" itemprop="dateCreated datePublished" datetime="2022-02-11T12:20:55+08:00">2022-02-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 14:05:15" itemprop="dateModified" datetime="2022-06-28T14:05:15+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>week 10 内容：</p>
+<ul>
+<li><p>louis philippe morency 《多模态机器学习》 90%</p></li>
+<li><p>kaggle fashion recommendation competition:</p>
+<ol type="1">
+<li>完成EDA、数据预处理</li>
+<li>用流行度、item相关性、最近购买的item三种方法，进行了提交（baseline）</li>
+</ol></li>
+<li><p>论文阅读：</p>
+<ol type="1">
+<li>BGSP、BKM聚类</li>
+<li>fashion recommendation相关</li>
+<li>boosting相关（待完善）</li>
+</ol></li>
+</ul>
+<h2 id="co-clustering">1 Co-clustering</h2>
+<h3 id="bipartite-spectral-graph-partitionbgsp-spectralcoclustering2001">Bipartite spectral graph partition（BGSP）-SpectralCoclustering（2001）</h3>
+<p>https://scikit-learn.org/stable/modules/biclustering.html#spectral-biclustering</p>
+<p>共同聚类，也称为双聚类，该方法在数据矩阵中同时聚类样本集和特征集。由于同时利用了样本类群和特征类群之间的关系，该方法相比传统聚类性能更优异。受互联网技术发展的影响，共聚类已成为近年来数据挖掘领域的一个研究热点。从分类角度，共聚类有两种类型：</p>
+<ol type="1">
+<li><p>棋盘格形式的共聚类：如下图，聚类完成后矩阵呈现棋盘格形式，该方法假设数据矩阵中每一个元素都属于一个共聚类簇。</p>
+<p><img src="https://sklearn.apachecn.org/docs/master/img/4e0d8935ff82f26fc3a46a3202bd1fa3.jpg" /></p></li>
+<li><p>对角共聚类：如下图，聚类完成后类簇位于矩阵对角线上，该方法仅考虑数据中的部分数据形成共聚类簇。</p></li>
+</ol>
+<p><img src="https://sklearn.apachecn.org/docs/master/img/9812effbd6ddac1053fd0b63ebe8c2fb.jpg" /></p>
+<p>对于很多有着稀疏矩阵的应用来说，对角共聚类往往是更好的选择。一方面，对于棋盘格式的共聚类而言，稀疏矩阵中大部分的条目是为0的，对于共聚类没有贡献。另一方面，在实际的应用中，数据矩阵往往掺杂着许多噪声，这些噪声极大第降低了共聚性能。</p>
+<p>在基于对角的共聚类方法中，最著名的是二部谱图划分(BSGP)方法(较快)。然而，由于BSGP在求解过程中涉及奇异值分解，因此在计算上无法用于大型数据集，这严重限制了BSGP在实际应用中的范围。此外，BSGP基于谱图的双分区Ncuts。在处理多分区问题时，首先需要将原离散问题放宽为一个连续问题，然后使用k-means算法输出离散结果。在这种离散-连续-离散变换过程中，最终得到的优化问题与BSGP的原始目标问题有很大的偏差，会损害BSGP的性能。</p>
+<p>BSGP(Bipartite spectrum graph partitioning)共聚类，首先构建二部图<span class="math inline">\(G=\{V, A\}\)</span>,V是点集， 设<span class="math inline">\(X\in{R}^{d \times n}\)</span></p>
+<p><span class="math inline">\(\boldsymbol{A}=\left[\begin{array}{cc} \boldsymbol{0} &amp; \boldsymbol{X} \\ \boldsymbol{X}^{T} &amp; \boldsymbol{0} \end{array}\right]\)</span></p>
+<p>feature cluster: <span class="math inline">\(\boldsymbol{P}=\left[\boldsymbol{p}_{1 \cdot}^{T}, \cdots, \boldsymbol{p}_{d \cdot}^{T}\right]^{T} \in\{0,1\}^{d \times c}\)</span></p>
+<p>sample cluster: <span class="math inline">\(\boldsymbol{Q}=\left[\boldsymbol{q}_{1 \cdot}^{T}, \cdots, \boldsymbol{q}_{d \cdot}^{T}\right]^{T} \in\{0,1\}^{n \times c}\)</span></p>
+<p>对聚类完成后的cluser定义（保证cluster中的元素比其他划分方法更好）：</p>
+<p>feature cluster：</p>
+<p><span class="math inline">\(\Omega_{l}=\{x_{i\cdot}:\sum_{j\in\Theta_{l}}X_{i j}\geq\sum_{i\in\Theta_{k}}X_{i j},\forall k=1,\cdot\cdot\cdot,c\}\)</span></p>
+<p>sample cluster：</p>
+<p><span class="math inline">\(\Theta_{l}=\{x_j:\sum_{i\in\Omega,}X_{i j}\geq\sum_{i\in\Omega_{i}}X_{i j},\forall k=1,\cdot\cdot\cdot,c\}\)</span></p>
+<p>很容易看出<span class="math inline">\(\Omega_l\)</span>与<span class="math inline">\(\theta_l\)</span>之间存在递归关系，同时这也决定了BSGP基与diagonal co-cluster。</p>
+<p><strong>二划分的优化：</strong></p>
+<p>BGSP为了找到G最小的ncuts，优化如下的问题：</p>
+<p><span class="math inline">\(\min _{\boldsymbol{y}} \frac{\boldsymbol{y}^{T} \boldsymbol{L} \boldsymbol{y}}{\boldsymbol{y}^{T} \boldsymbol{D} \boldsymbol{y}}, \text { s.t. } \boldsymbol{y} \in\{-1,1\}^{(d+n) \times 1}\)</span></p>
+<p>其中，<span class="math inline">\(D\)</span>是度矩阵<span class="math inline">\(D_{ii} = \textstyle\sum_{k}A_{i k}\)</span></p>
+<p>拉普拉斯矩阵： <span class="math inline">\(L = D - A\)</span></p>
+<p><strong>partition :</strong></p>
+<p><span class="math inline">\(y=[p^{T},q^{T}]^{T},p\in\{1,-1\}^{d\times1},q\in\{1,-1\}^{n\times1}\)</span> 是indicator vector</p>
+<p>由于上述优化目标是NP-complete problem,进行松弛：</p>
+<p><span class="math inline">\(\operatorname*{min}_{q\neq0}{\frac{q^{T}L q}{q^{T}D q}},s.t.q^{T}D e=0\)</span></p>
+<p>其中<span class="math inline">\(e\)</span>是<span class="math inline">\((d + n) \times 1\)</span>全1的向量,考虑到数据矩阵A的结构，可使用SVD计算<span class="math inline">\(D_1^{-1/2}XD_2^{-1/2}\)</span>的第二小奇异值对应的向量来求解。<span class="math inline">\(D1, D2\)</span>满足：</p>
+<p><span class="math inline">\(\boldsymbol{D}=\left[\begin{array}{ll} \boldsymbol{D}_{1} &amp; \\ &amp; \boldsymbol{D}_{2} \end{array}\right]\)</span></p>
+<p><strong>多个类群的扩展：</strong></p>
+<p>对于含有c个类群的情况，需要计算<span class="math inline">\(l = log_2(c)\)</span>个left vectors U和right vectors V</p>
+<p>构成一个L维度的数据集：</p>
+<p><span class="math inline">\(\boldsymbol{Z}=\left[\begin{array}{l} \boldsymbol{D}_{1}^{-1 / 2} \boldsymbol{U} \\ \boldsymbol{D}_{2}^{-1 / 2} \boldsymbol{V} \end{array}\right]\)</span></p>
+<p>最后，需要用k-means算法对新的数据集Z进行聚类，其中Z的前d个结果对应X的特征聚类结果，后n个结果对应样本聚类结果。</p>
+<p>BGSP中的问题：</p>
+<ol type="1">
+<li>需要一个后处理步骤来输出聚类结果</li>
+<li>涉及奇异值分解(SVD)，其复杂度大于<span class="math inline">\(O(n^2d)\)</span>。</li>
+</ol>
+<h4 id="bilateral-k-means-algorithm-for-fast-co-clusteringijcai-2017">Bilateral k-Means Algorithm for Fast Co-Clustering（IJCAI 2017）</h4>
+<h5 id="优化目标">优化目标</h5>
+<p>BGSP中多类群的优化目标为：</p>
+<p><span class="math inline">\(\operatorname*{min}_{Y}\sum_{k=1}^{c}\frac{y_{k}^{T}L y_{k}}{y_{k}^{T}D y_{k}},s.t.{\cal Y}\in\Phi_{(d+n)\times c}\)</span></p>
+<p>由于<span class="math inline">\(y_k^{T}Dy_k = Y^TDY\)</span>，因此优化目标转化为：</p>
+<p><span class="math inline">\(\operatorname*{min}_{Y}Tr(Y^{I}LY\{Y^{I}D Y)^{-1}),s.t.Y\in\Phi_{(m+n)\chi c}\)</span></p>
+<p>由于<span class="math inline">\(Y^{T}=[P^{T},Q^{T}]\)</span>，因此可以把A拆为X，即<span class="math inline">\(T r(I-Y^{T}A Y(Y^{T}D Y)^{-1}) = T r(I-2P^{T}X Q(Y^{T}D Y)^{-1})\)</span></p>
+<p>优化目标转变为：</p>
+<p><span class="math inline">\(\operatorname*{min}_{P.Q}T r(-P^{T}X Q(Y^{T}D Y)^{-1})\)</span></p>
+<p><span class="math inline">\(s.t.P\in\Phi_{d\times c},Q\in\Phi_{n\times c}\)</span></p>
+<p>为了得到二范数，添加<span class="math inline">\(T r((Y^{T}D Y)^{-1}P^{T}P(Y^{T}D Y)^{-1}Q^{I}Q)\)</span>以及<span class="math inline">\(T r(X^{T}X)\)</span>两项，得到优化目标：</p>
+<p><span class="math inline">\(\operatorname*{min}_{P.Q}\|X-P(Y^{T}D Y)^{-1}Q^{T}\|_{F}^{2}\)</span></p>
+<p><span class="math inline">\(s.t.P\in\Phi_{d\times c},Q\in\Phi_{n\times c}\)</span></p>
+<p><span class="math inline">\((Y^{T}D Y)^{-1}\)</span>是对角阵，求逆矩阵的开销很大，为了简化，用对角阵S代替，S也是待优化的参数：</p>
+<p><span class="math inline">\(\operatorname*{min}_{P,O_{S}}\|X-P S Q^{T}\|_{F}^{2}\)</span></p>
+<p><span class="math inline">\(s.t.P\in\Phi_{d\times c},Q\in\Phi_{n\times c},\;S\in d i a g\)</span></p>
+<h5 id="优化方法">优化方法</h5>
+<p>使用两个命题来简化目标：</p>
+<p><img src="https://s2.loli.net/2022/02/21/J7Y4mU2xIDECZjf.png" /></p>
+<p><span class="math inline">\(J_{1}=||X-P S Q^{T}||_{F}^{2} =T r(X^{T}X)-2T r(Q^{T}X^{T}P S) +T r(S P^{T}P S Q^{T}Q)\)</span></p>
+<p>由于P和Q是indicator matrix， 所以<span class="math inline">\(P^{T}P\)</span>以及<span class="math inline">\(Q^{T}Q\)</span>是对角阵，</p>
+<p>由第一个命题：</p>
+<p><span class="math inline">\(T r(Q^{T}X^{T}P S)=f({\cal S})^{T}f(P^{T}X Q)\)</span></p>
+<p>由第二个命题可知：</p>
+<p><span class="math inline">\(T_{r}(S P^{T}P S Q^{T}Q)=T r(S P^{T}P Q^{T}Q S)=f(S)^{T}(P^{T}P Q^{T}Q)f(S)\)</span></p>
+<p>用<span class="math inline">\(H\)</span>表示<span class="math inline">\(P^T PQ^T Q\)</span>, <span class="math inline">\(s\)</span>表示<span class="math inline">\(f(s)\)</span> <span class="math inline">\(r\)</span>表示<span class="math inline">\(f(P^T XQ)\)</span>,那么有：</p>
+<p><span class="math inline">\(J_{1}=T r(X^{T}X)-2{\bf r}^{T}{\bf s}+{\bf s}^{T}{H}s\)</span></p>
+<ol type="1">
+<li>求解s:</li>
+</ol>
+<p><span class="math inline">\({\frac{\partial J_{1}}{\partial s}}=2(H s-r)=0\)</span></p>
+<p><span class="math inline">\(s=H^{-1}r\)</span></p>
+<p>由于H是对角阵，求逆很方便。</p>
+<ol start="2" type="1">
+<li><p>固定P、S,求Q：</p>
+<p><span class="math inline">\(R = PS\)</span></p>
+<p>对每个sample进行如下优化：</p>
+<p><span class="math inline">\(\operatorname*{min}_{Q}\|x_{\cdot i}-R q_{i\cdot}^{T}\|_{F}^{2}\)</span></p>
+<p>由于q是indicator，只会有一个1，那么就根据如下方式得出(<span class="math inline">\(r_k\)</span>是<span class="math inline">\(R\)</span>的第k列)：</p>
+<figure>
+<img src="http://www.latex2png.com/pngs/45eedfdea729adcb99813491c1f12488.png" alt="" /><figcaption>img</figcaption>
+</figure></li>
+<li><p>固定Q S，求P:</p>
+<p><span class="math inline">\(L=SQ^T\)</span></p>
+<p><span class="math inline">\(\operatorname*{min}_{p}||x_{j}.-p^{T}_{j}L||_{F}^{2}\)</span></p></li>
+</ol>
+<p>​ <img src="http://www.latex2png.com/pngs/e1c3ea973a3069699d7951b9bbe22027.png" alt="img" /></p>
+<p>​ <span class="math inline">\(l_k\)</span>代表了L的第k行</p>
+<p><img src="https://s2.loli.net/2022/02/21/JMNgB9svXOaiLCI.png" /></p>
+<h2 id="fasion-recommendation">2 Fasion recommendation</h2>
+<p>回顾《A Survey on Neural Recommendation: From Collaborative Filtering to Information-rich Recommendation》中，fashion recommendation是对Image information建模的代表任务，其目的在于增强可解释性。</p>
+<h4 id="deepstyle-learning-user-preferences-for-visual-recommendationsigir-2017">DeepStyle: Learning User Preferences for Visual Recommendation（SIGIR 2017）</h4>
+<p><img src="https://s2.loli.net/2022/02/25/kjMqRmi4fVXntbg.png" /></p>
+<p>这篇文章将图片信息经过预训练好的cnn的到视觉embedding，聚类后发现相同类别的服装被聚类在一起（比如鞋子），而这与推荐任务不太符合，因为相似风格的商品往往会被同一个人同时购买（皮鞋配西装），但在视觉特征空间中却并不相似，这就为提升推荐效果带来了难度。因此作者提出一个商品（item）由风格（style）和类别（category）组成，即item = style + cate. 因此如上图，作者从商品的视觉特征向量中减除了该商品对应类别的隐含表达（类别的平均向量），进而得到了商品的风格特征向量.随后将向量输入到BPR框架中进行训练（<strong>对每个user采样正负商品样本对（正样本表示实际购买了的商品，负样本表示没有购买过的商品）</strong>），取得了很好的推荐效果。</p>
+<h4 id="aesthetic-based-clothing-recommendationwww-2018">Aesthetic-based Clothing Recommendation（www 2018）</h4>
+<p>传统的方法只考虑 CNN 抽取的图像特征；而本文考虑了图片中的美学特征对于推荐的影响；作者利用 BDN 从图片中学习美学特征，然后将其融合到 DCF 中，增强用户-产品，产品-时间矩阵，从而提高了推荐效果。</p>
+<p><img src="https://s2.loli.net/2022/02/25/linKteMfqwFL2Y1.png" /></p>
+<p><img src="https://s2.loli.net/2022/02/25/Pt839Ig6mC4ZUJr.png" /></p>
+<p><img src="https://s2.loli.net/2022/02/27/6ndGrospmQ7uFWj.png" /></p>
+<h2 id="boosting">3 Boosting</h2>
+<h4 id="回顾cart">回顾CART:</h4>
+<table>
+<thead>
+<tr class="header">
+<th>算法</th>
+<th>支持模型</th>
+<th>树结构</th>
+<th>特征选择</th>
+<th>连续值处理</th>
+<th>缺失值处理</th>
+<th>剪枝</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ID3</td>
+<td>分类</td>
+<td>多叉树</td>
+<td>信息增益</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>不支持</td>
+</tr>
+<tr class="even">
+<td>C4.5</td>
+<td>分类</td>
+<td>多叉树</td>
+<td>信息增益比</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr class="odd">
+<td>CART</td>
+<td>分类回归</td>
+<td>二叉树</td>
+<td>基尼系数 均方差</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+</tbody>
+</table>
+<p>C4.5决策树用较为复杂的熵（信息增益比）来度量，使用了相对较为复杂的多叉树，只能处理分类不能处理回归。CART(Classification And Regression Tree)做了改进，可以处理分类，也可以处理回归。</p>
+<h5 id="信息度量">信息度量</h5>
+<p>ID3中使用了信息增益选择特征，增益大优先选择。C4.5中，采用信息增益比选择特征，减少因特征值多导致信息增益大的问题。CART分类树算法使用基尼系数来代替信息增益比，基尼系数代表了模型的不纯度，基尼系数越小，不纯度越低，特征越好。这和信息增益（比）相反。</p>
+<p>　　假设K个类别，第k个类别的概率为<span class="math inline">\(p_k\)</span>，概率分布的基尼系数表达式：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320142851428-1194269689.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>　　如果是二分类问题，第一个样本输出概率为p，概率分布的基尼系数表达式为：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320143135391-255494198.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>　　对于样本D，个数为<span class="math inline">\(|D|\)</span>，假设K个类别，第k个类别的数量为<span class="math inline">\(|C_k|\)</span>，则样本D的基尼系数表达式：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320143545086-323258879.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>　　对于样本D，个数为<span class="math inline">\(|D|\)</span>，根据特征A的某个值<span class="math inline">\(a\)</span>，把D分成<span class="math inline">\(|D1|\)</span>和<span class="math inline">\(|D2|\)</span>，则在特征A的条件下，样本D的基尼系数表达式为：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320144250953-1096584260.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>　　比较基尼系数和熵模型的表达式，二次运算比对数简单很多。尤其是二分类问题，更加简单。</p>
+<p>对于二类分类，基尼系数和熵之半的曲线如下：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190320144912554-276613838.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>　　基尼系数和熵之半的曲线非常接近，因此，基尼系数可以做为熵模型的一个近似替代。</p>
+<p>　　CART分类树算法每次仅对某个特征的值进行二分，而不是多分，这样CART分类树算法建立起来的是二叉树，而不是多叉树。</p>
+<h5 id="特征处理">特征处理</h5>
+<p><strong>对于连续的特征：</strong></p>
+<p>同C4.5一样将连续特征离散化，从小到大选相邻两样本值的平均数作为划分点，找基尼系数最小的划分。但与ID3、C4.5不同的是它后面还可以参与子节点的划分过程。</p>
+<p><strong>对于离散的特征：</strong></p>
+<p>ID3、C4.5，特征A被选取建立决策树节点，如果它有3个类别A1,A2,A3，我们会在决策树上建立一个三叉点，这样决策树是多叉树。CART采用的是不停的二分。会考虑把特征A分成{A1}和{A2,A3}、{A2}和{A1,A3}、{A3}和{A1,A2}三种情况，找到基尼系数最小的组合，比如{A2}和{A1,A3}，然后建立二叉树节点，一个节点是A2对应的样本，另一个节点是{A1,A3}对应的样本。由于这次没有把特征A的取值完全分开，后面还有机会对子节点继续选择特征A划分A1和A3。这和ID3、C4.5不同，在ID3或C4.5的一颗子树中，离散特征只会参与一次节点的建立。</p>
+<h5 id="流程">流程</h5>
+<ol type="1">
+<li><p><strong>分类</strong></p>
+<p>输入:训练集D，基尼系数的阈值，样本个数阈值。</p>
+<p>输出:决策树T。</p>
+<p>递归建立CART分类树:</p>
+<p>　　(1)、对于当前节点的数据集为D，如果样本个数小于阈值或没有特征，则返回决策子树，当前节点停止递归。</p>
+<p>　　(2)、计算样本集D的基尼系数，如果基尼系数小于阈值，则返回决策树子树，当前节点停止递归。</p>
+<p>　　(3)、计算当前节点现有的各个特征的各个特征值对数据集D的基尼系数，对于离散值和连续值的处理方法和基尼系数的计算见第二节。缺失值的处理方法和C4.5算法里描述的相同。</p>
+<p>　　(4)、在计算出来的各个特征的各个特征值对数据集D的基尼系数中，选择基尼系数最小的特征A和对应的特征值a。根据这个最优特征和最优特征值，把数据集划分成两部分D1和D2，同时建立当前节点的左右节点，做节点的数据集D为D1，右节点的数据集D为D2。</p>
+<p>　　(5)、对左右的子节点递归的调用1-4步，生成决策树。</p>
+<p>　　对生成的决策树做预测的时候，假如测试集里的样本A落到了某个叶子节点，而节点里有多个训练样本。则对于A的类别预测采用的是这个叶子节点里概率最大的类别。</p></li>
+<li><p><strong>回归</strong></p>
+<p>与分类树不同：</p>
+<p>不同。</p>
+<p>　　(1)、分类树与回归树的区别在样本的输出，如果样本输出是离散值，这是分类树；样本输出是连续值，这是回归树。分类树的输出是样本的类别，回归树的输出是一个实数。</p>
+<p>　　(2)、连续值的处理方法不同。</p>
+<p>　　(3)、决策树建立后做预测的方式不同。</p>
+<p>　　分类模型：采用基尼系数的大小度量特征各个划分点的优劣。</p>
+<p>　　回归模型：采用和方差度量，度量目标是对于划分特征A，对应划分点s两边的数据集D1和D2，求出使D1和D2各自集合的均方差最小，同时D1和D2的均方差之和最小。</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190325203520134-2063244829.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>表达式为：</p>
+<figure>
+<img src="https://img2018.cnblogs.com/blog/1235684/201903/1235684-20190321224806131-1788166894.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>其中，c1为D1的样本输出均值，c2为D2的样本输出均值。</p>
+<p>　　对于决策树建立后做预测的方式，CART分类树采用叶子节点里概率最大的类别作为当前节点的预测类别。回归树输出不是类别，采用叶子节点的均值或者中位数来预测输出结果。</p></li>
+</ol>
+<h3 id="boosting-1">boosting</h3>
+<p>bagging和boosting是集成学习的两种代表性范式，bagging的个体弱学习器的训练集是通过随机采样得到的，学习器之间没有强依赖关系。boosting相反，每次训练都期望纠正之前的错误，学习器之间存在强依赖关系。<strong>Boosting主要关注降低偏差，因此Boosting能基于泛化性能相当弱的学习器构建出很强的集成；Bagging主要关注降低方差，因此它在不剪枝的决策树、神经网络等学习器上效用更为明显。</strong></p>
+<h4 id="工作机制">工作机制</h4>
+<p>boosting方法的工作机制是首先从训练集用初始权重训练出一个弱学习器1，根据弱学习的学习误差率表现来更新训练样本的权重，使得之前弱学习器1学习误差率高的训练样本点的权重变高，使得这些误差率高的点在后面的弱学习器2中得到更多的重视。然后基于调整权重后的训练集来训练弱学习器2.，如此重复进行，直到弱学习器数达到事先指定的数目T，最终将这T个弱学习器通过集合策略进行整合，得到最终的强学习器。　　</p>
+<figure>
+<img src="https://images2015.cnblogs.com/blog/1042406/201612/1042406-20161204194331365-2142863547.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>boosting家族算法一般需要解决：</p>
+<p>​ 1）如何计算学习误差率e?</p>
+<p>​ 2)如何得到弱学习器权重系数<span class="math inline">\(α\)</span>?</p>
+<p>　3)如何更新样本权重D?</p>
+<p>​ 4)使用何种结合策略？</p>
+<h4 id="adaboost">Adaboost</h4>
+<h5 id="基本思路">基本思路</h5>
+<p>训练样本：</p>
+<p><span class="math inline">\(T=\{(x_,y_1),(x_2,y_2), ...(x_m,y_m)\}\)</span></p>
+<p>训练集的在第k个弱学习器的输出权重为(第一个权重1/m，后面逐渐调整)</p>
+<p><span class="math inline">\(D(k) = (w_{k1}, w_{k2}, ...w_{km}) ;\;\; w_{1i}=\frac{1}{m};\;\; i =1,2...m\)</span></p>
+<ol type="1">
+<li><p>分类问题</p>
+<p>多元分类是二元分类的推广，这里首先考虑二分类，输出为{-1,1}</p>
+<p>1）第k个弱分类器<span class="math inline">\(G_k(x)\)</span>在训练集上的加权误差率为</p>
+<p><span class="math inline">\(e_k = P(G_k(x_i) \neq y_i) = \sum\limits_{i=1}^{m}w_{ki}I(G_k(x_i) \neq y_i)\)</span></p>
+<p>2）第k个弱分类器<span class="math inline">\(G_k(x)\)</span>权重系数为：</p>
+<p><span class="math inline">\(\alpha_k = \frac{1}{2}log\frac{1-e_k}{e_k}\)</span></p>
+<p>从上式可以看出，如果分类误差率<span class="math inline">\(ek\)</span>越大，则对应的弱分类器权重系数<span class="math inline">\(αk\)</span>越小。也就是说，误差率小的弱分类器权重系数越大。</p>
+<p>3)样本权重D:假设第k个弱分类器的样本集权重系数为<span class="math inline">\(D(k) = (w_{k1}, w_{k2}, ...w_{km})\)</span>，则对应的第k+1个弱分类器的样本集权重系数为:</p>
+<p><span class="math inline">\(w_{k+1,i} = \frac{w_{ki}}{Z_K}exp(-\alpha_ky_iG_k(x_i))\)</span></p>
+<p>其中规范化因子<span class="math inline">\(Z_k = \sum\limits_{i=1}^{m}w_{ki}exp(-\alpha_ky_iG_k(x_i))\)</span></p>
+<p>计算公式可以看出，如果第i个样本分类错误，则<span class="math inline">\(y_iG_k(x_i) &lt; 0\)</span>，导致样本的权重在第k+1个弱分类器中增大，如果分类正确，则权重在第k+1个弱分类器中减少.</p>
+<p>4)集成策略：加权表决法</p>
+<p><span class="math inline">\(f(x) = sign(\sum\limits_{k=1}^{K}\alpha_kG_k(x))\)</span></p>
+<p>对于Adaboost多元分类算法，其实原理和二元分类类似，最主要区别在弱分类器的系数上。比如Adaboost SAMME算法，它的弱分类器的系数：</p>
+<p><span class="math inline">\(\alpha_k = \frac{1}{2}log\frac{1-e_k}{e_k} + log(R-1)\)</span></p>
+<p>其中R为类别数</p></li>
+<li><p>回归问题（Adaboost R2）</p>
+<p>数据权重: <span class="math inline">\(D(1) = (w_{11}, w_{12}, ...w_{1m}) ;\;\; w_{1i}=\frac{1}{m};\;\; i =1,2...m\)</span></p>
+<p>1） 对于弱学习器：计算最大误差<span class="math inline">\(E_k= max|y_i - G_k(x_i)|\;i=1,2...m\)</span></p>
+<p>2）计算每个样本的相对误差:</p>
+<p>线性：<span class="math inline">\(e_{ki}= \frac{|y_i - G_k(x_i)|}{E_k}\)</span></p>
+<p>平方：<span class="math inline">\(e_{ki}= \frac{(y_i - G_k(x_i))^2}{E_k^2}\)</span></p>
+<p>指数：<span class="math inline">\(e_{ki}= 1 - exp（\frac{-|y_i -G_k(x_i)|}{E_k}）\)</span></p>
+<p>3）回归误差率为：<span class="math inline">\(e_k = \sum\limits_{i=1}^{m}w_{ki}e_{ki}\)</span></p>
+<p>4）弱学习器的系数：<span class="math inline">\(\alpha_k =\frac{e_k}{1-e_k}\)</span></p>
+<p>5）新的数据权重：<span class="math inline">\(w_{k+1,i} = \frac{w_{ki}}{Z_k}\alpha_k^{1-e_{ki}}\)</span>,<span class="math inline">\(Z_k = \sum\limits_{i=1}^{m}w_{ki}\alpha_k^{1-e_{ki}}\)</span></p>
+<p>6）最终的集成学习器：<span class="math inline">\(f(x) =G_{k^*}(x)\)</span>, <span class="math inline">\(G_{k^*}(x)=G_k(x)ln\frac{1}{\alpha_k} , k=1,2,....K\)</span></p></li>
+</ol>
+<h5 id="损失函数以及各权重推导">损失函数以及各权重推导</h5>
+<p>从分类器角度，adaboost是多个分类器叠加：</p>
+<p>第k-1轮的强学习器为：<span class="math inline">\(f_{k-1}(x) = \sum\limits_{i=1}^{k-1}\alpha_iG_{i}(x)\)</span></p>
+<p>第k轮：<span class="math inline">\(f_{k}(x) = \sum\limits_{i=1}^{k}\alpha_iG_{i}(x)\)</span></p>
+<p>因此可以得到迭代关系：<span class="math inline">\(f_{k}(x) = f_{k-1}(x) + \alpha_kG_k(x)\)</span></p>
+<p>adaboost的损失函数为指数函数：</p>
+<p><span class="math inline">\(\underbrace{arg\;min\;}_{\alpha, G} \sum\limits_{i=1}^{m}exp(-y_if_{k}(x))\)</span></p>
+<p>将迭代关系代入：<span class="math inline">\(L(\alpha_k, G_k(x)) = \underbrace{arg\;min\;}_{\alpha, G}\sum\limits_{i=1}^{m}exp[(-y_i) (f_{k-1}(x) + \alpha G(x))]\)</span></p>
+<p>令<span class="math inline">\(w_{ki}^{’} = exp(-y_if_{k-1}(x))\)</span>, 可知该值与<span class="math inline">\(\alpha 、G\)</span>无关，仅与<span class="math inline">\(f_{k-1}\)</span>有关：<span class="math inline">\(L(\alpha_k, G_k(x)) = \underbrace{arg\;min\;}_{\alpha, G}\sum\limits_{i=1}^{m}w_{ki}^{’}exp[-y_i\alpha G(x)]\)</span></p>
+<ol type="1">
+<li><p>求<span class="math inline">\(G_k(x)\)</span>：</p>
+<p><span class="math inline">\(\begin{align} \sum\limits_{i=1}^mw_{ki}^{&#39;}exp(-y_i\alpha G(x_i)) &amp;= \sum\limits_{y_i =G_k(x_i)}w_{ki}^{&#39;}e^{-\alpha} + \sum\limits_{y_i \ne G_k(x_i)}w_{ki}^{&#39;}e^{\alpha} \\&amp; = (e^{\alpha} - e^{-\alpha})\sum\limits_{i=1}^mw_{ki}^{&#39;}I(y_i \ne G_k(x_i)) + e^{-\alpha}\sum\limits_{i=1}^mw_{ki}^{&#39;} \end{align}\)</span></p>
+<p>得：<span class="math inline">\(G_k(x) = \underbrace{arg\;min\;}_{G}\sum\limits_{i=1}^{m}w_{ki}^{’}I(y_i \neq G(x_i))\)</span></p></li>
+<li><p>求<span class="math inline">\(\alpha\)</span>：G代入损失函数<span class="math inline">\(L\)</span>，并对$<span class="math inline">\(求导，令其为零：\)</span>_k = log$</p>
+<p><span class="math inline">\(e_k = \frac{\sum\limits_{i=1}^{m}w_{ki}^{’}I(y_i \neq G(x_i))}{\sum\limits_{i=1}^{m}w_{ki}^{’}} = \sum\limits_{i=1}^{m}w_{ki}I(y_i \neq G(x_i))\)</span></p></li>
+<li><p>利用迭代关系以及<span class="math inline">\(w_{ki}^{’} = exp(-y_if_{k-1}(x))\)</span>得到w迭代公式：</p>
+<p><span class="math inline">\(w_{k+1,i}^{’} = w_{ki}^{’}exp[-y_i\alpha_kG_k(x)]\)</span></p></li>
+</ol>
+<h5 id="正则化项">正则化项</h5>
+<p>对学习器迭代添加正则项：<span class="math inline">\(f_{k}(x) = f_{k-1}(x) + \nu\alpha_kG_k(x)\)</span>，<span class="math inline">\(\nu\)</span>的取值范围为<span class="math inline">\(\nu \in [0,1]\)</span>。对于同样的训练集学习效果，较小的$$意味着我们需要更多的弱学习器的迭代次数。</p>
+<h5 id="总结">总结</h5>
+<p>最广泛的Adaboost弱学习器是决策树和神经网络。对于决策树，Adaboost分类用了CART分类树，而Adaboost回归用了CART回归树。</p>
+<p>　　　　Adaboost的主要优点有：</p>
+<p>　　　　1）Adaboost作为分类器时，分类精度很高</p>
+<p>　　　　2）在Adaboost的框架下，可以使用各种回归分类模型来构建弱学习器，非常灵活。</p>
+<p>　　　　3）作为简单的二元分类器时，构造简单，结果可理解。</p>
+<p>　　　　4）不容易发生过拟合</p>
+<p>　　　　Adaboost的主要缺点有：</p>
+<p>　　　　1）对异常样本敏感，异常样本在迭代中可能会获得较高的权重，影响最终的强学习器的预测准确性。</p>
+<h3 id="gbdt">GBDT</h3>
+<p>https://zhuanlan.zhihu.com/p/89572181</p>
+<p>GBDT(Gradient Boosting Decision Tree) 又叫 MART（Multiple Additive Regression Tree)，是一种迭代的决策树算法，GBDT中的树是回归树（不是分类树），GBDT用来做回归预测，调整后也可以用于分类。</p>
+<p>回顾：</p>
+<ol type="1">
+<li><p>回归树（用最小均方误差来进行划分）：<img src="https://upload-images.jianshu.io/upload_images/967544-b768a350d5383ccb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/789/format/webp" alt="img" /></p></li>
+<li><p>提升树：迭代多颗树共同决策，每一棵树是之前的所有树的结论和残差。</p>
+<p>需要解决： 1）如何计算学习误差率e?（残差）</p>
+<p>​ 2)如何得到弱学习器权重系数<span class="math inline">\(α\)</span>?（这一棵树的权重）</p>
+<p>　3)如何更新样本权重D?（下一棵树的学习）</p>
+<p>​ 4)使用何种结合策略？（决策）</p></li>
+</ol>
+<p>GDBT关注了如何学习残差的问题，当损失函数时平方损失和指数损失函数时，每一步的优化很简单（如adaboost），但是对于更一般的损失函数，每一步的优化就不容易了。</p>
+<p>针对这一问题，Freidman提出了梯度提升算法：利用最速下降的近似方法，即利用损失函数的负梯度在当前模型的值，作为回归问题中提升树算法的残差的近似值，拟合一个回归树：</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/967544-37a15b71dc6f6ca3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/657/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<ol type="1">
+<li><p>初始化：f0仅仅是只有一个根节点的树，<span class="math inline">\(\gamma\)</span>是划分值，让loss最小</p></li>
+<li><p>循环部分：</p>
+<ol type="a">
+<li><p>对每一个样本计算负梯度（样本权重）</p></li>
+<li><p>利用（x, r）拟合cart回归树，对应的叶子节点区域是<span class="math inline">\(R_{jm}\)</span>，j是叶子结点个数</p></li>
+</ol>
+<p>c.对叶子节点计算最佳的拟合值（学习残差）</p>
+<p>d.更新强学习器<span class="math inline">\(f_{m}(x)=f_{m-1}(x)+\sum_{j=1}^{J_{m}} \gamma_{j m} I\left(x \in R_{j m}\right)\)</span></p></li>
+<li><p>汇总：<span class="math inline">\(f(x)=f_{0}(x)+\sum_{m=1}^{M}\sum_{j=1}^{J_{m}} \gamma_{j m} I\left(x \in R_{j m}\right)\)</span></p></li>
+</ol>
+<p>调参时的问题：</p>
+<p>树的深度很少就能达到很高的精度（6，对于普通决策树和随机森林需要15+）。泛化误差可以分解为两部分，偏差（bias)和方差(variance)。boosting关注偏差，bagging关注方差。因此对boosting而言，弱学习器的拟合能力不能太强（方差小），不然会导致过拟合。而bagging采样不同的数据来进行弱分类器的训练，因此不容易过拟合。</p>
+<h4 id="xgboostgdbt的更快实现1待补充">XGBoost——GDBT的更快实现1（待补充）</h4>
+<p>https://www.cnblogs.com/mantch/p/11164221.html</p>
+<p>https://zhuanlan.zhihu.com/p/86816771</p>
+<h4 id="lightgbmgdbt的更快实现2待补充">LightGBM——GDBT的更快实现2（待补充）</h4>
+<p>https://zhuanlan.zhihu.com/p/99069186</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/03/week%209/" rel="prev" title="第九次周报">
+                  <i class="fa fa-chevron-left"></i> 第九次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/18/week%2011/" rel="next" title="第十一次周报">
+                  第十一次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

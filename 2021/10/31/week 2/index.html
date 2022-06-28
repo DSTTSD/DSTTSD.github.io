@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="week 2 内容：  Jure leskovec cs224w 课程进度80%（作业进度60%） 论文阅读：FM、NGCF、light-gcn、cluster-GCN 毕设准备  GNN GCN 就像&quot;卷积&quot;这个名字所指代的那样，这个想法来自于图像，之后引进到图（Graphs）中。然而，图像有固定的结构时，而图（Graphs）就复杂得多，结构不定。  img   两个步">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第二次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2021/10/31/week%202/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="week 2 内容：  Jure leskovec cs224w 课程进度80%（作业进度60%） 论文阅读：FM、NGCF、light-gcn、cluster-GCN 毕设准备  GNN GCN 就像&quot;卷积&quot;这个名字所指代的那样，这个想法来自于图像，之后引进到图（Graphs）中。然而，图像有固定的结构时，而图（Graphs）就复杂得多，结构不定。  img   两个步">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://static.leiphone.com/uploads/new/sns/article/202009/1599636339941872.png">
+<meta property="og:image" content="https://i.loli.net/2020/05/16/uNVmrZ6aywn9QGj.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200723144122270.png#pic_center">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/31/GQNyxe.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020072317002071.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200130214534466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW5qaWFuX2NvbWVfb24=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-4c24fb24a8800b221704a39deef32129_720w.jpg">
+<meta property="og:image" content="https://pica.zhimg.com/v2-f2325c6555f1f578c7f888529cbbc727_1440w.jpg?source=172ae18b">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200626153725528.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200626153736173.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200626160412372.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200626162933411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-10-31T06:35:57.000Z">
+<meta property="article:modified_time" content="2022-06-28T03:33:58.544Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://static.leiphone.com/uploads/new/sns/article/202009/1599636339941872.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2021/10/31/week%202/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2021/10/31/week%202/","path":"2021/10/31/week 2/","title":"第二次周报"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>第二次周报 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gnn"><span class="nav-number">1.</span> <span class="nav-text">GNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gcn"><span class="nav-number">1.1.</span> <span class="nav-text">GCN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#graphsage"><span class="nav-number">1.2.</span> <span class="nav-text">GraphSage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cluster-gcn"><span class="nav-number">1.3.</span> <span class="nav-text">cluster-GCN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gnn%E5%9C%A8%E6%8E%A8%E8%8D%90%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E9%A2%86%E5%9F%9F%E5%BA%94%E7%94%A8"><span class="nav-number">2.</span> <span class="nav-text">GNN在推荐(协同过滤)领域应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#neural-collaborative-filtering"><span class="nav-number">2.1.</span> <span class="nav-text">Neural Collaborative Filtering</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ngcfsigir-2019"><span class="nav-number">2.2.</span> <span class="nav-text">NGCF（SIGIR 2019）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#light-gcnsigir-2020"><span class="nav-number">2.3.</span> <span class="nav-text">light-GCN(SIGIR 2020)</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2021/10/31/week%202/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第二次周报
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-31 14:35:57" itemprop="dateCreated datePublished" datetime="2021-10-31T14:35:57+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 11:33:58" itemprop="dateModified" datetime="2022-06-28T11:33:58+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>week 2 内容：</p>
+<ul>
+<li><p>Jure leskovec cs224w 课程进度80%（作业进度60%）</p></li>
+<li><p>论文阅读：FM、NGCF、light-gcn、cluster-GCN</p></li>
+<li><p>毕设准备</p></li>
+</ul>
+<h2 id="gnn">GNN</h2>
+<h3 id="gcn">GCN</h3>
+<p>就像"卷积"这个名字所指代的那样，这个想法来自于图像，之后引进到图（Graphs）中。然而，图像有固定的结构时，而图（Graphs）就复杂得多，结构不定。</p>
+<figure>
+<img src="https://static.leiphone.com/uploads/new/sns/article/202009/1599636339941872.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<p><img src="https://i.loli.net/2020/05/16/uNVmrZ6aywn9QGj.png" alt="computation_graph_for_a" style="zoom:67%;" /></p>
+<p>两个步骤：</p>
+<ol type="1">
+<li><p>propagation（message passing)</p></li>
+<li><p>aggregation</p></li>
+</ol>
+<p><span class="math display">\[
+   h_v^{(l)} = W_l\cdot h_v^{(l-1)} + W_r \cdot AGG(\{h_u^{(l-1)}, \forall u \in N(v) \})
+\]</span></p>
+<p><span class="math display">\[
+   AGG(\{h_u^{(l-1)}, \forall u \in N(v) \}) = \frac{1}{|N(v)|} \sum_{u\in N(v)} h_u^{(l-1)}
+\]</span></p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200723144122270.png#pic_center" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<figure>
+<img src="https://s1.ax1x.com/2020/03/31/GQNyxe.png" alt="" /><figcaption>GQNyxe.png</figcaption>
+</figure>
+<h3 id="graphsage">GraphSage</h3>
+<ul>
+<li><p>在 aggregate 的形式上做了进一步扩展—GraphSAGE的想法是采用一个通用的aggregation函数来表示黑箱的运算，可以采用不同的方法聚合其邻居，然后再将其与自身特征拼接</p></li>
+<li><p>除了 mean，其实任意的将多个 embedding 映射到一个 embedding 的函数都可以用来做聚合，例如 pool，例如 LSTM，</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2020072317002071.png#pic_center" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure></li>
+</ul>
+<h3 id="cluster-gcn">cluster-GCN</h3>
+<p>https://blog.csdn.net/sinat_26811377/article/details/97810302</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_34384681/article/details/91691305">聚类总结</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/IvanSSSS/p/5824938.html">metis</a></p>
+<p>目前基于SGD的gcn算法，大规模GCN的训练面临问题：</p>
+<p>1）面临随着gcn层数增长，计算复杂度呈指数增长；</p>
+<p>2）需要保存整个Graph和每个node的embedding，存储量巨大。</p>
+<p>Cluster-GCN通过graph聚类算法来筛选联系紧密的sub-graph，从而在sub-graph中的一组node进行采样，并且限制该sub-graph中的邻居搜索，可以显著提高搜索效率。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200130214534466.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ppYW5qaWFuX2NvbWVfb24=,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<ol type="1">
+<li>metis和graclus谱聚类</li>
+<li>for循环，每次随机选一个cluster（without replacement，不放回）计算subgraph的梯度进行更新</li>
+<li>直至优化完成</li>
+</ol>
+<h2 id="gnn在推荐协同过滤领域应用">GNN在推荐(协同过滤)领域应用</h2>
+<h3 id="neural-collaborative-filtering">Neural Collaborative Filtering</h3>
+<p><a target="_blank" rel="noopener" href="https://www.guyuehome.com/23647/notice.html">CF发展</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/396722911">NCF不如MF？</a></p>
+<figure>
+<img src="https://pic2.zhimg.com/80/v2-4c24fb24a8800b221704a39deef32129_720w.jpg" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>研究点：</p>
+<ul>
+<li><p>关于推荐系统的深度学习研究不多；</p></li>
+<li><p>对user和item的交互行为（interaction）的建模大多使用MF，对user和item的隐特征使用内积计算，而这是一种线性方式。而通过引入user/item偏置，提高MF效果也说明<strong>内积不足以捕捉到用户交互数据中的复杂结构信息</strong>。</p></li>
+</ul>
+<p>模型框架：</p>
+<figure>
+<img src="https://pica.zhimg.com/v2-f2325c6555f1f578c7f888529cbbc727_1440w.jpg?source=172ae18b" alt="" /><figcaption>【导读】Neural Collaborative Filtering</figcaption>
+</figure>
+<p>这里关注的问题：</p>
+<p>并没有把user和item的交互信息本身编码进 embedding 中，而NGCF希望<strong>显式建模User-Item 之间的高阶连接性来提升 embedding</strong>。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39388410/article/details/106970194">图神经网络应用</a></p>
+<h3 id="ngcfsigir-2019">NGCF（SIGIR 2019）</h3>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200626153725528.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p>推荐领域的user-item交互可以被看做是一个二部图。</p>
+<p><strong>High-order Connectivity</strong> 解释高阶连通性如上图，图1左边为一般CF中user-item交互的二部图，双圆圈表示此时需要预测的用户u1，对于u1我们可以把有关他的连接扩展成右图的树形结构，l是能到达的路径长度（或者可以叫跳数），l=1表明能一步到达u1的item，此时可以看到最外层的跳数相同的i4跟i5相比（l都为3），用户u1对i4的兴趣可能要比i5高，因为i4-&gt;u2-&gt;i2-&gt;u1、i4-&gt;u3-&gt;i3-&gt;u1有两条路径，而i5-&gt;u2-&gt;i2-&gt;u1只有一条，所以i4的相似性会更高。所以如果能扩展成这样的路径连通性来解释用户的兴趣，就是高阶连通性。</p>
+<p>完整模型：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200626153736173.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p>NGCF的完整模型如下图，可以分为三个部分来看：</p>
+<p>Embeddings：对user和item的嵌入向量，普通的用id来嵌入就可以了 Embedding Propagation Layers：挖掘高阶连通性关系来捕捉交互以细化Embedding的多个嵌入传播层 Prediction Layer：用更新之后带有交互信息的 user 和 item Embedding来进行预测</p>
+<p>message passing：</p>
+<p>$ m_{u i}=(W_{1} e_{i}+W_{2}(e_{i} e_{u})) $</p>
+<p>使用embedding后的user，item的特征$ e_u $ 、<span class="math inline">\(e_i\)</span> 作为输入，然后两者计算内积相似度来控制邻域的信息，再加回到item上，用权重W控制权重，最后的N是u和i的度用来归一化系数，可以看做是折扣系数，随着传播路径长度的增大，信息慢慢衰减。</p>
+<p>aggregation：</p>
+<p><span class="math inline">\(e_{u}^{(1)}=\operatorname{LeakyReLU}\left(m_{u \leftarrow u}+\sum_{i \in N_{u}} m_{u \leftarrow i}\right)\)</span></p>
+<p>3-hop计算图：</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200626160412372.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p><span class="math inline">\(E^{(l)}=\sigma\left((L+I) E^{(l-1)} W_{1}^{(l)}+L E^{(l-1)} \odot E^{(l-1)} W_{2}^{(l)}\right)\)</span></p>
+<h3 id="light-gcnsigir-2020">light-GCN(SIGIR 2020)</h3>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20200626162933411.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5Mzg4NDEw,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p>NGCF主要遵循标准GCN变形得到，包括使用非线性激活函数和特征变换矩阵w1和W2。然而作者认为实际上这两种操作对于CF并没什么0用，理由在于不管是user还是item，他们的输入都只是ID嵌入得到的，即根本没有具体的语义（一般在GCN的应用场景中每个节点会带有很多的其他属性），所以在这种情况下，执行多个非线性转换不会有助于学习更好的特性；更糟糕的是，它可能会增加训练的困难，降低推荐的结果。</p>
+<p><span class="math inline">\(\begin{aligned} e_{u}^{(k+1)} &amp;=\sum_{i \in N_{u}} \frac{1}{\sqrt{\left|N_{u}\right|} \sqrt{\left|N_{i}\right|}} e_{i}^{(k)} \\ e_{i}^{(k+1)} &amp;=\sum_{u \in N_{i}} \frac{1}{\sqrt{\left|N_{i}\right|} \sqrt{\left|N_{u}\right|}} e_{u}^{(k)} \end{aligned}\)</span></p>
+<p>只聚合连接的邻居，连自连接都没有。最后的K层就直接组合在每个层上获得的嵌入，以形成用户（项）的最终表示:</p>
+<p><span class="math inline">\(\begin{array}{c} e_{u}=\sum_{k=0}^{K} \alpha_{k} e_{u}^{(k)} \\ e_{i}=\sum_{k=0}^{K} \alpha_{k} e_{i}^{(k)} \end{array}\)</span></p>
+<p>其中<span class="math display">\[ α_k=1 / (k+1) \]</span></p>
+<p><strong>为什么要组合所有层？</strong></p>
+<ul>
+<li>GCN随着层数的增加会过平滑，直接用最后一层不合理</li>
+<li>不同层的嵌入捕获不同的语义，而且更高层能捕获更高阶的信息，结合起来更加全面</li>
+<li>将不同层的嵌入与加权和结合起来，可以捕获具有自连接的图卷积的效果，这是GCNs中的一个重要技巧</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/24/week%201/" rel="prev" title="第一次周报">
+                  <i class="fa fa-chevron-left"></i> 第一次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/01/leetcode/" rel="next" title="leetcode每日一题">
+                  leetcode每日一题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

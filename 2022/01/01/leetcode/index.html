@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="2022&#x2F;6&#x2F;3 829. 连续整数求和 type：数学  image-20220628142602227   image-20220628142629543  2022&#x2F;6&#x2F;4 929. 独特的电子邮件地址 type:模拟、字符串  image-20220628142802950  https:&#x2F;&#x2F;www.runoob.com&#x2F;java&#x2F;java-string.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="leetcode每日一题">
+<meta property="og:url" content="https://dsttsd.github.io/2022/01/01/leetcode/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="2022&#x2F;6&#x2F;3 829. 连续整数求和 type：数学  image-20220628142602227   image-20220628142629543  2022&#x2F;6&#x2F;4 929. 独特的电子邮件地址 type:模拟、字符串  image-20220628142802950  https:&#x2F;&#x2F;www.runoob.com&#x2F;java&#x2F;java-string.html">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628142602227.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628142629543.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628142802950.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628143039943.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628143102635.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628143224257.png">
+<meta property="og:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628143241743.png">
+<meta property="article:published_time" content="2022-01-01T04:15:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T06:42:05.430Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dsttsd.github.io/2022/01/01/leetcode/leetcode.assets/image-20220628142602227.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/01/01/leetcode/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/01/01/leetcode/","path":"2022/01/01/leetcode/","title":"leetcode每日一题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>leetcode每日一题 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E7%BB%AD%E6%95%B4%E6%95%B0%E6%B1%82%E5%92%8C"><span class="nav-number">1.</span> <span class="nav-text">2022&#x2F;6&#x2F;3 829. 连续整数求和</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8B%AC%E7%89%B9%E7%9A%84%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E5%9C%B0%E5%9D%80"><span class="nav-number">2.</span> <span class="nav-text">2022&#x2F;6&#x2F;4 929. 独特的电子邮件地址</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8%E5%9C%86%E5%86%85%E9%9A%8F%E6%9C%BA%E7%94%9F%E6%88%90%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text">2022&#x2F;6&#x2F;5 478. 在圆内随机生成点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E6%97%A5%E7%A8%8B%E5%AE%89%E6%8E%92%E8%A1%A8-iii"><span class="nav-number">4.</span> <span class="nav-text">2022&#x2F;6&#x2F;6 732. 我的日程安排表 III</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B1%E5%90%83%E9%A6%99%E8%95%89%E7%9A%84%E7%8F%82%E7%8F%82"><span class="nav-number">5.</span> <span class="nav-text">2022&#x2F;6&#x2F;7 875. 爱吃香蕉的珂珂</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%9E%E9%87%8D%E5%8F%A0%E7%9F%A9%E5%BD%A2%E4%B8%AD%E7%9A%84%E9%9A%8F%E6%9C%BA%E7%82%B9"><span class="nav-number">6.</span> <span class="nav-text">2022&#x2F;6&#x2F;9 497. 非重叠矩形中的随机点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E8%A7%92%E7%BA%BF%E9%81%8D%E5%8E%86"><span class="nav-number">7.</span> <span class="nav-text">2022&#x2F;6&#x2F;14 498. 对角线遍历</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%BE%E6%A0%91%E5%B7%A6%E4%B8%8B%E8%A7%92%E7%9A%84%E5%80%BC"><span class="nav-number">8.</span> <span class="nav-text">2022&#x2F;6&#x2F;22 513. 找树左下角的值</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/01/01/leetcode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          leetcode每日一题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-01 12:15:55" itemprop="dateCreated datePublished" datetime="2022-01-01T12:15:55+08:00">2022-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 14:42:05" itemprop="dateModified" datetime="2022-06-28T14:42:05+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="连续整数求和">2022/6/3 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/consecutive-numbers-sum/">829. 连续整数求和</a></h1>
+<p>type：数学</p>
+<figure>
+<img src="leetcode.assets/image-20220628142602227.png" alt="" /><figcaption>image-20220628142602227</figcaption>
+</figure>
+<figure>
+<img src="leetcode.assets/image-20220628142629543.png" alt="" /><figcaption>image-20220628142629543</figcaption>
+</figure>
+<h1 id="独特的电子邮件地址">2022/6/4 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/unique-email-addresses/">929. 独特的电子邮件地址</a></h1>
+<p>type:模拟、字符串</p>
+<figure>
+<img src="leetcode.assets/image-20220628142802950.png" alt="" /><figcaption>image-20220628142802950</figcaption>
+</figure>
+<p>https://www.runoob.com/java/java-string.html</p>
+<h1 id="在圆内随机生成点">2022/6/5 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/generate-random-point-in-a-circle/">478. 在圆内随机生成点</a></h1>
+<p>type:数学、采样</p>
+<ol type="1">
+<li>拒绝采样， 过滤红色部分的点</li>
+<li>从pdf到cdf推导</li>
+</ol>
+<figure>
+<img src="leetcode.assets/image-20220628143039943.png" alt="" /><figcaption>image-20220628143039943</figcaption>
+</figure>
+<figure>
+<img src="leetcode.assets/image-20220628143102635.png" alt="" /><figcaption>image-20220628143102635</figcaption>
+</figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    Random random;</span><br><span class="line">    <span class="keyword">double</span> xc, yc, r;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">double</span> radius, <span class="keyword">double</span> x_center, <span class="keyword">double</span> y_center)</span> </span>&#123;</span><br><span class="line">        random = <span class="keyword">new</span> Random();</span><br><span class="line">        xc = x_center;</span><br><span class="line">        yc = y_center;</span><br><span class="line">        r = radius;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">double</span>[] randPoint() &#123;</span><br><span class="line">        <span class="keyword">double</span> u = random.nextDouble();</span><br><span class="line">        <span class="keyword">double</span> theta = random.nextDouble() * <span class="number">2</span> * Math.PI;</span><br><span class="line">        <span class="keyword">double</span> r = Math.sqrt(u);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">double</span>[]&#123;xc + r * Math.cos(theta) * <span class="keyword">this</span>.r, yc + r * Math.sin(theta) * <span class="keyword">this</span>.r&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="我的日程安排表-iii">2022/6/6 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/my-calendar-iii/">732. 我的日程安排表 III</a></h1>
+<p>type: 差分数组、线段树</p>
+<figure>
+<img src="leetcode.assets/image-20220628143224257.png" alt="" /><figcaption>image-20220628143224257</figcaption>
+</figure>
+<figure>
+<img src="leetcode.assets/image-20220628143241743.png" alt="" /><figcaption>image-20220628143241743</figcaption>
+</figure>
+<h1 id="爱吃香蕉的珂珂">2022/6/7 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/koko-eating-bananas/">875. 爱吃香蕉的珂珂</a></h1>
+<p>type: 二分查找</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">minEatingSpeed</span><span class="params">(<span class="keyword">int</span>[] piles, <span class="keyword">int</span> h)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> l_speed = <span class="number">1</span>, r_speed = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> pile: piles)&#123;</span><br><span class="line">            r_speed = Math.max(r_speed, pile);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> k = r_speed;</span><br><span class="line">        <span class="keyword">while</span>(l_speed &lt; r_speed)&#123;</span><br><span class="line">            <span class="keyword">int</span> speed = (r_speed - l_speed) / <span class="number">2</span> + l_speed;</span><br><span class="line">            <span class="comment">// calculate time consumpution</span></span><br><span class="line">            <span class="keyword">long</span> time = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> pile: piles)&#123;</span><br><span class="line">                <span class="comment">//(pile + speed - 1) / speed;</span></span><br><span class="line">                <span class="keyword">int</span> tmp = (<span class="keyword">int</span>)Math.ceil((<span class="keyword">double</span>)pile / speed); </span><br><span class="line">                time += tmp;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(time &lt;= h)&#123;</span><br><span class="line">                k = speed;</span><br><span class="line">                r_speed = speed;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                l_speed = speed + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="非重叠矩形中的随机点">2022/6/9 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/random-point-in-non-overlapping-rectangles/">497. 非重叠矩形中的随机点</a></h1>
+<p>type：数学、采样</p>
+<p>先随机使用哪个矩形，再随机该矩形内的点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>[][] rs;</span><br><span class="line">    <span class="keyword">int</span>[] sum;</span><br><span class="line">    <span class="keyword">int</span> size;</span><br><span class="line">    Random random = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">int</span>[][] rects)</span> </span>&#123;</span><br><span class="line">        rs = rects;</span><br><span class="line">        size = rs.length;</span><br><span class="line">        sum = <span class="keyword">new</span> <span class="keyword">int</span> [size+<span class="number">1</span>];</span><br><span class="line">        <span class="comment">// 构建前缀和数组</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=size;++i)&#123;</span><br><span class="line">            <span class="keyword">int</span> area = (rs[i - <span class="number">1</span>][<span class="number">2</span>] - rs[i - <span class="number">1</span>][<span class="number">0</span>] + <span class="number">1</span>) * (rs[i - <span class="number">1</span>][<span class="number">3</span>] - rs[i - <span class="number">1</span>][<span class="number">1</span>] + <span class="number">1</span>);</span><br><span class="line">            sum[i] = sum[i-<span class="number">1</span>] + area;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] pick() &#123;</span><br><span class="line">        <span class="keyword">int</span> val = random.nextInt(sum[size]) + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>, r = size;</span><br><span class="line">        <span class="comment">// 二分找第一个使得面积小于val的矩形</span></span><br><span class="line">        <span class="keyword">while</span>(l &lt; r)&#123;</span><br><span class="line">            <span class="keyword">int</span> mid = l + (r-l) / <span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(sum[mid] &gt;= val) r=mid;</span><br><span class="line">            <span class="keyword">else</span> l = mid + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> [] cur = rs[r-<span class="number">1</span>];</span><br><span class="line">        <span class="comment">// nextInt的取值是[0,n) ，不包括n</span></span><br><span class="line">        <span class="keyword">int</span> x = random.nextInt(cur[<span class="number">2</span>] - cur[<span class="number">0</span>] + <span class="number">1</span>) + cur[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">int</span> y = random.nextInt(cur[<span class="number">3</span>] - cur[<span class="number">1</span>] + <span class="number">1</span>) + cur[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span> [] &#123;x, y&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="对角线遍历">2022/6/14 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/diagonal-traverse/">498. 对角线遍历</a></h1>
+<p>type: 矩阵、找规律</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">每层的索引和相等：</span><br><span class="line">1. 假设矩阵无限大；</span><br><span class="line">2. 索引和为&#123;偶&#125;数，向上遍历，&#123;横&#125;索引值递减，遍历值依次是(x,0),(x-1,1),(x-2,2),...,(0,x)</span><br><span class="line">3. 索引和为&#123;奇&#125;数，向下遍历，&#123;纵&#125;索引值递减，遍历值依次是(0,y),(1,y-1),(2,y-2),...,(y,0)</span><br><span class="line"></span><br><span class="line">   每层的索引和:</span><br><span class="line">            0:              (00)</span><br><span class="line">            1:            (01)(10)</span><br><span class="line">            2:          (20)(11)(02)</span><br><span class="line">            3:        (03)(12)(21)(30)</span><br><span class="line">            4:      (40)(31)(22)(13)(04)</span><br><span class="line">            5:    (05)(14)(23)(32)(41)(50)</span><br><span class="line">            6:  (60)(51)................(06)</span><br><span class="line"></span><br><span class="line">        按照“层次”遍历，依次append在索引边界内的值即可</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] findDiagonalOrder(<span class="keyword">int</span>[][] mat) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mat == <span class="keyword">null</span> || mat.length == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]&#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> m = mat.length, n = mat[<span class="number">0</span>].length;</span><br><span class="line">        <span class="keyword">int</span>[] res = <span class="keyword">new</span> <span class="keyword">int</span>[m * n];</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>, idx = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(sum &lt; m+n)&#123;</span><br><span class="line">            <span class="keyword">if</span>(sum % <span class="number">2</span> == <span class="number">0</span>)&#123;</span><br><span class="line">                <span class="comment">// 向上遍历</span></span><br><span class="line">                <span class="keyword">int</span> r = sum&lt;m?sum:(m-<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">int</span> c = sum - r;</span><br><span class="line">                <span class="keyword">while</span>(r&gt;=<span class="number">0</span> &amp;&amp; c&gt;=<span class="number">0</span> &amp;&amp; r&lt;m &amp;&amp; c&lt;n)&#123;</span><br><span class="line">                    res[idx++] = mat[r][c];</span><br><span class="line">                    r--;c++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">// 向下遍历</span></span><br><span class="line">                <span class="keyword">int</span> c = sum&lt;n?sum:(n-<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">int</span> r = sum - c;</span><br><span class="line">                <span class="keyword">while</span>(r&gt;=<span class="number">0</span> &amp;&amp; c&gt;=<span class="number">0</span> &amp;&amp; r&lt;m &amp;&amp; c&lt;n)&#123;</span><br><span class="line">                    res[idx++] = mat[r][c];</span><br><span class="line">                    r++;c--;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            sum++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="找树左下角的值">2022/6/22 <a target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-bottom-left-tree-value/">513. 找树左下角的值</a></h1>
+<p>type: 二叉树</p>
+<ol type="1">
+<li><p>DFS</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> max_depth, res;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findBottomLeftValue</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        dfs(root, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">dfs</span><span class="params">(TreeNode node, <span class="keyword">int</span> depth)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(node == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(depth&gt;max_depth)&#123;</span><br><span class="line">            <span class="comment">// 保证每个depth存的都是最左边的结点</span></span><br><span class="line">            max_depth = depth;</span><br><span class="line">            res = node.val;</span><br><span class="line">        &#125;</span><br><span class="line">        dfs(node.left, depth + <span class="number">1</span>);</span><br><span class="line">        dfs(node.right, depth + <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>BFS <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> max_depth, res;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">findBottomLeftValue</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        Deque&lt;TreeNode&gt; q = <span class="keyword">new</span> ArrayDeque&lt;&gt;();</span><br><span class="line">        q.addLast(root);</span><br><span class="line">        <span class="keyword">int</span> res = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(!q.isEmpty())&#123;</span><br><span class="line">            <span class="keyword">int</span> num = q.size();</span><br><span class="line">            res = q.peek().val;</span><br><span class="line">            <span class="keyword">while</span>(num&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                TreeNode now = q.pollFirst();</span><br><span class="line">                <span class="keyword">if</span>(now.left != <span class="keyword">null</span>) q.addLast(now.left);</span><br><span class="line">                <span class="keyword">if</span>(now.right != <span class="keyword">null</span>) q.addLast(now.right);</span><br><span class="line">                num--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"># 算法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/week%202/" rel="prev" title="第二次周报">
+                  <i class="fa fa-chevron-left"></i> 第二次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/09/week%206/" rel="next" title="第六次周报">
+                  第六次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

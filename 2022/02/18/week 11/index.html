@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="内容：  louis philippe morency 《多模态机器学习》 完成 kaggle fashion recommendation competition:  利用swing transformers提取了图片特征   论文阅读：  sequential recommendation boosting相关   1 sequential recommendati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第十一次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2022/02/18/week%2011/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="内容：  louis philippe morency 《多模态机器学习》 完成 kaggle fashion recommendation competition:  利用swing transformers提取了图片特征   论文阅读：  sequential recommendation boosting相关   1 sequential recommendati">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/03/01/5SIPc3DrZxXTUju.png">
+<meta property="og:image" content="https://s2.loli.net/2022/03/01/8VgQimsqyUWKtAo.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/19052848-72a51dcc63c1a72a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/992/format/webp">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=L_%7Bxe%7D%20%3D%20-log%5C%2Cs_i%20%3D%20-log%5C%2C%5Cfrac%7Be%5E%7Br_i%7D%7D%7B%5Csum_%7Bj%3D1%7D%5E%7BN%7D%20e%5E%7Br_j%7D%7D">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_k%20%3E%3E%20r_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=s_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=0">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=log%5C%2C0">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=-log%5C%2Cs_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=-log(s_i%20%2B%20%5Cvarepsilon%20)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=%5Cvarepsilon%20%3D%2010%5E%7B-24%7D">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=-r_i%20%2B%20log%5C%2C%5Csum_%7Bj%3D1%7D%5E%7BN%7D%20e%5E%7Br_j%7D">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=L_%7Btop1%7D%20%3D%20%5Cfrac%20%7B1%7D%7BN_s%7D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)%20%2B%20%5Csigma%20(r_%7Bj%7D%20%5E2)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=N_s">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_k">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_%7Bj%7D%20%3C%3C%20r_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=1-%5Csigma%20(r_i%20-%20r_j)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=0">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=s_j">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_j">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=s_j">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=j">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=L_%7Bbpr-max%7D%20%3D-%20log%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20%5Csigma%20(r_i%20-%20r_j)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=s_j%20%5Csigma%20(r_i%20-%20r_j)">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=r_i">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=L_%7Bbpr-max%7D%20%3D-%20log%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20%5Csigma%20(r_i%20-%20r_j)%20%2B%20%5Clambda%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20r_j%5E2">
+<meta property="og:image" content="https://math.jianshu.com/math?formula=%5Clambda">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/qP8JRnW6T3rZdKL35xvIMhubE5MDAnn48HDssvd8koHhKozB9Hv9YhgodW9NJ0CxthsSXypYibTSGbAC735cAMw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cwidehat%7B%5Cmathbf%7BE%7D%7D%3D%5Cleft%5B%5Cbegin%7Barray%7D%7Bc%7D%5Cmathbf%7BM%7D_%7Bs_%7B1%7D%7D%2B%5Cmathbf%7BP%7D_%7B1%7D+%5C%5C+%5Cmathbf%7BM%7D_%7Bs_%7B2%7D%7D%2B%5Cmathbf%7BP%7D_%7B2%7D+%5C%5C+%5Ccdots+%5C%5C+%5Cmathbf%7BM%7D_%7Bs_%7Bn%7D%7D%2B%5Cmathbf%7BP%7D_%7Bn%7D%5Cend%7Barray%7D%5Cright%5D+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=Attention%28%5Cmathbf%7BQ%2CK%2CV%7D%29%3Dsoftmax%28%5Cfrac%7B%5Cmathbf%7BQK%5ET%7D%7D%7B%5Csqrt%7Bd%7D%7D%29%5Cmathbf%7BV%7D+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cmathbf%7BS%7D%3DSA%28%5Chat%7B%5Cmathbf%7BE%7D%7D%29%3DAttention%28%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EQ%2C+%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EK%2C+%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EV%29+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Barray%7D%7Bc%7D%5Cmathbf%7BS%7D%5E%7B%28b%29%7D%3D%5Coperatorname%7BSA%7D%5Cleft%28%5Cmathbf%7BF%7D%5E%7B%28b-1%29%7D%5Cright%29+%5C%5C+%5Cmathbf%7BF%7D_%7Bi%7D%5E%7B%28b%29%7D%3D%5Coperatorname%7BFFN%7D%5Cleft%28%5Cmathbf%7BS%7D_%7Bi%7D%5E%7B%28b%29%7D%5Cright%29%2C+%5Cquad+%5Cforall+i+%5Cin%5C%7B1%2C2%2C+%5Cldots%2C+n%5C%7D%5Cend%7Barray%7D+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=r_%7Bi%2Ct%7D%3D%5Cmathbf%7BF%7D%5E%7B%28b%29%7D_t%5Cmathbf%7BN%7D%5ET_i+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=r_%7Bu%2C+i%2C+t%7D%3D%5Cleft%28%5Cmathbf%7BU%7D_%7Bu%7D%2B%5Cmathbf%7BF%7D_%7Bt%7D%5E%7B%28b%29%7D%5Cright%29+%5Cmathbf%7BM%7D_%7Bi%7D%5E%7BT%7D+%5C%5C">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9xUDhKUm5XNlQzcmZFbXJyckU1Qm5xWGRjaWFqcFRhVEVxNmVPaEM3TWc4ZHN5V2ljNExkSkd3akNKUEV6SHlaNWxRVFVRUjQ1NFJhVHVlSG84aWJRTWpaUS82NDA?x-oss-process=image/format,png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190927111217835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MTQ4NzU4,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190927113214137.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190927113937867.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190621143944488.png">
+<meta property="og:image" content="https://images2018.cnblogs.com/blog/1078607/201805/1078607-20180502145330252-1542574208.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-ee698fab4084cf24.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cbegin%7Baligned%7D+%5Cmathcal%7BL%7D_%7B%5Cmathrm%7BN%7D%7D%5E%7B%5Cmathrm%7Bopt%7D%7D+%26%3D-%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B%5Cfrac%7B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7D%7B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%2B%5Csum_%7Bx_%7Bj%7D+%5Cin+X_%7B%5Cmathrm%7Bneg%7D%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%7D%5Cright%5D+%5C%5C+%26%3D%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D+%5Csum_%7Bx_%7Bj%7D+%5Cin+X_%7B%5Cmathrm%7Bneg%7D%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%5Cright%5D+%5C%5C+%26+%5Capprox+%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%28N-1%29+%5Cunderset%7Bx_%7Bj%7D%7D%7B%5Cmathbb%7BE%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%5Cright%5D+%5C%5C+%26%3D%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%28N-1%29%5Cright%5D+%5C%5C+%26+%5Cgeq+%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D+N%5Cright%5D+%5C%5C+%26%3D-I%5Cleft%28x_%7Bt%2Bk%7D%2C+c_%7Bt%7D%5Cright%29%2B%5Clog+%28N%29+%5Cend%7Baligned%7D+%5Ctag+%7B30%7D">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-82d966ccaff78508.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/509/format/webp">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021051822085535.png?,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzM1OTMxMg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-a4208c396f7c559d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/421/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-0c20b082f2f2cf41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/289/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-f6642ec271df6b4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/518/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-9bf488b559a47c1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/336/format/webp">
+<meta property="og:image" content="https:////upload-images.jianshu.io/upload_images/16043538-fadd088808210086.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/449/format/webp">
+<meta property="og:image" content="https:////upload-images.jianshu.io/upload_images/16043538-cda3206968c6dfa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/299/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-9bee464d531568be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-61068321a60405e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/310/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-5e8ba7e439ae0ab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/454/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-0fa45ae04a43c429.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/260/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-1244892c30654e84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/313/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-99312a5a87bb1042.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/432/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16043538-51b2cd90e20e34a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/475/format/webp">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D%29+%3D+f%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D_%7BK%7D%29+%3D+%5Csum_%7Bk+%3D+1%7D%5E%7BK%7D%7Bh_%7Bk%7D+%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D%3B%5CTheta_%7Bk%7D%29+%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f%28x+%2B+%5CDelta+x%29+%5Csimeq+f%28x%29+%2B+f%27%28x%29+%5CDelta+x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%2B+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29+%5Cright%29+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%2B+%5Cfrac+%7B+%5Cpartial+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%7D+%7B+%5Cpartial+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%7D+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29++%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5CDelta+L+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+-+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%3D+%5Cfrac+%7B+%5Cpartial+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%7D+%7B+%5Cpartial+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%7D+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29+%5C%5C">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%5Cleft%28+%5Cphi+%5Cright%29%3D%5Csum_%7Bi%7D%7Bl%5Cleft%28+%5Chat+y_%7Bi%7D+%2Cy_%7Bi%7D%5Cright%29%7D%2B%5Csum_%7Bk%7D%7B%5COmega%5Cleft%28+f_%7Bk%7D+%5Cright%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5COmega%5Cleft%28+f+%5Cright%29%3D%5CUpsilon+T%2B%5Cfrac%7B1%7D%7B2%7D%5Clambda+%7C%7Cw%7C%7C%5E2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=T">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_k%28x%29%3Dw_%7Bq%28x%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=x">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=q%28x%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w_q">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w_%7Bq%28x%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%7C%7Cw%7C%7C%5E2">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_%7Bt%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%5E%7B%5Cleft%28+t+%5Cright%29%7D%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Bl%5Cleft%28y_%7Bi%7D+%2C%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D%2Bf_%7Bt%7D%28x_%7Bi%7D%29%5Cright%29%7D%2B%5COmega%5Cleft%28+f_%7Bt%7D+%5Cright%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t+%5Cright%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_%7Bt%7D%28x_%7Bi%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t+%5Cright%29%7D+%3D+%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D%2Bf_%7Bt%7D%28x_%7Bi%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f%28x+%2B+%5CDelta+x%29+%5Csimeq+f%28x%29+%2B+f%27%28x%29+%5CDelta+x+%2B+%5Cfrac%7B1%7D%7B2%7D+f%27%27%28x%29+%5CDelta+x%5E%7B2%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=g_%7Bi%7D%3D%5Cpartial_%7B%5Chat+y%5E%7B%28t-1%29%7D%7Dl%28y_%7Bi%7D%2C%5Chat+y%5E%7B%28t-1%29%7D%29%2C+%5Cspace+h_%7Bi%7D%3D%5Cpartial_%7B%5Chat+y_%7Bi%7D%5E%7B%28t-1%29%7D%7D%5E%7B2%7Dl%28y_%7Bi%7D%2C%5Chat+y%5E%7B%28t-1%29%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=f_%7Bt%7D%28x_%7Bi%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=l%28y_%7Bi%7D%2C%5Chat+y_%7Bi%7D%5E%7B%28t-1%29%7D%29">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7B%5Bg_%7Bi%7Df_%7Bt%7D%28x_%7Bi%7D%29%2B%5Cfrac%7B1%7D%7B2%7Dh_%7Bi%7Df_%7Bt%7D%5E%7B2%7D%28x_%7Bi%7D%29%5D%7D%2B%5COmega%28f_%7Bt%7D%29+%5C%5C%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7B%5Bg_%7Bi%7Df_%7Bt%7D%28x_%7Bi%7D%29%2B%5Cfrac%7B1%7D%7B2%7Dh_%7Bi%7Df_%7Bt%7D%5E%7B2%7D%28x_%7Bi%7D%29%5D%7D%2B%5CUpsilon+T%2B%5Cfrac%7B1%7D%7B2%7D%5Clambda+%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7Bw_%7Bj%7D%5E2%7D+%5C%5C%3D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%5B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D+++%7Bg_%7Bi%7D%29w_%7Bj%7D%2B%5Cfrac%7B1%7D%7B2%7D%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%5E%7B2%7D%7D%5D%2B%5Cgamma+T++++">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%E4%BB%A4+%5Cfrac%7B%5Cpartial+L%5E%7B%28t%29%7D%7D%7B%5Cpartial+w_%7Bj%7D%7D%3D0+%5C%5C%5CRightarrow+%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D+++%7Bg_%7Bi%7D%29%2B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%7D%3D0%5C%5C%5CRightarrow+%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%3D-%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%5C%5C%5CRightarrow+w_%7Bj%7D%5E%7B%2A%7D%3D-%5Cfrac%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%7D%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%7D+">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=w%5E%7B%2A%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D-%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7B%5Cfrac%7B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%29%5E2%7D%7D%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%7D%7D%2B%5CUpsilon+T">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=G_%7Bi%7D%3D%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%2CH_%7Bi%7D%3D%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D-%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7B%5Cfrac%7BG_%7Bj%7D%5E%7B2%7D%7D%7BH_%7Bj%7D%2B%5Clambda%7D%7D%2B%5CUpsilon+T">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=I_%7BL%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=I_%7BR%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=I+%3D+I_%7BL%7D+%5Ccup+I_%7BR%7D">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=L_%7Bsplit%7D%3D%5Cfrac%7B1%7D%7B2%7D%5B%5Cfrac%7BG_%7BL%7D%5E%7B2%7D%7D%7BH_%7BL%7D%2B%5Clambda%7D%2B%5Cfrac%7BG_%7BR%7D%5E%7B2%7D%7D%7BH_%7BR%7D%2B%5Clambda%7D-%5Cfrac%7B%28G_%7BL%7D%2BG_%7BR%7D%29%5E2%7D%7BH_%7BL%7D%2BH_%7BR%7D%2B%5Clambda%7D%5D-%5Cgamma">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ceta">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=Gain+%3D+L_%7Bsplit%7D%3D%5Cfrac%7B1%7D%7B2%7D%5B%5Cfrac%7BG_%7BL%7D%5E%7B2%7D%7D%7BH_%7BL%7D%2B%5Clambda%7D%2B%5Cfrac%7BG_%7BR%7D%5E%7B2%7D%7D%7BH_%7BR%7D%2B%5Clambda%7D-%5Cfrac%7B%28G_%7BL%7D%2BG_%7BR%7D%29%5E2%7D%7BH_%7BL%7D%2BH_%7BR%7D%2B%5Clambda%7D%5D-%5Cgamma">
+<meta property="og:image" content="https://img-blog.csdn.net/2018062717561447?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29ud2FuZ18=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="article:published_time" content="2022-02-18T04:20:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T04:02:56.840Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/03/01/5SIPc3DrZxXTUju.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/02/18/week%2011/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/02/18/week%2011/","path":"2022/02/18/week 11/","title":"第十一次周报"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>第十一次周报 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#sequential-recommendation"><span class="nav-number">1.</span> <span class="nav-text">1 sequential recommendation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#session-based-recommendations-with-recurrent-neural-networksiclr-2016"><span class="nav-number">1.1.</span> <span class="nav-text">Session-based recommendations with recurrent neural networks（ICLR 2016）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.1.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.2.</span> <span class="nav-text">主要内容:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#recurrent-neural-networks-with-top-k-gains-for-session-based-recommendationscikm-2018"><span class="nav-number">1.2.</span> <span class="nav-text">Recurrent Neural Networks with Top-k Gains for Session-based Recommendations（CIKM 2018）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9-1"><span class="nav-number">1.2.2.</span> <span class="nav-text">主要内容</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%87%E6%A0%B7"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">采样</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#loss"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">loss</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E7%9A%84%E6%96%B9%E6%B3%95-transformer-based-methods"><span class="nav-number">2.</span> <span class="nav-text">基于注意力的方法&amp; transformer-based methods：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sasrec-self-attentive-sequential-recommendationicdm-2018"><span class="nav-number">2.1.</span> <span class="nav-text">SASRec: Self-Attentive Sequential Recommendation(ICDM 2018)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-2"><span class="nav-number">2.1.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9-2"><span class="nav-number">2.1.2.</span> <span class="nav-text">主要内容：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94bstkdd2019"><span class="nav-number">2.1.3.</span> <span class="nav-text">对比BST（KDD2019）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fdsa-feature-level-deeper-self-attention-network-for-sequential-recommendationijcai-2019"><span class="nav-number">2.2.</span> <span class="nav-text">FDSA: Feature-level Deeper Self-Attention Network for Sequential Recommendation(IJCAI 2019)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-3"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.2.0.2.</span> <span class="nav-text">主要工作：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bert4rec-sequential-recommendation-with-bidirectional-encoder-representations-from-transformercikm-2019"><span class="nav-number">2.3.</span> <span class="nav-text">BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer(CIKM 2019)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#s3-rec-self-supervised-learning-for-sequential-recommendation-with-mimcikm2020"><span class="nav-number">2.4.</span> <span class="nav-text">S3-Rec: Self-Supervised Learning for Sequential Recommendation with MIM(CIKM2020)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-4"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">背景：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%86%85%E5%AE%B9-3"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">主要内容：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%92%E4%BF%A1%E6%81%AF%E6%9C%80%E5%A4%A7%E5%8C%96"><span class="nav-number">2.4.0.2.1.</span> <span class="nav-text">互信息最大化</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.4.0.2.2.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">2.4.0.2.3.</span> <span class="nav-text">训练</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#boosting"><span class="nav-number">3.</span> <span class="nav-text">2 BOOSTING</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#gb"><span class="nav-number">3.0.1.</span> <span class="nav-text">GB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gbt"><span class="nav-number">3.0.2.</span> <span class="nav-text">GBT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#xgboost"><span class="nav-number">3.0.3.</span> <span class="nav-text">XGBoost</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%97%E6%B3%95"><span class="nav-number">3.0.4.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">3.0.4.1.</span> <span class="nav-text">目标函数：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#shrinkage-%E5%88%97%E9%99%8D%E9%87%87%E6%A0%B7"><span class="nav-number">3.0.4.2.</span> <span class="nav-text">Shrinkage &amp; 列降采样</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E8%A3%82%E7%82%B9"><span class="nav-number">3.0.4.3.</span> <span class="nav-text">分裂点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lightgbm"><span class="nav-number">3.0.5.</span> <span class="nav-text">LightGBM</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/02/18/week%2011/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第十一次周报
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-18 12:20:55" itemprop="dateCreated datePublished" datetime="2022-02-18T12:20:55+08:00">2022-02-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 12:02:56" itemprop="dateModified" datetime="2022-06-28T12:02:56+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>内容：</p>
+<ul>
+<li><p>louis philippe morency 《多模态机器学习》 完成</p></li>
+<li><p>kaggle fashion recommendation competition:</p>
+<ol type="1">
+<li>利用swing transformers提取了图片特征</li>
+<li></li>
+</ol></li>
+<li><p>论文阅读：</p>
+<ol type="1">
+<li>sequential recommendation</li>
+<li>boosting相关</li>
+</ol></li>
+</ul>
+<h2 id="sequential-recommendation">1 sequential recommendation</h2>
+<h3 id="session-based-recommendations-with-recurrent-neural-networksiclr-2016">Session-based recommendations with recurrent neural networks（ICLR 2016）</h3>
+<h4 id="背景">背景：</h4>
+<p>GRU4rec是使用神经网络做序列推荐的经典基于会话的推荐方法（基本根据物品推荐，缺少用户侧信息），这篇文章出现前主要有基于物品的协同过滤和基于马尔可夫决策过程的方法。</p>
+<ul>
+<li>基于物品的协同过滤，需要维护一张物品的相似度矩阵，当用户在一个session中点击了某一个物品时，基于相似度矩阵得到相似的物品推荐给用户。这种方法简单有效，并被广泛应用，但是这种方法只把用户上一次的点击考虑进去，而没有把前面多次的点击都考虑进去。</li>
+<li>基于马尔可夫决策过程（MDP）的推荐方法，其主要学习的是状态转移概率，即点击了物品A之后，下一次点击的物品是B的概率，并基于这个状态转移概率进行推荐。这样的缺陷主要是随着物品的增加，建模所有的可能的点击序列是十分困难的</li>
+</ul>
+<h4 id="主要内容">主要内容:</h4>
+<p><img src="https://s2.loli.net/2022/03/01/5SIPc3DrZxXTUju.png" /></p>
+<p>输入：对于一个Session中的点击序列<span class="math inline">\(x=[x_1,x_2,x_3...x_{r-1},x_r]\)</span>，依次将<span class="math inline">\(x_1,x_2,x_3...x_{r-1},x_r\)</span>输入到模型中。</p>
+<p>模型：序列中的每一个物品xt被转换为one-hot，随后转换成其对应的embedding，经过N层GRU单元后，经过一个全联接层得到下一次每个物品被点击的概率。</p>
+<p>loss：</p>
+<ol type="1">
+<li>bpr：<span class="math inline">\({\cal L}_{s}=-\frac{1}{N_{S}}\cdot\sum_{j=1}^{N_{S}}{\sigma}\left(\hat{r}_{s,i}\,-\,\hat{r}_{s,j}\right)\)</span>。经典bpr让正样本和负样本之间得分差尽可能大。</li>
+<li>top1：<span class="math inline">\({\cal L}_{s}=\frac{1}{N_{S}}\cdot\sum_{j=1}^{N_{S}}{\sigma}\left(\hat{r}_{s,j}\,-\,\hat{r}_{s,i}\right)\,+\,\sigma\,\left(\hat{r}_{s,j}^{2}\right)\)</span>第一项让正负样本之间差尽可能大（与bpr稍微有区别），第二项对负样本添加了正则项。</li>
+</ol>
+<p>trick：</p>
+<ol type="1">
+<li><p>parallel：为了更好的并行计算，论文采用了 mini-batch 的处理，即把不同的session拼接起来（看纵向）</p>
+<p><img src="https://s2.loli.net/2022/03/01/8VgQimsqyUWKtAo.png" /></p></li>
+<li><p>sampling on output：物品数量如果过多的话，模型输出的维度过多，计算量会十分庞大，因此在实践中一般采取负采样的方法。论文采用了取巧的方法来减少采样需要的计算量，即选取了同一个batch 中其他 sequence 下一个点击的 item作为负样本，用这些正负样本来训练整个神经网络。</p></li>
+</ol>
+<h3 id="recurrent-neural-networks-with-top-k-gains-for-session-based-recommendationscikm-2018">Recurrent Neural Networks with Top-k Gains for Session-based Recommendations（CIKM 2018）</h3>
+<h4 id="背景-1">背景：</h4>
+<p>这篇文章从采样和损失函数角度对GRU4rec进行了优化，即很多序列推荐论文中的GRU4rec+对比算法。</p>
+<h4 id="主要内容-1">主要内容</h4>
+<h5 id="采样">采样</h5>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/19052848-72a51dcc63c1a72a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/992/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>在GRU4rec基础上，除了batch sampling(从batch中快速得到负样本)，作者引入了额外的负样本（所有batch共享的）。</p>
+<h5 id="loss">loss</h5>
+<ol type="1">
+<li><p>cross-entropy：</p>
+<p><img src="https://math.jianshu.com/math?formula=L_%7Bxe%7D%20%3D%20-log%5C%2Cs_i%20%3D%20-log%5C%2C%5Cfrac%7Be%5E%7Br_i%7D%7D%7B%5Csum_%7Bj%3D1%7D%5E%7BN%7D%20e%5E%7Br_j%7D%7D" alt="L_{xe} = -log,s_i = -log," /> 当存在一个 <img src="https://math.jianshu.com/math?formula=r_k%20%3E%3E%20r_i" alt="r_k &gt;&gt; r_i" /> 时，<img src="https://math.jianshu.com/math?formula=s_i" alt="s_i" /> 趋近于 <img src="https://math.jianshu.com/math?formula=0" alt="0" />，<img src="https://math.jianshu.com/math?formula=log%5C%2C0" alt="log,0" /> 未定义，造成结果不稳定。针对这个问题论文提出了2种代替 <img src="https://math.jianshu.com/math?formula=-log%5C%2Cs_i" alt="-log,s_i" /> 的计算方式：</p>
+<ul>
+<li><img src="https://math.jianshu.com/math?formula=-log(s_i%20%2B%20%5Cvarepsilon%20)" alt="-log(s_i + )" />，其中 <img src="https://math.jianshu.com/math?formula=%5Cvarepsilon%20%3D%2010%5E%7B-24%7D" alt="= 10^{-24}" />。</li>
+<li>去掉<span class="math inline">\(r_i\)</span>对应的log，降低其为0情况<img src="https://math.jianshu.com/math?formula=-r_i%20%2B%20log%5C%2C%5Csum_%7Bj%3D1%7D%5E%7BN%7D%20e%5E%7Br_j%7D" alt="-r_i + log,_{j=1}^{N} e^{r_j}" /></li>
+</ul></li>
+<li><p>ranking losses:</p>
+<ul>
+<li><strong>TOP1</strong> <img src="https://math.jianshu.com/math?formula=L_%7Btop1%7D%20%3D%20%5Cfrac%20%7B1%7D%7BN_s%7D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)%20%2B%20%5Csigma%20(r_%7Bj%7D%20%5E2)" alt="L_{top1} =  {j=1}^{N_s} (r{j} - r_{i}) + (r_{j} ^2)" /></li>
+<li><strong>BPR</strong> [L_{bpr} =-  _{j=1}^{N_s} log((r_i - r_j))](https://math.jianshu.com/math?formula=L_%7Bbpr%7D%20%3D-%20%5Cfrac%7B1%7D%7BN_s%7D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20log(%5Csigma%20(r_i%20-%20r_j))</li>
+</ul>
+<p>其中，<img src="https://math.jianshu.com/math?formula=N_s" alt="N_s" /> 为负样本量大小，<img src="https://math.jianshu.com/math?formula=r_k" alt="r_k" /> 为 item <code>k</code> 的分数，<code>i</code> 代表正样本，<code>j</code> 代表负样本。</p>
+<p>这两种损失函数主要缺点是会发生梯度消失的现象，如当 <img src="https://math.jianshu.com/math?formula=r_%7Bj%7D%20%3C%3C%20r_i" alt="r_{j} &lt;&lt; r_i" /> 时，<img src="https://math.jianshu.com/math?formula=%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)" alt="(r_{j} - r_{i})" /> 和 <img src="https://math.jianshu.com/math?formula=1-%5Csigma%20(r_i%20-%20r_j)" alt="1-(r_i - r_j)" /> 都会趋近于 <img src="https://math.jianshu.com/math?formula=0" alt="0" />，从而导致梯度消失（负样本得分远小于正样本）；同时对负样本取平均值会加速这种梯度消失的现象(样本量越多，平均值越小)。</p>
+<p>[ = -  <em>{j=1}^{N_s} (r</em>{j} - r_{i}) (1- (r_{j} - r_{i}))](https://math.jianshu.com/math?formula=%5Cfrac%7B%5Cpartial%20L_%7Btop1%7D%7D%7B%5Cpartial%20r_i%7D%20%3D%20-%20%5Cfrac%20%7B1%7D%7BN_s%7D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)%20(1-%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D))</p>
+<p>[ =-  _{j=1}^{N_s} (1-(r_i - r_j))](https://math.jianshu.com/math?formula=%5Cfrac%7B%5Cpartial%20L_%7Bbpr%7D%7D%7B%5Cpartial%20r_i%7D%20%3D-%20%5Cfrac%7B1%7D%7BN_s%7D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20(1-%5Csigma%20(r_i%20-%20r_j))</p></li>
+<li><p>ranking-max losses:</p>
+<p>为了克服梯度消失的情况，作者提出了ranking-max的loss框架：</p>
+<p><span class="math inline">\({\cal L}_{\mathrm{pairwise-max}}\left(r_{i},\{r_{j}\}_{j=1}^{N_{S}}\right)={\cal L}_{\mathrm{pairwise}}(r_{i},{\bf m}_{\mathrm{ax}}\,r_{j})\)</span></p></li>
+</ol>
+<ul>
+<li><strong>TOP1-max</strong> [L_{top1-max} = <em>{j=1}^{N_s} s_j((r</em>{j} - r_{i}) + (r_{j} ^2))](https://math.jianshu.com/math?formula=L_%7Btop1-max%7D%20%3D%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j(%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)%20%2B%20%5Csigma%20(r_%7Bj%7D%20%5E2))</li>
+</ul>
+<p>[ = - <em>{j=1}^{N_s}s_j (r</em>{j} - r_{i}) (1- (r_{j} - r_{i}))](https://math.jianshu.com/math?formula=%5Cfrac%7B%5Cpartial%20L_%7Btop1-max%7D%7D%7B%5Cpartial%20r_i%7D%20%3D%20-%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7Ds_j%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)%20(1-%20%5Csigma%20(r_%7Bj%7D%20-%20r_%7Bi%7D)) 其中 maxsoft score <img src="https://math.jianshu.com/math?formula=s_j" alt="s_j" /> 相当于权重（对每个负样本加权重，sj和为1），当 <img src="https://math.jianshu.com/math?formula=r_j" alt="r_j" /> 较小时，<img src="https://math.jianshu.com/math?formula=s_j" alt="s_j" /> 也会较小(趋近于 0)，样本 <img src="https://math.jianshu.com/math?formula=j" alt="j" /> 类似于被忽略，所以不会减少整体的梯度。</p>
+<ul>
+<li><strong>BPR-max</strong> <img src="https://math.jianshu.com/math?formula=L_%7Bbpr-max%7D%20%3D-%20log%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20%5Csigma%20(r_i%20-%20r_j)" alt="L_{bpr-max} =- log _{j=1}^{N_s} s_j (r_i - r_j)" /> <span class="math inline">\({\frac{\partial{\cal L}_{\mathrm{bpr}-\mathrm{max}}}{\partial r_{k}}}=s_{k}-{\frac{s_{k}\sigma^{2}(r_{i}-r_{k})}{\sum_{j=1}^{N_{S}}s_{j}\sigma(r_{i}-r_{j})}}\)</span> 这里的梯度信息可以看做是单个梯度的加权平均值，<img src="https://math.jianshu.com/math?formula=s_j%20%5Csigma%20(r_i%20-%20r_j)" alt="s_j (r_i - r_j)" /> 相当于权重。当 <img src="https://math.jianshu.com/math?formula=r_i" alt="r_i" /> 较小时，权重分布较为均匀，实际得分高的将会得到更多关注；当 <img src="https://math.jianshu.com/math?formula=r_i" alt="r_i" /> 较大时，得分高的才会产生较大的权重，从而得到更多关注。这有利于模型的训练。</li>
+</ul>
+<p><strong>TOP1-max</strong> 和 <strong>BPR-max</strong> 的梯度信息均和 softmax score 成比例，这意味着只有 score 较大的 item 会被更新，这样的好处在于模型训练过程中会一直推动 target 往排序列表的顶部前进，而常规的 TOP1 和 BPR 在 target 快接近顶部的时候，平均梯度信息更小了，更新几乎停滞，这样很难将 target 推至顶部。</p>
+<ul>
+<li>BPR-max with score regularization 受 TOP1 添加正则项的启发，对 BPR 添加正则项，同样能提高模型的表现。 <img src="https://math.jianshu.com/math?formula=L_%7Bbpr-max%7D%20%3D-%20log%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20%5Csigma%20(r_i%20-%20r_j)%20%2B%20%5Clambda%20%5Csum_%7Bj%3D1%7D%5E%7BN_s%7D%20s_j%20r_j%5E2" alt="L_{bpr-max} =- log {j=1}^{N_s} s_j (r_i - r_j) + {j=1}^{N_s} s_j r_j^2" /> 其中，<img src="https://math.jianshu.com/math?formula=%5Clambda" alt="" /> 为正则项参数。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"># 传统bpr</span><br><span class="line">class BPRLoss(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(BPRLoss, self).__init__()</span><br><span class="line"></span><br><span class="line">    def forward(self, logit):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Args:</span><br><span class="line">            logit (BxB): Variable that stores the logits for the items in the mini-batch</span><br><span class="line">                         The first dimension corresponds to the batches, and the second</span><br><span class="line">                         dimension corresponds to sampled number of items to evaluate</span><br><span class="line">                         B,N</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        # differences between the item scores</span><br><span class="line">        diff = logit.diag().view(-1, 1).expand_as(logit) - logit</span><br><span class="line">        # final loss</span><br><span class="line">        loss = -torch.mean(F.logsigmoid(diff))</span><br><span class="line">        return loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class BPR_max(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(BPR_max, self).__init__()</span><br><span class="line">    def forward(self, logit):</span><br><span class="line">    	# 通过softmax表示sj</span><br><span class="line">        logit_softmax = F.softmax(logit, dim=1)</span><br><span class="line">        diff = logit.diag().view(-1, 1).expand_as(logit) - logit</span><br><span class="line">        loss = -torch.log(torch.mean(logit_softmax * torch.sigmoid(diff)))</span><br><span class="line">        return loss</span><br><span class="line"># top1loss</span><br><span class="line"></span><br><span class="line">class TOP1Loss(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(TOP1Loss, self).__init__()</span><br><span class="line">    def forward(self, logit):</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        Args:</span><br><span class="line">            logit (BxB): Variable that stores the logits for the items in the mini-batch</span><br><span class="line">                         The first dimension corresponds to the batches, and the second</span><br><span class="line">                         dimension corresponds to sampled number of items to evaluate</span><br><span class="line">        &quot;&quot;&quot;</span><br><span class="line">        diff = -(logit.diag().view(-1, 1).expand_as(logit) - logit)</span><br><span class="line">        loss = torch.sigmoid(diff).mean() + torch.sigmoid(logit ** 2).mean()</span><br><span class="line">        return loss</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class TOP1_max(nn.Module):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        super(TOP1_max, self).__init__()</span><br><span class="line"></span><br><span class="line">    def forward(self, logit):</span><br><span class="line">        logit_softmax = F.softmax(logit, dim=1)</span><br><span class="line">        diff = -(logit.diag().view(-1, 1).expand_as(logit) - logit)</span><br><span class="line">        loss = torch.mean(logit_softmax * (torch.sigmoid(diff) + torch.sigmoid(logit ** 2)))</span><br><span class="line">        return loss</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="基于注意力的方法-transformer-based-methods"><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/273480841">基于注意力的方法</a>&amp; transformer-based methods：</h2>
+<h3 id="sasrec-self-attentive-sequential-recommendationicdm-2018">SASRec: Self-Attentive Sequential Recommendation(ICDM 2018)</h3>
+<h4 id="背景-2">背景：</h4>
+<p>之前的序列建模方法：</p>
+<ul>
+<li>基于MC的方法，通过一个简单的假设，进行信息的状态转移。在高稀疏数据下表现好，但在更复杂的场景中很难捕捉到有用的信息，文章实验也证明了这点；</li>
+<li>基于RNN的方法有很强的表达能力，但是训练需要大量的数据，在密集型数据集下表现得更好，且因为每一个隐藏状态都必须依赖于前一个，运行效率较低；</li>
+</ul>
+<p><strong>注意力机制背后的思想是连续的输出都依赖于某个输入的“相关”部分，而模型应该连续地关注这些输入</strong>，在推荐领域，AFM、DIN模型已经得到了很好的应用,详见<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/273480841">基于注意力的方法</a></p>
+<h4 id="主要内容-2">主要内容：</h4>
+<figure>
+<img src="https://mmbiz.qpic.cn/mmbiz_png/qP8JRnW6T3rZdKL35xvIMhubE5MDAnn48HDssvd8koHhKozB9Hv9YhgodW9NJ0CxthsSXypYibTSGbAC735cAMw/640?wx_fmt=png&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="" /><figcaption>图片</figcaption>
+</figure>
+<ol type="1">
+<li>Postional embedding(PE):即transformer中的位置编码表示先后顺序。对于稀疏数据集可不加pe，因为用户没有太多的记录，因此购买顺序没有太大关系。</li>
+</ol>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cwidehat%7B%5Cmathbf%7BE%7D%7D%3D%5Cleft%5B%5Cbegin%7Barray%7D%7Bc%7D%5Cmathbf%7BM%7D_%7Bs_%7B1%7D%7D%2B%5Cmathbf%7BP%7D_%7B1%7D+%5C%5C+%5Cmathbf%7BM%7D_%7Bs_%7B2%7D%7D%2B%5Cmathbf%7BP%7D_%7B2%7D+%5C%5C+%5Ccdots+%5C%5C+%5Cmathbf%7BM%7D_%7Bs_%7Bn%7D%7D%2B%5Cmathbf%7BP%7D_%7Bn%7D%5Cend%7Barray%7D%5Cright%5D+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<ol start="2" type="1">
+<li><p>Self-Attention层</p>
+<p>原transformer中self-attention(K=V):</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=Attention%28%5Cmathbf%7BQ%2CK%2CV%7D%29%3Dsoftmax%28%5Cfrac%7B%5Cmathbf%7BQK%5ET%7D%7D%7B%5Csqrt%7Bd%7D%7D%29%5Cmathbf%7BV%7D+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>在本文中对应的是<img src="https://www.zhihu.com/equation?tex=%5Cmathbf%7BS%7D%3DSA%28%5Chat%7B%5Cmathbf%7BE%7D%7D%29%3DAttention%28%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EQ%2C+%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EK%2C+%5Chat%7B%5Cmathbf%7BE%7D%7D%5Cmathbf%7BW%7D%5EV%29+%5C%5C" alt="[公式]" /></p>
+<p>此时K!=V,作者认为这样可以让模型更加灵活，比如对于&lt;query q, key k&gt;以及&lt; key k， query q&gt;就可以有不同的表示。</p>
+<p>此外， 考虑到不同维度隐藏特征的非线性交互，本文与Transformer一样，在self-attention之后，采取两层的前馈网络：</p></li>
+<li><p>stack transformer</p>
+<p><strong>一般而言叠加多个自注意力机制层能够学习更复杂的特征转换</strong>，但会存在一些问题：</p>
+<ol type="1">
+<li><p>模型更容易过拟合；</p></li>
+<li><p>训练过程不稳定（梯度消失问题等）；</p></li>
+<li><p>模型需要学习更多的参数以及需要更长的时间训练；</p>
+<p>因此，作者在自注意力机制层和前馈网络<strong>「加入残差连接、Layer Normalization、Dropout」</strong>来抑制模型的过拟合。（依旧按照transformer设置）</p></li>
+</ol>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Barray%7D%7Bc%7D%5Cmathbf%7BS%7D%5E%7B%28b%29%7D%3D%5Coperatorname%7BSA%7D%5Cleft%28%5Cmathbf%7BF%7D%5E%7B%28b-1%29%7D%5Cright%29+%5C%5C+%5Cmathbf%7BF%7D_%7Bi%7D%5E%7B%28b%29%7D%3D%5Coperatorname%7BFFN%7D%5Cleft%28%5Cmathbf%7BS%7D_%7Bi%7D%5E%7B%28b%29%7D%5Cright%29%2C+%5Cquad+%5Cforall+i+%5Cin%5C%7B1%2C2%2C+%5Cldots%2C+n%5C%7D%5Cend%7Barray%7D+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure></li>
+<li><p>prediction（与训练好的item embeddings做点积，实际实现时用的都是同一个item embedding）</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=r_%7Bi%2Ct%7D%3D%5Cmathbf%7BF%7D%5E%7B%28b%29%7D_t%5Cmathbf%7BN%7D%5ET_i+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>作者还尝试通过引入user embedding，但是没有提高性能：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=r_%7Bu%2C+i%2C+t%7D%3D%5Cleft%28%5Cmathbf%7BU%7D_%7Bu%7D%2B%5Cmathbf%7BF%7D_%7Bt%7D%5E%7B%28b%29%7D%5Cright%29+%5Cmathbf%7BM%7D_%7Bi%7D%5E%7BT%7D+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure></li>
+</ol>
+<h4 id="对比bstkdd2019">对比BST（KDD2019）</h4>
+<p>Behavior Sequence Transformer for E-commerce Recommendation in Alibaba这篇论文同样是使用了transformer应用在序列推荐中，但是BST面向排序阶段（SAS面向召回阶段），把序列推荐看成一个CTR任务， 引入了（other features: 用户基本特征、物品基本特征、上下文信息等），模型结构：</p>
+<figure>
+<img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9xUDhKUm5XNlQzcmZFbXJyckU1Qm5xWGRjaWFqcFRhVEVxNmVPaEM3TWc4ZHN5V2ljNExkSkd3akNKUEV6SHlaNWxRVFVRUjQ1NFJhVHVlSG84aWJRTWpaUS82NDA?x-oss-process=image/format,png" alt="" /><figcaption>img</figcaption>
+</figure>
+<h3 id="fdsa-feature-level-deeper-self-attention-network-for-sequential-recommendationijcai-2019">FDSA: Feature-level Deeper Self-Attention Network for Sequential Recommendation(IJCAI 2019)</h3>
+<h5 id="背景-3">背景：</h5>
+<p>SAS只考虑物品之间的顺序模式，而忽略了有助于捕获用户细粒度兴趣偏好的特征之间的顺序模式。 事实上，我们的日常item-item关系是十分重要的。例如，用户在买了衣服之后更可能买鞋子，显示出了下一个产品的类别与当前产品的类别具有高度的相关性。</p>
+<p>作者将用户对结构化属性(例如类别)不断变化的需求称为显式的特征转换。此外，物品还可能包含一些非结构化属性，如描述文本或图像，这些属性表示物品的更多细节。因此，作者希望从这些非结构化属性中挖掘用户潜在的特征级别模式，称之为隐式特征转换。</p>
+<p>因此FDSA通过对物品序列和特征序列分别应用不同的自注意块，对显式和隐式特征转换进行建模。为了获得隐式的特征转换，增加了一种vanilla注意机制，以帮助基于特征的自注意力块自适应地从各种物品属性中选择重要的特征。</p>
+<h5 id="主要工作">主要工作：</h5>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20190927111217835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM1MTQ4NzU4,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p>FDSA由5部分组成，Embedding layer, Vanilla attention layer, Item-based self-attention block, Feature-based self-attention block, 以及FFN。</p>
+<ol type="1">
+<li><p>首先将稀疏的物品以及物品的离散属性映射到低维稠密向量（embedding）。对物品的文本属性，利用主题模型提取关键词，然后利用word2vec获得关键词的文本向量表示。</p></li>
+<li><p>物品的特征通常是异构的，利用传统注意力从物品的各种特征中选择重要的特征。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20190927113214137.png" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<p>$ vec(c_i), vec(b_i) <span class="math inline">\(为物品类别和品牌的稠密向量表示，\)</span> vec(item_i^{text}) $ 表示文本i的文本特征表示。</p>
+<p>注意力得分为：<img src="https://img-blog.csdnimg.cn/20190927113937867.png" alt="在这里插入图片描述" /></p></li>
+<li><p>物品级和序列级特征分别输入transformer，最后拼接在一起得到最后预测结果。</p></li>
+</ol>
+<h3 id="bert4rec-sequential-recommendation-with-bidirectional-encoder-representations-from-transformercikm-2019">BERT4Rec: Sequential Recommendation with Bidirectional Encoder Representations from Transformer(CIKM 2019)</h3>
+<p>将Bert应用到推荐，完全相同的模型（没有next sentence prediction，因为无意义）。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20190621143944488.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<h3 id="s3-rec-self-supervised-learning-for-sequential-recommendation-with-mimcikm2020">S3-Rec: Self-Supervised Learning for Sequential Recommendation with MIM(CIKM2020)</h3>
+<h5 id="背景-4">背景：</h5>
+<ol type="1">
+<li><p>现有的神经网络模型利用预测损失来学习模型参数或者嵌入表征，但是这样的训练受限于数据稀疏问题。</p></li>
+<li><p>各类数据之间的关系没有被充分挖掘出来——上下文数据和序列数据之间的关联或融合一直不太好捕捉并用于序列推荐（pretrain对于提高性能有影响，说明直接单一目标函数训练是不够的）。</p></li>
+</ol>
+<h5 id="主要内容-3">主要内容：</h5>
+<p>S3-rec利用原有数据的相关性来构建自监督信号，并通过预训练方法来增强数据表示，以改善序列推荐。<strong>它利用互信息最大化（MIM）原理来学习属性，物品，子序列和序列之间的相关性。</strong></p>
+<h6 id="互信息最大化">互信息最大化</h6>
+<p>互信息：信息论中，互信息是不确定性减少的度量。让互信息最大化，就是让不确定性尽可能降低，充分挖掘数据之间的关系。</p>
+<figure>
+<img src="https://images2018.cnblogs.com/blog/1078607/201805/1078607-20180502145330252-1542574208.png" alt="" /><figcaption>img</figcaption>
+</figure>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-ee698fab4084cf24.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>互信息（KL(p(x,y)||p(x)p(y))）一般通过NCE实现（NCE来自NLP，是互信息的下限https://arxiv.org/pdf/1807.03748.pdf）：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5Cbegin%7Baligned%7D+%5Cmathcal%7BL%7D_%7B%5Cmathrm%7BN%7D%7D%5E%7B%5Cmathrm%7Bopt%7D%7D+%26%3D-%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B%5Cfrac%7B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7D%7B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%2B%5Csum_%7Bx_%7Bj%7D+%5Cin+X_%7B%5Cmathrm%7Bneg%7D%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%7D%5Cright%5D+%5C%5C+%26%3D%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D+%5Csum_%7Bx_%7Bj%7D+%5Cin+X_%7B%5Cmathrm%7Bneg%7D%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%5Cright%5D+%5C%5C+%26+%5Capprox+%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%28N-1%29+%5Cunderset%7Bx_%7Bj%7D%7D%7B%5Cmathbb%7BE%7D%7D+%5Cfrac%7Bp%5Cleft%28x_%7Bj%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bj%7D%5Cright%29%7D%5Cright%5D+%5C%5C+%26%3D%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B1%2B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D%28N-1%29%5Cright%5D+%5C%5C+%26+%5Cgeq+%5Cunderset%7BX%7D%7B%5Cmathbb%7BE%7D%7D+%5Clog+%5Cleft%5B%5Cfrac%7Bp%5Cleft%28x_%7Bt%2Bk%7D%5Cright%29%7D%7Bp%5Cleft%28x_%7Bt%2Bk%7D+%5Cmid+c_%7Bt%7D%5Cright%29%7D+N%5Cright%5D+%5C%5C+%26%3D-I%5Cleft%28x_%7Bt%2Bk%7D%2C+c_%7Bt%7D%5Cright%29%2B%5Clog+%28N%29+%5Cend%7Baligned%7D+%5Ctag+%7B30%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>https://zhuanlan.zhihu.com/p/334772391</p>
+<p>https://zhuanlan.zhihu.com/p/413681189</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-82d966ccaff78508.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/509/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<h6 id="模型">模型</h6>
+<figure>
+<img src="https://img-blog.csdnimg.cn/2021051822085535.png?,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MzM1OTMxMg==,size_16,color_FFFFFF,t_70" alt="" /><figcaption>在这里插入图片描述</figcaption>
+</figure>
+<ol type="1">
+<li><p><strong>Modeling Item-Attribute Correlation</strong>：最大化物品和属性间的互信息。<img src="https://upload-images.jianshu.io/upload_images/16043538-a4208c396f7c559d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/421/format/webp" alt="img" /></p>
+<p>对于每个物品，属性都提供其细粒度信息。 因此通过对物品-属性相关性进行建模来融合物品和属性级别的信息。以这种方式，期望将有用的属性信息融入到物品表示中。</p>
+<p>用双线性模型建模属性向量之间相关性：</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-0c20b082f2f2cf41.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/289/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>NCEloss：</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-f6642ec271df6b4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/518/format/webp" alt="" /><figcaption>img</figcaption>
+</figure></li>
+<li><p><strong>Modeling Sequence-Item Correlation</strong></p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-9bf488b559a47c1b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/336/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>和bert4rec， 一样在每个训练步骤中，随机掩盖输入序列中的一部分物品（即，将它们替换为特殊标记“ [mask]”）。 然后，基于两个方向上的上下文从原始序列中预测被mask的物品。</p>
+<p>对应loss（F代表mask位置预测的embedding）：</p>
+<figure>
+<img src="https:////upload-images.jianshu.io/upload_images/16043538-fadd088808210086.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/449/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<figure>
+<img src="https:////upload-images.jianshu.io/upload_images/16043538-cda3206968c6dfa1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/299/format/webp" alt="" /><figcaption>img</figcaption>
+</figure></li>
+<li><p><strong>Modeling Sequence-Attribute Correlation</strong></p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-9bee464d531568be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>融合序列上下文和物品属性信息（现有方法很少这样关联的）：</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-61068321a60405e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/310/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-5e8ba7e439ae0ab6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/454/format/webp" alt="" /><figcaption>img</figcaption>
+</figure></li>
+<li><p><strong>Modeling Sequence-Segment Correlation</strong></p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-0fa45ae04a43c429.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/260/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<p>物品序列与单词序列之间的主要<strong>区别在于单个物品项目可能与周围环境没有高度关联</strong>。例如，用户仅仅因为某些产品就在购买中而购买了它们，严格的上下文信息并不是决定因素。因此作者还考虑了子序列（序列模式，不是考虑严格位置关系，考虑相对位置关系）。</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-1244892c30654e84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/313/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-99312a5a87bb1042.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/432/format/webp" alt="" /><figcaption>img</figcaption>
+</figure></li>
+</ol>
+<h6 id="训练">训练</h6>
+<p><strong>模型训练包括预训练和微调两个阶段，预训练过程中利用上面的4个Loss即4个子任务通过无掩码的自注意力机制进行训练，得到高质量的物品表征和属性表征</strong>。</p>
+<p>微调阶段再来使用pairwise loss训练：</p>
+<figure>
+<img src="https://upload-images.jianshu.io/upload_images/16043538-51b2cd90e20e34a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/475/format/webp" alt="" /><figcaption>img</figcaption>
+</figure>
+<h2 id="boosting">2 BOOSTING</h2>
+<h4 id="gb">GB</h4>
+<p>梯度提升（Gradient Boost）核心思想是，用多个弱分类器（比如生成的子树）来构建一个强分类器（最终集成出来的树）。每一棵树（以回归树为例）学习的是之前所有树结论和的<strong>残差，</strong>这个残差就是一个加预测值后能得真实值的累加量。</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=f%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D%29+%3D+f%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D_%7BK%7D%29+%3D+%5Csum_%7Bk+%3D+1%7D%5E%7BK%7D%7Bh_%7Bk%7D+%28%5Cvec%7B%5Cmathbf+%7B+x+%7D%7D%3B%5CTheta_%7Bk%7D%29+%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<h4 id="gbt">GBT</h4>
+<p>梯度提升树(GBT)的一个核心思想是<strong>利用损失函数的负梯度在当前模型的值作为残差的近似值</strong>，本质上是对损失函数进行一阶泰勒展开，从而拟合一个回归树。</p>
+<p>一阶泰勒：<img src="https://www.zhihu.com/equation?tex=f%28x+%2B+%5CDelta+x%29+%5Csimeq+f%28x%29+%2B+f%27%28x%29+%5CDelta+x" alt="[公式]" /></p>
+<p>对应损失函数展开：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%2B+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29+%5Cright%29+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%2B+%5Cfrac+%7B+%5Cpartial+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%7D+%7B+%5Cpartial+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%7D+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29++%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5CDelta+L+%3D+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+-+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%3D+%5Cfrac+%7B+%5Cpartial+L+%5Cleft%28+%7B+y+%7D+%2C+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%5Cright%29+%7D+%7B+%5Cpartial+f+_+%7B+k+-+1+%7D+%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%29+%7D+h+_+%7B+k+%7D+%5Cleft%28+%5Cvec+%7B+%5Cmathbf+%7B+x+%7D+%7D+%3B+%5CTheta+_+%7B+k+%7D+%5Cright%29+%5C%5C" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>其中对于平方或指数损失函数，就是通常意义上的残差。对于其他普通函数，残差是导数的近似值。用于回归模型时，是<strong>梯度提升回归树GBRT；</strong>梯度提升树用于分类模型时，是<strong>梯度提升决策树<code>GBDT</code></strong>；二者的区别主要是损失函数不同。</p>
+<h4 id="xgboost">XGBoost</h4>
+<h4 id="算法">算法</h4>
+<h5 id="目标函数">目标函数：</h5>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=L%5Cleft%28+%5Cphi+%5Cright%29%3D%5Csum_%7Bi%7D%7Bl%5Cleft%28+%5Chat+y_%7Bi%7D+%2Cy_%7Bi%7D%5Cright%29%7D%2B%5Csum_%7Bk%7D%7B%5COmega%5Cleft%28+f_%7Bk%7D+%5Cright%29%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%5COmega%5Cleft%28+f+%5Cright%29%3D%5CUpsilon+T%2B%5Cfrac%7B1%7D%7B2%7D%5Clambda+%7C%7Cw%7C%7C%5E2" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>相比GBDT引入了正则项， <img src="https://www.zhihu.com/equation?tex=T" alt="[公式]" /> 表示给定一颗树的叶节点数,决策树定义为 <img src="https://www.zhihu.com/equation?tex=f_k%28x%29%3Dw_%7Bq%28x%29%7D" alt="[公式]" />，<img src="https://www.zhihu.com/equation?tex=x" alt="[公式]" /> 为某一样本，这里的 <img src="https://www.zhihu.com/equation?tex=q%28x%29" alt="[公式]" /> 表示该样本所在的叶子结点，<img src="https://www.zhihu.com/equation?tex=w_q" alt="[公式]" /> 为叶子结点权重 <img src="https://www.zhihu.com/equation?tex=w" alt="[公式]" />，所以得出 <img src="https://www.zhihu.com/equation?tex=w_%7Bq%28x%29%7D" alt="[公式]" /> 为每个样本的取值 <img src="https://www.zhihu.com/equation?tex=w" alt="[公式]" />（即预测值）。所以 <img src="https://www.zhihu.com/equation?tex=%7C%7Cw%7C%7C%5E2" alt="[公式]" /> 表示每颗树叶节点上的输出分数的平方(相当于L2正则)</p>
+<p>在通常的模型中针对这类目标函数可以使用梯度下降的方式进行优化，但注意到 <img src="https://www.zhihu.com/equation?tex=f_%7Bt%7D" alt="[公式]" /> 表示的是一颗树，而非一个数值型的向量，所以不能使用梯度下降的方式去优化该目标函数。在此作者提出了使用 <strong>前向分步算法</strong>（additive manner）。</p>
+<p>目标函数为： <img src="https://www.zhihu.com/equation?tex=L%5E%7B%5Cleft%28+t+%5Cright%29%7D%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Bl%5Cleft%28y_%7Bi%7D+%2C%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D%2Bf_%7Bt%7D%28x_%7Bi%7D%29%5Cright%29%7D%2B%5COmega%5Cleft%28+f_%7Bt%7D+%5Cright%29" alt="[公式]" /></p>
+<p>其中第 i 个样本在第 t 颗树的预测值 (<img src="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t+%5Cright%29%7D" alt="[公式]" />)等于样本 i 在前 t-1 棵树的预测值( <img src="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D" alt="[公式]" /> ) 加当前第 t 颗树预测值( <img src="https://www.zhihu.com/equation?tex=f_%7Bt%7D%28x_%7Bi%7D%29" alt="[公式]" /> ) 公式表达为： <img src="https://www.zhihu.com/equation?tex=%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t+%5Cright%29%7D+%3D+%5Chat+y_%7Bi%7D%5E%7B%5Cleft%28+t-1+%5Cright%29%7D%2Bf_%7Bt%7D%28x_%7Bi%7D%29" alt="[公式]" /></p>
+<p>对于该函数的优化，在 XGBoost 中使用了泰勒展开式，与 GDBT 不同的是 XGBoost 使用了泰勒二次展开式。</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=f%28x+%2B+%5CDelta+x%29+%5Csimeq+f%28x%29+%2B+f%27%28x%29+%5CDelta+x+%2B+%5Cfrac%7B1%7D%7B2%7D+f%27%27%28x%29+%5CDelta+x%5E%7B2%7D" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>使 <img src="https://www.zhihu.com/equation?tex=g_%7Bi%7D%3D%5Cpartial_%7B%5Chat+y%5E%7B%28t-1%29%7D%7Dl%28y_%7Bi%7D%2C%5Chat+y%5E%7B%28t-1%29%7D%29%2C+%5Cspace+h_%7Bi%7D%3D%5Cpartial_%7B%5Chat+y_%7Bi%7D%5E%7B%28t-1%29%7D%7D%5E%7B2%7Dl%28y_%7Bi%7D%2C%5Chat+y%5E%7B%28t-1%29%7D%29" alt="[公式]" /></p>
+<p>这里是针对 <img src="https://www.zhihu.com/equation?tex=f_%7Bt%7D%28x_%7Bi%7D%29" alt="[公式]" /> 的求导，所以可以将 <img src="https://www.zhihu.com/equation?tex=l%28y_%7Bi%7D%2C%5Chat+y_%7Bi%7D%5E%7B%28t-1%29%7D%29" alt="[公式]" /> 部分看成常数去掉。</p>
+<p>得出简化后的损失函数：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7B%5Bg_%7Bi%7Df_%7Bt%7D%28x_%7Bi%7D%29%2B%5Cfrac%7B1%7D%7B2%7Dh_%7Bi%7Df_%7Bt%7D%5E%7B2%7D%28x_%7Bi%7D%29%5D%7D%2B%5COmega%28f_%7Bt%7D%29+%5C%5C%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7B%5Bg_%7Bi%7Df_%7Bt%7D%28x_%7Bi%7D%29%2B%5Cfrac%7B1%7D%7B2%7Dh_%7Bi%7Df_%7Bt%7D%5E%7B2%7D%28x_%7Bi%7D%29%5D%7D%2B%5CUpsilon+T%2B%5Cfrac%7B1%7D%7B2%7D%5Clambda+%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7Bw_%7Bj%7D%5E2%7D+%5C%5C%3D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%5B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D+++%7Bg_%7Bi%7D%29w_%7Bj%7D%2B%5Cfrac%7B1%7D%7B2%7D%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%5E%7B2%7D%7D%5D%2B%5Cgamma+T++++" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>如果确定了树的结构，为了使目标函数最小，可以令其导数为0，解得每个叶节点<span class="math inline">\(j\)</span>的最优预测分数为：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=%E4%BB%A4+%5Cfrac%7B%5Cpartial+L%5E%7B%28t%29%7D%7D%7B%5Cpartial+w_%7Bj%7D%7D%3D0+%5C%5C%5CRightarrow+%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D+++%7Bg_%7Bi%7D%29%2B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%7D%3D0%5C%5C%5CRightarrow+%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%29w_%7Bj%7D%3D-%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%5C%5C%5CRightarrow+w_%7Bj%7D%5E%7B%2A%7D%3D-%5Cfrac%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%7D%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%7D+" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>将 <img src="https://www.zhihu.com/equation?tex=w%5E%7B%2A%7D" alt="[公式]" /> 代入简化后的目标函数得到最小损失为：<img src="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D-%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7B%5Cfrac%7B%28%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%29%5E2%7D%7D%7B%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%2B%5Clambda%7D%7D%7D%2B%5CUpsilon+T" alt="[公式]" /></p>
+<p>另<img src="https://www.zhihu.com/equation?tex=G_%7Bi%7D%3D%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bg_%7Bi%7D%7D%2CH_%7Bi%7D%3D%5Csum_%7Bi%5Cin+I_%7Bj%7D%7D%7Bh_%7Bi%7D%7D" alt="[公式]" /> 则有：<img src="https://www.zhihu.com/equation?tex=L%5E%7B%28t%29%7D%3D-%5Cfrac%7B1%7D%7B2%7D%5Csum_%7Bj%3D1%7D%5E%7BT%7D%7B%5Cfrac%7BG_%7Bj%7D%5E%7B2%7D%7D%7BH_%7Bj%7D%2B%5Clambda%7D%7D%2B%5CUpsilon+T" alt="[公式]" /></p>
+<p>直观上看，判断一棵树的好坏，就可以根据上面的<span class="math inline">\(L^{(t)}\)</span>进行判断，loss越小（<strong>注意loss中的负号</strong>），代表树的结构越好。</p>
+<p>作者在划分时用了<strong>贪心算法</strong>。假设在某节点分裂了左 <img src="https://www.zhihu.com/equation?tex=I_%7BL%7D" alt="[公式]" /> ，右节点 <img src="https://www.zhihu.com/equation?tex=I_%7BR%7D" alt="[公式]" /> 且满足 如果确定了树的结构（即q(x)确定），为了使目标函数最小，可以令其导数为0，解得每个叶节点的最有预测分数为：<img src="https://www.zhihu.com/equation?tex=I+%3D+I_%7BL%7D+%5Ccup+I_%7BR%7D" alt="[公式]" /> ,</p>
+<p>那么分裂后增益 可以表示为： <img src="https://www.zhihu.com/equation?tex=L_%7Bsplit%7D%3D%5Cfrac%7B1%7D%7B2%7D%5B%5Cfrac%7BG_%7BL%7D%5E%7B2%7D%7D%7BH_%7BL%7D%2B%5Clambda%7D%2B%5Cfrac%7BG_%7BR%7D%5E%7B2%7D%7D%7BH_%7BR%7D%2B%5Clambda%7D-%5Cfrac%7B%28G_%7BL%7D%2BG_%7BR%7D%29%5E2%7D%7BH_%7BL%7D%2BH_%7BR%7D%2B%5Clambda%7D%5D-%5Cgamma" alt="[公式]" /></p>
+<p>该值越大，说明分裂后能使目标函数减少越多，就越好。此方法被用于 XGBoost 判断最优特征以及最优切分点。</p>
+<h5 id="shrinkage-列降采样"><strong>Shrinkage</strong> <strong>&amp; 列降采样</strong></h5>
+<ul>
+<li><strong>Shrinkage</strong> 策略（权重衰减，类似 LSTM）。比如把整个训练过程看作一个时间序列，离当前树时间点越靠前的权重对当前权重的累加影响越小，这个衰减就是论文里的参数 <img src="https://www.zhihu.com/equation?tex=%5Ceta" alt="[公式]" /> 控制的。（时间做平滑)</li>
+<li>特征降采样的方法来避免过拟合，只是这里的降采样使用的是<strong>列降采样</strong>（与随机森林做法一样每次的输入特征不是全部特征，不仅能降低过拟合，还能减少计算），它的另外一个好处是可以方便加速并行化</li>
+</ul>
+<h5 id="分裂点">分裂点</h5>
+<p>每个树生成的问题都要考虑到两个问题是：1）按照哪个维度 / 顺序组合切 2）如何判断*<strong>最佳切分点*</strong>。</p>
+<ol type="1">
+<li><p><strong>贪心算法</strong></p>
+<p>从树的根节点开始，对每个叶节点枚举所有的可用特征。此处文中指出：对该节下的数据需令其按特征值进行排序，这样做可以使计算分裂收益值更加高效，*<strong>分裂收益值*</strong> 计算如下：</p>
+<figure>
+<img src="https://www.zhihu.com/equation?tex=Gain+%3D+L_%7Bsplit%7D%3D%5Cfrac%7B1%7D%7B2%7D%5B%5Cfrac%7BG_%7BL%7D%5E%7B2%7D%7D%7BH_%7BL%7D%2B%5Clambda%7D%2B%5Cfrac%7BG_%7BR%7D%5E%7B2%7D%7D%7BH_%7BR%7D%2B%5Clambda%7D-%5Cfrac%7B%28G_%7BL%7D%2BG_%7BR%7D%29%5E2%7D%7BH_%7BL%7D%2BH_%7BR%7D%2B%5Clambda%7D%5D-%5Cgamma" alt="" /><figcaption>[公式]</figcaption>
+</figure>
+<p>然后选择该轮最大收益值作为*<strong>最佳分裂点*</strong> ，使在该节点行分裂出左右两个新的叶节点，并重新分配新节点上的样本。至此一个循环结束，继续按同样流程递归迭代直至满足条件停止。在特征维度较大的时候，内存会不够。</p></li>
+<li><p><strong>近似值</strong></p>
+<p>作者提出将连续特征变量按照特征值分布进行分桶操作的方法，这样只需要计算每个桶中的统计信息就可以求出最佳分裂点的最佳分裂收益值。</p>
+<p>在确定分裂点时作者提出了两种方法：Global、Local。</p>
+<p><strong><em>Global</em></strong> 表示在生成树<strong>之前</strong>进行候选切分点（candidate splits）的计算，且在整个计算过程中只做<strong>一次</strong>操作。在以后的节点划分时都使用已经提前计算好的候选切分点；<strong>Local</strong> 则是在每次节点划分时才进行候选切分点的计算。Global 适合在取大量切分点下使用； Local 更适用于深度较大的树结构。</p></li>
+</ol>
+<h4 id="lightgbm">LightGBM</h4>
+<p>https://zhuanlan.zhihu.com/p/99069186</p>
+<p>对xgboost的优化：</p>
+<ul>
+<li><p>基于Histogram的决策树算法。</p>
+<p>直方图方式进行分桶， 将特征离散化（与xgboost一样仅考虑非零特征）。</p>
+<figure>
+<img src="https://img-blog.csdn.net/2018062717561447?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2phc29ud2FuZ18=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="" /><figcaption>CSDN图标</figcaption>
+</figure>
+<p>Histogram（直方图）做差加速。一个叶子的直方图可以由它的父亲节点的直方图与它兄弟的直方图做差得到，在速度上可以提升一倍。</p></li>
+<li><p>单边梯度采样 Gradient-based One-Side Sampling(GOSS)：使用GOSS可以减少大量只具有小梯度的数据实例，这样在计算信息增益的时候只利用剩下的具有高梯度的数据就可以了，相比XGBoost遍历所有特征值节省了不少时间和空间上的开销。</p>
+<p>GOSS排除大部分小梯度的样本，仅用剩下的样本计算信息增益，它是一种在减少数据量和保证精度上平衡的算法。</p></li>
+<li><p>互斥特征捆绑 Exclusive Feature Bundling(EFB)：使用EFB可以将许多互斥的特征绑定为一个特征，这样达到了降维的目的。</p></li>
+<li><p>带深度限制的Leaf-wise的叶子生长策略：大多数GBDT工具使用低效的按层生长 (level-wise) 的决策树生长策略，因为它不加区分的对待同一层的叶子，带来了很多没必要的开销。实际上很多叶子的分裂增益较低，没必要进行搜索和分裂。LightGBM使用了带有深度限制的按叶子生长 (leaf-wise) 算法：</p>
+<p>该策略每次从当前所有叶子中，找到分裂增益最大的一个叶子，然后分裂，如此循环。因此同Level-wise相比，Leaf-wise的优点是：在分裂次数相同的情况下，Leaf-wise可以降低更多的误差，得到更好的精度；Leaf-wise的缺点是：可能会长出比较深的决策树，产生过拟合。因此LightGBM会在Leaf-wise之上增加了一个最大深度的限制，在保证高效率的同时防止过拟合。</p></li>
+<li><p>直接支持类别特征(Categorical Feature)</p></li>
+<li><p>支持高效并行</p></li>
+<li><p>Cache命中率优化</p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/02/11/week%2010/" rel="prev" title="第十次周报">
+                  <i class="fa fa-chevron-left"></i> 第十次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/25/week%2012/" rel="next" title="第十二次周报">
+                  第十二次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

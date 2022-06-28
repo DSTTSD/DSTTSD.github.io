@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"dsttsd.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":false,"version":"8.8.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="week 9 内容：  louis philippe morency 《多模态机器学习》 80% 论文阅读：  A Survey of Clustering With Deep Learning: From the Perspective of Network Architecture EM、GMM SpectralCoclustering   A Survey of Clus">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第九次周报">
+<meta property="og:url" content="https://dsttsd.github.io/2022/02/03/week%209/index.html">
+<meta property="og:site_name" content="DSTの杂货铺">
+<meta property="og:description" content="week 9 内容：  louis philippe morency 《多模态机器学习》 80% 论文阅读：  A Survey of Clustering With Deep Learning: From the Perspective of Network Architecture EM、GMM SpectralCoclustering   A Survey of Clus">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/TXK9Y1L7qJotGF3.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/LnUXEqzWgvAIw8i.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/hXsr5yONnlHUej8.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/CGwORIAzbknKH4X.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/Sqe2hEYPsKCtUQH.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/P1CkvleuD8j9siN.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/kCElbFKsRIJX6Lf.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/IgbOmpMXWUtED3q.png">
+<meta property="og:image" content="https://s2.loli.net/2022/02/10/fX25QWBSota1rRH.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181127162559502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MDM0NTQ1,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2022-02-03T02:20:55.000Z">
+<meta property="article:modified_time" content="2022-06-28T06:12:30.285Z">
+<meta property="article:author" content="DST">
+<meta property="article:tag" content="周报">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/02/10/TXK9Y1L7qJotGF3.png">
+
+
+<link rel="canonical" href="https://dsttsd.github.io/2022/02/03/week%209/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://dsttsd.github.io/2022/02/03/week%209/","path":"2022/02/03/week 9/","title":"第九次周报"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>第九次周报 | DSTの杂货铺</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">DSTの杂货铺</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">2</span></a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">10</span></a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#a-survey-of-clustering-with-deep-learning-from-the-perspective-of-network-architecture"><span class="nav-number">1.</span> <span class="nav-text">A Survey of Clustering With Deep Learning: From the Perspective of Network Architecture</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#intorduction"><span class="nav-number">1.1.</span> <span class="nav-text">Intorduction</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E8%81%9A%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">深度学习的聚类方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#preliminaries"><span class="nav-number">1.2.</span> <span class="nav-text">PRELIMINARIES</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E5%BA%A6%E8%81%9A%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">深度聚类方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#future-opportunities"><span class="nav-number">1.4.</span> <span class="nav-text">FUTURE OPPORTUNITIES</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#em-%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">EM 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.0.1.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%BC%E5%87%BA"><span class="nav-number">2.0.2.</span> <span class="nav-text">导出</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B6%E6%95%9B%E6%80%A7"><span class="nav-number">2.1.</span> <span class="nav-text">收敛性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gmm%E6%B7%B7%E5%90%88%E9%AB%98%E6%96%AF"><span class="nav-number">3.</span> <span class="nav-text">GMM混合高斯</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E5%AE%9A%E4%B9%89"><span class="nav-number">3.0.1.</span> <span class="nav-text">模型定义：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.0.2.</span> <span class="nav-text">参数学习</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="DST"
+      src="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+  <p class="site-author-name" itemprop="name">DST</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/DSTTSD" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;DSTTSD" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://dsttsd.github.io/2022/02/03/week%209/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/50662067?s=400&u=b552d8b742d1e685ed0ddcc6a97d9f697535fa6b&v=4">
+      <meta itemprop="name" content="DST">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="DSTの杂货铺">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第九次周报
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-02-03 10:20:55" itemprop="dateCreated datePublished" datetime="2022-02-03T10:20:55+08:00">2022-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-06-28 14:12:30" itemprop="dateModified" datetime="2022-06-28T14:12:30+08:00">2022-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%91%A8%E6%8A%A5/" itemprop="url" rel="index"><span itemprop="name">周报</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>week 9 内容：</p>
+<ul>
+<li><p>louis philippe morency 《多模态机器学习》 80%</p></li>
+<li><p>论文阅读：</p>
+<ol type="1">
+<li>A Survey of Clustering With Deep Learning: From the Perspective of Network Architecture</li>
+<li>EM、GMM</li>
+<li>SpectralCoclustering</li>
+</ol></li>
+</ul>
+<h3 id="a-survey-of-clustering-with-deep-learning-from-the-perspective-of-network-architecture">A Survey of Clustering With Deep Learning: From the Perspective of Network Architecture</h3>
+<p>近些年来很多研究几种在使用深度神经网络学习更好的表示来提高聚类性能。这篇综述从网络框架的角度进行了研究，他们首先介绍了领域相关知识，然后提出了深度学习进行聚类的相关分类方法（taxonomy），最后提出未来发展的方向并做了总结。</p>
+<h4 id="intorduction">Intorduction</h4>
+<p>数据聚类是机器学习、模式识别、计算机视觉、数据压缩等领域的一个基本问题。聚类的目标是根据一些相似度量(如欧几里德距离)将相似数据分类成一个聚类传统的聚类方法对高维数据的聚类性能通常很差，这是由于这些方法使用的相似度进行度量的效率较低。此外，这些方法在大规模数据集上通常具有较高的计算复杂度。因此，人们广泛研究降维和特征转换方法，将原始数据映射到一个新的特征空间中，生成的数据更容易被现有的分类器分离。一般来说，现有的数据变换方法包括线性变换如主成分分析(PCA)和等非线性变换如核方法、谱方法等。然而，潜在结构高度复杂的数据仍挑战着现有的聚类方法。深度神经网络(DNNs)由于其固有的高度非线性变换特性，可以将数据转换为更有利于聚类的表示形式。</p>
+<p>##### 传统聚类方法分类</p>
+<ol type="1">
+<li><p>基于划分的方法（partition-based）</p></li>
+<li><p>基于密度的方法（density-based）</p></li>
+<li><p>层次的方法（hierarchical）</p></li>
+<li><p>其他</p></li>
+</ol>
+<p>由于深度学习聚类的本质是学习面向聚类的表示，本文基于网络结构进行了分类</p>
+<h5 id="深度学习的聚类方法">深度学习的聚类方法</h5>
+<ol type="1">
+<li>基于autoencoder：训练解码器和编码器，解码器是训练时候重建回原始数据，编码器是训练的mapping function（降维、非线性表示）</li>
+<li>ClusterDNN: 通过特定聚类loss进行约束训练的前馈神经网络</li>
+<li>基于GAN和VAE:它们不仅可以执行聚类任务，还可以从获得的聚类中生成新的样本</li>
+</ol>
+<h4 id="preliminaries">PRELIMINARIES</h4>
+<p>结构：</p>
+<ol type="1">
+<li>MLP:对聚类任务，好的初始化是必要的，避免训练陷入局部最优</li>
+<li>CNN：不需要特定初始化，但良好的初始化能显著提高性能。</li>
+</ol>
+<p>clustering loss：</p>
+<ol type="1">
+<li>主聚类损失 Principal Clustering Loss：这类聚类损失函数包括样本的聚类中心（cluster centroids）和聚类分配(cluster assignment)。在聚类损耗引导下对网络进行训练后，可以直接得到聚类。</li>
+<li>辅助性损失 Auxiliary Clustering Loss：第二类只起到引导网络学习更可行的聚类表示的作用，不能直接输出聚类。这意味着只有辅助聚类损失的深层聚类方法需要在训练完网络后运行一种聚类方法才能得到聚类。</li>
+</ol>
+<p>metrics:</p>
+<ol type="1">
+<li>聚类准确率：</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/02/10/TXK9Y1L7qJotGF3.png" /></p>
+<p><span class="math display">\[A C C=\operatorname*{max}_{m}{\frac{\int_{i=1}^{n}\sum\{y_{i}=m(c_{i})\}}{n}}\]</span></p>
+<p>c是聚类分配，y是ground truth， m是mapping function</p>
+<ol start="2" type="1">
+<li>Normalized Mutual Information(NMI)</li>
+</ol>
+<p><img src="https://s2.loli.net/2022/02/10/LnUXEqzWgvAIw8i.png" /></p>
+<p>I是互信息，H是信息熵</p>
+<h4 id="深度聚类方法">深度聚类方法</h4>
+<p><img src="https://s2.loli.net/2022/02/10/hXsr5yONnlHUej8.png" /></p>
+<p><img src="https://s2.loli.net/2022/02/10/CGwORIAzbknKH4X.png" /></p>
+<p><img src="https://s2.loli.net/2022/02/10/Sqe2hEYPsKCtUQH.png" /></p>
+<p>深度聚类方法的损失函数(优化目标)通常由网络损失Ln和聚类损失Lc两部分组成：</p>
+<p><span class="math display">\[{\cal L}=\lambda L_{n}+(1-\lambda)L_{c}\]</span></p>
+<p>Ln:网络损失可以是自动编码器(AE)的重构损失、变分自编码器(VAE)的变分损失或生成式对抗网络(GAN)的对抗损失。</p>
+<p>Lc：群体之间特征区分更明显</p>
+<ol type="1">
+<li><p>AE based</p>
+<p>reconstruction loss：</p>
+<p><span class="math inline">\(\operatorname*{min}_{\phi,\theta}{\cal L}_{r e c}=\operatorname*{min}_{\bigl|n\bigr|}\sum_{i=1}^{n}\left|\left|\,x_{i}-g_{\theta}(f_{\phi}(x_{i})\right\gt \right|^{2}\)</span></p>
+<p>total loss:</p>
+<p><span class="math inline">\(L=\lambda L_{r e c}+(1-\lambda)L_{t}\)</span></p>
+<p><img src="https://s2.loli.net/2022/02/10/P1CkvleuD8j9siN.png" /></p>
+<p>提升性能：</p>
+<ol type="1">
+<li>结构：对于含有空间不变性的数据可加入pooling</li>
+<li>鲁棒性：为了避免过拟合和提高鲁棒性，在输入中加入噪声</li>
+<li>引入特征限制，如正则化</li>
+<li>把各层的重构损失都加入到loss中</li>
+</ol>
+<p>例子：</p>
+<ol type="1">
+<li>DCN：它结合了自动编码器和k-means算法。首先进行预训练AE，然后联合优化重建损失和k-means损失。</li>
+</ol></li>
+<li><p>CDNN-Based</p>
+<p>没有了reconstruction loss，基于cdn的算法存在获取损坏特征空间的风险，当所有的数据点被简单地映射到紧凑的聚类上时，导致聚类损失值很小，但没有意义。因此，需要仔细设计聚类loss，对于一定的聚类loss，网络初始化很重要。因此，基于cdn的深度聚类算法按照网络初始化的方式分为三类，即无监督预训练、有监督预训练和随机初始化。</p>
+<p><img src="https://s2.loli.net/2022/02/10/kCElbFKsRIJX6Lf.png" /></p>
+<ol type="1">
+<li><p>unsupervised</p>
+<p>这些算法首先以无监督的方式训练RBM或自动编码器，然后通过聚类loss对网络(仅对自动编码器的编码器部分)进行微调。</p></li>
+<li><p>supervised</p>
+<p>复杂的图像数据中提取可行的特征（domain pretrain）</p></li>
+<li><p>non pretrain</p>
+<p>在精心设计的聚类损失的指导下，网络也可以训练提取判别特征</p></li>
+</ol></li>
+<li><p>VAE-BASED</p>
+<p>与传统的聚类方法相比，基于ae和cdn的深度聚类方法有了显著的改进。然而，它们是专门为聚类而设计的，不能揭示数据的真正底层结构，这就妨碍了它们扩展到聚类之外的其他任务，例如生成样本。VAE可以被认为是AE的生成变体，因为它强制AE的潜在代码遵循预定义的分布。VAE将变分贝叶斯方法与神经网络的灵活性和可扩展性相结合。</p>
+<p><img src="https://s2.loli.net/2022/02/10/IgbOmpMXWUtED3q.png" /></p></li>
+<li><p>GAN-BASED</p>
+<p><img src="https://s2.loli.net/2022/02/10/fX25QWBSota1rRH.png" /></p></li>
+</ol>
+<h4 id="future-opportunities">FUTURE OPPORTUNITIES</h4>
+<ol type="a">
+<li>future opportunities</li>
+</ol>
+<ol type="1">
+<li>目前还没有理论分析解释深度学习聚类工作原理以及如何进一步提高聚类性能</li>
+<li>其他网络架构与聚类相结合</li>
+<li>引入tricks降低训练难度，提高鲁棒性</li>
+<li>引入其他任务如多任务学习、迁移学习</li>
+</ol>
+<h3 id="em-算法">EM 算法</h3>
+<p>EM算法是一种迭代算法，1977年Dempster等人总结，用于含有隐变量的概率模型极大似然估计，或者最大后验估计。有两步，E步求期望，M步求极大。</p>
+<p>Q函数：完全对数似然在给定观测数据Y以及当前<span class="math inline">\(\theta^{(i)}\)</span>的情况下对Z的期望。</p>
+<p><span class="math inline">\(Q(\theta, \theta^{(i)}) = E_Z [\log P(Y,Z|\theta)|Y,\theta^{(i)}]\)</span></p>
+<p><span class="math inline">\(\sum_{z(i)}Q^{i}(z^{(i)}) = 1\)</span></p>
+<p><span class="math inline">\(Q^{i}(z^{(i)})\geq0\)</span></p>
+<h5 id="步骤">步骤</h5>
+<p>分为E步和M步，即求Q函数，极大化Q函数。</p>
+<p>输入：观测数据Y，隐变量数据Z，联合分布<embed src="https://private.codecogs.com/gif.latex?P%28Y%2CZ%7C%5Ctheta%29" />，条件分布<embed src="https://private.codecogs.com/gif.latex?P%28Z%7CY%2C%5Ctheta%29" />；</p>
+<p>输出：模型参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />。</p>
+<ol type="1">
+<li><p>选取参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的初始值在<span class="math inline">\(\theta^{(0)}\)</span>（可任意选择，但是算法对初始值敏感)；开始迭代；</p></li>
+<li><p>E步：计算<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%20%26%3D%20E_Z%20%5B%5Clog%20P%28Y%2CZ%7C%5Ctheta%29%7CY%2C%5Ctheta%5E%7B%28i%29%7D%5D%5C%5C%20%26%3D%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20%5Clog%20P%28Y%2CZ%7C%5Ctheta%29%20%5Cend%7Balign*%7D" /></p></li>
+<li><p>M步：最大化<span class="math inline">\(Q(\theta, \theta^{(i)})\)</span>,得到<span class="math inline">\(\theta^{(i+1)}\)</span>：</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i+1%29%7D%3D%5Carg%20%5Cmax%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" /><figcaption>^{(i+1)}=Q(, ^{(i)})</figcaption>
+</figure></li>
+<li><p>重复2. 3.，直到收敛</p>
+<p>停止迭代的条件：<embed src="https://private.codecogs.com/gif.latex?%5Cleft%20%5C%7C%20%5Ctheta%5E%7B%28i+1%29%7D-%5Ctheta%5E%7B%28i%29%7D%20%5Cright%20%5C%7C%20%3C%5Cvarepsilon_1" /> 或<embed src="https://private.codecogs.com/gif.latex?%5Cleft%20%5C%7C%20Q%28%5Ctheta%5E%7B%28i+1%29%7D%2C%20%5Ctheta%5E%7B%28i%29%7D%29-Q%28%5Ctheta%5E%7B%28i%29%7D%2C%5Ctheta%5E%7B%28i%29%7D%29%20%5Cright%20%5C%7C%3C%5Cvarepsilon_2" /></p></li>
+</ol>
+<h5 id="导出">导出</h5>
+<p>给定观测数据Y，目标是极大化观测数据（不完全数据）Y关于参数<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的对数似然函数，即</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3D%5Clog%20P%28Y%7C%5Ctheta%29%3D%5Clog%20%5Csum_%7BZ%7DP%28Y%2CZ%7C%5Ctheta%29%3D%5Clog%20%5Cleft%20%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%5Cright%20%5C%7D" /><figcaption>L()=P(Y|)=_{Z}P(Y,Z|)={ _Z P(Y|Z,) P(Z|)}</figcaption>
+</figure>
+<p>其中表示在模型参数为<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />时，观测数据Y的概率分布。</p>
+<p><span class="math inline">\(\begin{align*} P(Y|\theta)&amp;=\sum_Z P(Y,Z|\theta)=\sum_Z P(Z|\theta)P(Y|Z,\theta)\\ \end{align*}\)</span></p>
+<p>EM算法通过逐步迭代来逐步近似极大化<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />。假设第i次迭代后<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />的估计值为<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D" />。下一轮的估计值<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />要使<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3E%20L%28%5Ctheta%5E%7B%28i%29%7D%20%29" />。故</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29-L%28%5Ctheta%5E%7B%28i%29%7D%20%29%3D%5Clog%20%5Cleft%20%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%29P%28Z%7C%5Ctheta%29%20%5Cright%20%5C%7D-%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%20%29" /><figcaption>L()-L(^{(i)} )={ _Z P(Y|Z,)P(Z|) }-P(Y|^{(i)} )</figcaption>
+</figure>
+<p>利用Jensen不等式（这里用的是<span class="math inline">\(log{\bigl(}\sum_{i=1}^{M}\lambda_{i}x_{i}{\bigr)}\leq\sum_{i=1}^{M}\lambda_{i}log{\bigl(}x_{i}{\bigr)}\)</span>）得到下界：</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20L%28%5Ctheta%29-L%28%5Ctheta%5E%7B%28i%29%7D%20%29%20%26%3D%5Clog%20%5Cleft%5C%7B%20%5Csum_Z%20P%28Y%7CZ%2C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Y%7CZ%2C%5Ctheta%5E%7B%28i%29%7D%20%29%7D%20%5Cright%20%5C%7D%20-%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5C%5C%20%26%5Cgeq%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%7D%20-%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%5C%5C%20%26%3D%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%7D%20-%20%5Csum_ZP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%20%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%20%5C%5C%20%26%3D%20%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D%20%5C%5C%20%5Cend%7Balign*%7D" /><figcaption><span class="math display">\[\begin{align*} L(\theta)-L(\theta^{(i)} ) &amp;=\log \left\{ \sum_Z P(Y|Z,\theta^{(i)} ) \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Y|Z,\theta^{(i)} )} \right \} - \log P(Y|\theta^{(i)} ) \\ &amp;\geq \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)})} - \log P(Y|\theta^{(i)})\\ &amp;= \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)})} - \sum_ZP(Z|Y,\theta^{(i)} ) \log P(Y|\theta^{(i)}) \\ &amp;= \sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})} \\ \end{align*}\]</span></figcaption>
+</figure>
+<p>令</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%3DL%28%5Ctheta%5E%7B%28i%29%7D%29+%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D" /><figcaption>B(, <sup>{(i)})=L(</sup>{(i)})+_Z P(Z|Y,^{(i)} )</figcaption>
+</figure>
+<p><embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的一个下界。任何可使<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />增大的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />，都可以使<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />增加。选择能使当前<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />极大的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i+1%29%7D" />作为新的<embed src="https://private.codecogs.com/gif.latex?%5Ctheta" />值。</p>
+<figure>
+<embed src="https://private.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20%5Ctheta%5E%7B%28i+1%29%7D%20%26%3D%5Carg%20%5Cmax%20%28L%28%5Ctheta%5E%7B%28i%29%7D%29+%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%20%29%5Clog%20%5Cfrac%7BP%28Y%7CZ%2C%5Ctheta%29%20P%28Z%7C%5Ctheta%29%7D%7BP%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29%7D%29%20%5C%5C%20%26%3D%5Carg%20%5Cmax%20%28%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%29%5Clog%20%28P%28Y%7CZ%2C%5Ctheta%29P%28Z%7C%5Ctheta%29%29%5C%5C%20%26%3D%5Carg%20%5Cmax%20%28%5Csum_Z%20P%28Z%7CY%2C%5Ctheta%5E%7B%28i%29%7D%29%5Clog%28P%28Y%2CZ%7C%5Ctheta%29%29%29%20%5C%5C%20%26%3D%5Carg%20%5Cmax%20Q%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29%20%5Cend%7Balign*%7D" /><figcaption><span class="math display">\[\begin{align*} \theta^{(i+1)} &amp;=\arg \max (L(\theta^{(i)})+\sum_Z P(Z|Y,\theta^{(i)} )\log \frac{P(Y|Z,\theta) P(Z|\theta)}{P(Z|Y,\theta^{(i)}) P(Y|\theta^{(i)})}) \\ &amp;=\arg \max (\sum_Z P(Z|Y,\theta^{(i)}))\log (P(Y|Z,\theta)P(Z|\theta))\\ &amp;=\arg \max (\sum_Z P(Z|Y,\theta^{(i)})\log(P(Y,Z|\theta))) \\ &amp;=\arg \max Q(\theta, \theta^{(i)}) \end{align*}\]</span></figcaption>
+</figure>
+<p>所以EM算法就是通过迭代不断求Q函数，并将之极大化，直至收敛。下图为EM算法的直观解释，<embed src="https://private.codecogs.com/gif.latex?B%28%5Ctheta%2C%20%5Ctheta%5E%7B%28i%29%7D%29" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的一个下界。</p>
+<figure>
+<img src="https://img-blog.csdnimg.cn/20181127162559502.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI0MDM0NTQ1,size_16,color_FFFFFF,t_70" alt="" /><figcaption>img</figcaption>
+</figure>
+<p><strong>我们首先初始化模型的参数，我们基于这个参数对每一个隐变量进行分类，此时相当于我们观测到了隐变量。有了隐变量的观测值之后，原来含有隐变量的模型变成了不含隐变量的模型(以上是E步)，因此我们可以直接使用极大似然估计来更新模型的参数（M步），再基于新的参数开始新一轮的迭代，直到参数收敛。</strong></p>
+<h4 id="收敛性">收敛性</h4>
+<p>定理一：<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%29" />为观测数据的似然函数，<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />是EM算法得到的参数估计序列，<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />是对应的似然函数序列，则<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />是单调递增的。</p>
+<p>定理二：<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29%3D%5Clog%20P%28Y%7C%5Ctheta%29" />是观测数据的对数似然函数，<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />是EM算法得到的参数估计序列，<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%5E%7B%28i%29%7D%29" />是对应的对数似然函数序列。如果<embed src="https://private.codecogs.com/gif.latex?P%28Y%7C%5Ctheta%29" />有上界，则<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%5E%7B%28i%29%7D%29%3D%5Clog%20P%28Y%7C%5Ctheta%5E%7B%28i%29%7D%29" />收敛到某一值<embed src="https://private.codecogs.com/gif.latex?L%5E*" />；在函数<embed src="https://private.codecogs.com/gif.latex?Q%28%5Ctheta%2C%20%7B%5Ctheta%7D%27%29" />与<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />满足一定条件下，EM算法得到的参数估计序列<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E%7B%28i%29%7D%28i%3D1%2C2%2C...%29" />的收敛值<embed src="https://private.codecogs.com/gif.latex?%5Ctheta%5E*" />是<embed src="https://private.codecogs.com/gif.latex?L%28%5Ctheta%29" />的稳定点。</p>
+<h3 id="gmm混合高斯">GMM混合高斯</h3>
+<h5 id="模型定义">模型定义：</h5>
+<p><span class="math inline">\(p(x)=\sum_{k=1}^{K}\alpha_{k}\mathcal{N}(x|\mu_{k},\Sigma_{k})\)</span></p>
+<p><span class="math inline">\(\sum_{k=1}^{K}\alpha_{k}=1\)</span></p>
+<ol type="1">
+<li>多个高斯模型的加权平均；（单个表达能力不够）</li>
+<li>混合：隐变量-&gt;属于哪一个高斯分布</li>
+</ol>
+<h5 id="参数学习">参数学习</h5>
+<p><span class="math inline">\(\gamma_{j k}\)</span>代表第j个观测来源于k个分模型（01随机变量）---------这里的隐变量</p>
+<ol type="1">
+<li><p>写出完全对数似然</p>
+<p><span class="math inline">\(\begin{aligned} P(y, \gamma \mid \theta) &amp;=\prod_{j=1}^{N} P\left(y_{j}, \gamma_{j 1}, \gamma_{j 2}, \cdots, \gamma_{j K} \mid \theta\right) \\ &amp;=\prod_{k=1}^{K} \prod_{j=1}^{N}\left[\alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)\right]^{\gamma_{k}} \\ &amp;=\prod_{k=1}^{K} \alpha_{k}^{n_{k}} \prod_{j=1}^{N}\left[\phi\left(y_{j} \mid \theta_{k}\right)\right]^{\gamma_{k}} \\ &amp;=\prod_{k=1}^{K} \alpha_{k}^{n_{k}} \prod_{j=1}^{N}\left[\frac{1}{\sqrt{2 \pi} \sigma_{k}} \exp \left(-\frac{\left(y_{j}-\mu_{k}\right)^{2}}{2 \sigma_{k}^{2}}\right)\right]^{\gamma_{k t}} \end{aligned}\)</span></p>
+<p>对数似然：</p>
+<p><span class="math inline">\(\log P(y,\gamma\vert\theta)=\sum_{k=1}^{K}[n_{k}\log\alpha_{k}+\sum_{j=1}^{N}\gamma_{k}\biggl[\log(\frac{1}{\sqrt{2\pi}})-\log\sigma_{k}-\frac{1}{2\sigma_{k}^{2}}(y_{j}-\mu_{k})^{2}\biggr]]\)</span></p>
+<p>其中：<span class="math inline">\(n_k = \sum_{j=1}^{N}\gamma_{jk}\)</span>, <span class="math inline">\(\sum_{k=1}^{K}n_{k}=N\)</span> （Q函数推导的时候代入）</p></li>
+<li><p>确定Q函数</p>
+<p><span class="math inline">\(\begin{aligned} Q\left(\theta, \theta^{(i)}\right) &amp;=E\left[\log P(y, \gamma \mid \theta) \mid y, \theta^{(i)}\right] \\ &amp;=E\left\{\sum_{k=1}^{K} [n_{k} \log \alpha_{k}+\sum_{j=1}^{N} \gamma_{j k}\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\right\} \\ &amp;=\sum_{k=1}^{K}\left\{\sum_{j=1}^{N}[\left(E \gamma_{j k}\right) \log \alpha_{k}+\sum_{j=1}^{N}\left(E \gamma_{j k}\right)\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\right\} \end{aligned}\)</span></p>
+<p>需要计算期望<span class="math inline">\(E (\gamma_{j k}|y, \theta)\)</span></p>
+<p><span class="math inline">\(\hat{\gamma}_{j k} &amp;=E\left(\gamma_{j k} \mid y, \theta\right)=P\left(\gamma_{j k}=1 \mid y, \theta\right) \\ &amp;=\frac{P\left(\gamma_{j k}=1, y_{j} \mid \theta\right)}{\sum_{k=1}^{K} P\left(\gamma_{j k}=1, y_{j} \mid \theta\right)}&amp;=\frac{P\left(y_{j} \mid \gamma_{j k}=1, \theta\right) P\left(\gamma_{j k}=1 \mid \theta\right)}{\sum_{k=1}^{K} P\left(y_{j} \mid \gamma_{j k}=1, \theta\right) P\left(\gamma_{j k}=1 \mid \theta\right)} &amp;=\frac{\alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)}{\sum_{k=1}^{K} \alpha_{k} \phi\left(y_{j} \mid \theta_{k}\right)}, \quad j=1,2, \cdots, N ; \quad k=1,2, \cdots, K\)</span></p>
+<p>Q函数为：</p>
+<p><span class="math inline">\(Q\left(\theta, \theta^{(i)}\right)=\sum_{k=1}^{K} [n_{k} \log \alpha_{k}+\sum_{k=1}^{N} \hat{\gamma}_{j k}\left[\log \left(\frac{1}{\sqrt{2 \pi}}\right)-\log \sigma_{k}-\frac{1}{2 \sigma_{k}^{2}}\left(y_{j}-\mu_{k}\right)^{2}\right]]\)</span></p></li>
+<li><p>确定M步</p>
+<p>这一步求Q函数对<span class="math inline">\(\theta\)</span>的极大值，分别对<span class="math inline">\(\mu \space \sigma \space \alpha\)</span>求偏导等于零（<span class="math inline">\(\alpha\)</span>需要在满足和为1，所以除个N）解得</p>
+<p><span class="math inline">\({\hat{\mu}}_{k}={\frac{\sum_{j=1}^{N}{\hat{\gamma}}_{k}y_{j}}{\sum_{j=1}^{N}{\hat{\gamma}}_{k}}}\)</span></p>
+<p><span class="math inline">\(\hat{\sigma}_{k}^{2}=\frac{\sum_{j=1}^{N} \hat{\gamma}_{j k}\left(y_{j}-\mu_{k}\right)^{2}}{\sum_{j=1}^{N} \hat{\gamma}_{j k}}\)</span></p>
+<p><span class="math inline">\(\hat{\alpha}_{k}=\frac{n_{k}}{N}=\frac{\sum_{j=1}^{N} \hat{\gamma}_{j k}}{N}\)</span></p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%91%A8%E6%8A%A5/" rel="tag"># 周报</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/24/week%208/" rel="prev" title="第八次周报">
+                  <i class="fa fa-chevron-left"></i> 第八次周报
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/02/11/week%2010/" rel="next" title="第十次周报">
+                  第十次周报 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DST</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","perpage":true,"js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
